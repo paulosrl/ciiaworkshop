@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop IA - MPM | Exercícios Extras</title>
+    <!-- Estilo idêntico ao prompt.html -->
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --accent-blue: #60a5fa;
+            --dark-blue: #0f172a;
+            --light-blue: #dbeafe;
+            --gold: #fbbf24;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: var(--gray-900); background-color: var(--gray-100); }
+        
+        nav { background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: var(--white); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .nav-center { display: flex; align-items: center; justify-content: space-between; flex: 1; gap: 1.5rem; min-width: 0; }
+        nav .logo { font-size: 1.5rem; font-weight: bold; display: flex; align-items: center; gap: 0.75rem; white-space: nowrap; }
+        nav ul { list-style: none; display: flex; gap: 2rem; flex-wrap: wrap; justify-content: flex-end; }
+        .header-logo { display: block; object-fit: contain; flex-shrink: 0; }
+        .header-logo-circular { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.14); padding: 4px; }
+        .header-logo-rectangular { width: 132px; height: auto; max-height: 56px; }
+        nav a { color: var(--white); text-decoration: none; transition: color 0.3s; font-weight: 500; }
+        nav a:hover { color: var(--gold); }
+        
+        .hero { background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: var(--white); padding: 4rem 2rem; text-align: center; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; line-height: 1.2; }
+        .hero .subtitle { font-size: 1.3rem; margin-bottom: 2rem; color: var(--light-blue); }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+        .section-title { font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1rem; text-align: center; position: relative; padding-bottom: 1rem; }
+        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: linear-gradient(90deg, var(--secondary-blue), var(--gold)); border-radius: 2px; }
+        .section-subtitle { text-align: center; font-size: 1.2rem; color: var(--gray-700); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        .prompt-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin-top: 3rem; }
+        
+        .prompt-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .prompt-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        
+        .prompt-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+            text-align: left;
+            border-bottom: 2px solid var(--gray-200);
+            padding-bottom: 0.75rem;
+        }
+
+        .prompt-category {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .prompt-details {
+            margin-bottom: 1.5rem;
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .prompt-details p {
+            margin-bottom: 0.5rem;
+            color: var(--gray-700);
+        }
+        
+        .prompt-box { margin-bottom: 1rem; }
+        
+        .prompt-box pre {
+            background: var(--gray-100);
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--gray-900);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+        }
+
+        .example-box {
+            background: #fffbe6;
+            border: 1px solid #ffe58f;
+            border-left: 4px solid var(--warning);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--gray-700);
+        }
+
+        .example-box pre {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+            color: inherit;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .button-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+        .copy-btn {
+            display: inline-block;
+            background: var(--secondary-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+        
+        .copy-btn:hover { background: var(--primary-blue); transform: translateY(-2px); }
+        .copy-btn.copied { background: var(--success); }
+
+        .highlight-box { background: linear-gradient(135deg, var(--light-blue), var(--white)); border-left: 4px solid var(--secondary-blue); padding: 2rem; margin: 2rem 0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .highlight-box h4 { color: var(--primary-blue); margin-bottom: 1rem; font-size: 1.3rem; }
+
+        .tip-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--success);
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        footer { background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue)); color: var(--white); padding: 3rem 2rem; text-align: center; margin-top: 4rem; }
+        .footer-top { max-width: 1200px; margin: 0 auto 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .footer-logo { font-size: 1.5rem; font-weight: bold; text-align: center; flex: 1; }
+        .footer-logo-slot { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .footer-logo-slot-left { min-width: 56px; }
+        .footer-logo-slot-right { min-width: 132px; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--white); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .section-title { font-size: 2rem; }
+            nav .container { flex-direction: column; gap: 1rem; }
+            .nav-center { width: 100%; flex-direction: column; gap: 1rem; }
+            .header-logo-rectangular { width: 120px; }
+            .footer-top { flex-direction: column; gap: 1rem; }
+            .footer-logo-slot-left, .footer-logo-slot-right { min-width: 0; }
+            nav ul { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========================================
+         NAVEGAÇÃO
+    ======================================== -->
+    <nav>
+        <div class="container">
+            <img id="header-logo-circular" class="header-logo header-logo-circular" src="data:image/png;base64,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" alt="Logo circular Muiraquitã">
+            <div class="nav-center">
+                <div class="logo">
+                    CIIA - Escritório de Inteligência Artificial
+                </div>
+                <ul>
+                    <li><a href="index.html">Voltar ao Conteúdo</a></li>
+                </ul>
+            </div>
+            <img id="header-logo-rectangular" class="header-logo header-logo-rectangular" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAABMCAYAAACs/x9+AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAACjaSURBVHgB7V0HnBRFuq/qNDnPbM4RVjICklHhFBVRFPOZAQN6yrt7p54nj9M705lQ9MQEKHI+5VQUMSGoSHQBQcLCBjbv7OzOTo7dXa+qdwZmZ2c2IKJ3b/8/mp3urq741VdfqP4agAEMYAADGMAABjCAAQzgFIIF/x5gwKkD7EMaGvw60N92n1Q/dekQY/bo37BKfTYloBD4mYAQgogCPEDAw3IKK++zW3lPZXtbW5s7rk4oWR7moqmzaEBZKADDoM9limEayG2ACtX7rHusDow+lgcfSSu93CoEVRBCAfQBooAgDYUgS4s21pfZ8Iqsurk/7UuGBabMczWQLQpR0JcsDSMCuRfyFS/b6r+JlNWvcroQRPbIq35Q6rKGiUIQ/DxAcUWSczy0DBcQg95av8P6QsPBtcsiNwiF84lyKZq8sBkCOg13PehfmeQ3BSiaCYtCuDbgsq4KtRx+2mrd542UJ4C4DlyMH7i2dJqrLuhTgf4Ckn8IUBQbSuED1Z8EvC+tt1a8uLmzXUnblwxPpQ9aMENl/kcrn3y+YqIF6SznfufIt/olfeug+CqfQObQizfK1enniMLPxiCSAeGWAJqRQ4bTuDvaf5xg3bf+R9C5jHXjAvljbtoPKTgEz3xwEohQCGYaNAtZhUEMOjvm15S//BroXB66cAFCEDMKJtTXh30Z4CSBC0M8/t+CyzMxsmCNx3rp3JYjG0D/iALOBEXcXwtT7YdDXjkklJ0EaYwMrLHXjV7ubN4D+skhKPDrAJ5ICAphP2YUVrXRMmx/3vibpoJOYjjVa3hkEiCICR8F3C2AUXGvFk1Y8CboJIZTKaN0loTLpHF5diEkHva7GJPC8MmWool/Ayc4RZ+wAVQGa4L+9ynY87h1iGEwTm75LTiJZenXQhBRUGS8fK5GQaXO3Jw7+Lx0cBJsrx/AHBZSYb+Lh7TsusKJC5aCfg5SP0HRFKRbwkHeK4buX5sx+q5IeX0hemlwd7i9z5o52fHzRPALAhqmUF8ROe2L4HyiguDXB7wa0JTX2QBoc+GnoLvgceoLhBQTDjp5Tqa/K6vkorGgc5B+tjLx6si0B8N8tkq29JH0/FwQt0z19OgTzoryDAEzG8xRkyWicAECJWb8QZdSCP5Nl4x44CZBkaVUw1JKxw0DpwGYCzN+jxUp04vWgtMAigJ0dcAHRnGmtcer0DvI4KLPA86VWqpHKwFsF3mglOuuBv2tF+gfTkqKO8m8KCFsAyw96eZuaamTZuk9lomJEGFukWUsmjo+Ni0C6GS5BerhBhQBEtNY+ehrdDkFoB/YHXb9Q08zPebvFHgwQWG4JnLa5/r3t2NJxqJMZbYDEfWbu+DextoEYvCzOsyisVAXDuMBSErqPC8gpUk7Jf66TG7y4HXFg8Re7CW4PAREXGcZB4BNHfIKZMyJoJqsTIoPuIFam3mnHYBt0YslnNrLAMqFBd8eNQKKmDwwTdEAyn1AUDaFg0TrJApGwn7GlaHqwj4wWqG48W0neAj0DXBVW+OReaqsGpxBXg8kjiwMO/hSdWrK+x6rDfQR/SMISBQodPTwpicHATD3JKT/MgRGf0wrWz2W1IyJLzGs8mKBDxChMSFx4X7EHdqaCbqqg8zhr1XjADjYZ6rPy9vF2vkLstKK6bVhb5AsQUnlEhFL6DKV5azo+RKS7vAXpQf7MMvKcL4kXQPI4kYZqYILNJb1LlHI7ekZ0igjw56H//SVICQS2AuD/8gW4ON+mJgiiF7dGA6AyUrTHEwQ/wB9RL/sEMTogXX/ypqdbxSDnwbJglZy9qKGsKcjs6eupjlVoHLLxwYAjgXATywPgGlMyZThnnDAJespMc3K/ZXfvaTHP0/WICOVt9Ro1A42lDraQv6kLSSzoYxTNY+o+i4T9n1Jhldr0k13m3Ntx/hAUuLGtIJSZLJd51TtGAf6aLXsF9vvzO2UCN9SVsjnfA9RPVcBEi5m9vxUP0uniRJs5jGxN/SaGCEG/DSBW2rf3Xa72wyhvaeEpBA3CrNn9o9bwzXu5jaHyO9GPQwIkXwoAYy82WzWgD7iVGgZ/aGQLmnbWw82cDJ1jw9IDRZFmCyPfkBMGXJOKsXK+6KKETlD/AnlSc8sTh18hl3gTT0lxIIl0FBssLyrxbK3MqW6bfE7nk5lOPITJasElrVYJdSfD/rIfU6FAQYReUKVX2emAh0J9Wkkyim50OTHDh4viKkYQ8kQEvtgd6KoLo3R60foeTlkIfT2qZHYAsppTMWDNLrBWIbo6Fz7kjUGi6E0I7OCmOXieo3GZEMqioawl/I8+FADD++QX67LGzZUpX+vNuBFLEUlLU9O0WCPz9UMug6YxN7xsmB2JytJ5BmRZT5lAcRrBpLBBDREJlMTliPOVmhveQGAd0Eflo1TYpEzph0ozR5yw4Ggx5ZQCmdkGqa97vu3QNtHv427dTKzD6WNOHcXdkQUQiT2waADOw1PISz3h9zY04Q9liipZRDRDAuDHvuW6IXFOIM7M8ftrw750nDH98mAxODyWvggaAj6sC2F6tGwRipiF8OfxF0W7zBlj1liKdlZGfIl7FMTzTHrAk1T9/o8b6bJuXmCmFS4RNmsfAr2g8iI6Rv0VndwChAO+8SguxUEffaE+QmYSvmQxw9OEUK+9iDhhZG1vh8gUnEPZmI84oxMC122imdiLx/BxISdW2RQ+1Uethj2tiQLuZySXuVsfj3mmjSLRykNd27ytQMBJSwTkUX02XrrjzfnZ76bL9DzPIBPSHiESziFsGKoSZy0oR1sBL3VGZwOwE6JF5wiEGUfnHrgPLFtRRAP2Sq/IV7CeD/9KS8PEwzd4vd/+y9Hcy3oOhZUGaO8CJunE66nhMVhSqlqAC57S82hzcUs4++pex2YkY5Wqm4BfcCv1XR92oFlGcQZ0kGLr2ZW9BL4+YB4PNhlMhX4GHkvBRGDX/TeLab8M4NANEGQWNbRUQzc4nd9SH4vxwx6W9D3vhwml1PCSEB5nPqCaZ0crscxHyAIQDiOyHNKPRXyOf7LWf5BFfh5t82RaS8WM2p6u8t5ybLGw+3gBDeS/o5TqBY4BQEkUykpigE6wb0mer7Db3/O1IO2QfgzFn50hXrLUNCL9/j/N0FguzYmBiRXpzJ80PdozZaXngYndk79DMURKRiBXFpGB5jQHfOs+8ksJzaWLoN0hkw925NEfiXrWgbNuv7ZVr83cgm2tzeUKyFjT7oHEI8z2WU1TGm5CfSC/28E0WkQQ2SDFvaQydWUUpfjd7RVXVi945UHwElsa+tTebhEGo+KhZFTQ+Vq185Ax7hplbteAt13hKE7zbmjGABNdJLZzuGal4d82zfHuOixPikc4D0rWZBcnfZhUjyDU8+NnCZN93NtBPlFgQdcoGiGZjgN/h0z04gzEzsZaUbuCnjb9zus+1+zHQGriQUT/BRigCCMxVw2jZVhWa+LOQGy2F8mp4CzMQD27gi0Lnuwter9yE1SXrhLLkS74LS31YYD0fPuwEuDrKNhdbSp0Wd/8HlenKu23HuM94vEada9igBpaSbtZk1G6evupiMgCf4jCYIQAx/y7hOcFeeHwmw6UUuI55MW09xOm6vDXdLsBOXl0cGAkeOkOQO2NLBY6ft8Q4dtnigKZrJdDnBQxOThfsfm7FABt6v8xOBHBzq+PEltHCRXza4PJ/VPoFxsHns4HP4s7jp8xlZVebPGXCuSFSkxKcGGcBCcqdFfiQniLyAJ/iMJAmLrHx/0uJsOfUssgM3dEpR3OfvJ2gSFJyRC4dbHO6rr8GldL8mTljdPnzk8hFAKSv4gxN7T6nXeVmJJjbU6SjLIhz7Hi6Nl2sedYhglEkgDIo9GyQ3X4p9/AUmslv+ZMoTkyqJPW9ukXoXUT37RaazGtMAhJH/VBC+CwO9t/zC22Fj84HG+oaHppHvRicVeRHzJpWp1CkhCmANq568D0jiUsao53h6s42mQBh8AYUWy++96WmwuIbyTSS5bwkZMB79VpF6VLMF/5JLxbwhxYWrWUAaCFBrApL6PIEIdouiuuUev17tFdbfJHFKEg0dDwWXZLDsumUAkYPVTVOqvxz+XggTLxgBB/PKQBmU0Z1hQG+pBu8Bpmvmg5npNoZ3DQlIiUzW+Dup4Px8QEA+TbNsjKnAJJx9+sdmsWdfW5om/P0AQvzykkcWWyzkNvA+B5LYE4u9nMFH0lh8Le/QhQ9gSDjLDge7CdaDtn/F3B2SIXwEWGrKG8kBIRwCeku1ovcGLjVQjlbpbE90bIIhfAUaqjLd2CD+LtTwhiFKazsgmXgTSlSCOBgYI4peFxBGw72KuD3skwWkCLlR0QiA/T8tMBnF+lAGC+GWBFpryBuE/6ad5IKhWbLUcqtHdHDk/vlR1rQfqfUsbQui0rHM9AfbpTarTW0/U/+2AUvoRnG5+Pd+jdvGzQIa9vIJMNXNap2JxYp9rbCJGrjXIlEYgJAsYQnwmoqiNv8wwCoZTmUGyXTuMTAtoudocf52Wa3UytQlQgeRGPkamwXZovsv+BEZhNEBiiEy8oQhQjAzwYb8enCIUcgoN7GG20LhfsFnYAvoHhF2P9G/0hjsag0GATn/gIpjDKjQz0orP29xydH30YixBQEfdD5c5FYd1UEi8eRUxNEUHA4Scuxg0OqzwCHXoo7FiKJCQkmjIcF5vY0vcc9DdfnBp2NX+oYD8SV+IoSmWBQ6HK7ae9qotZ/NIVEEqeT1Fr9cDQN9eTukJS/DzLa1Hz7IHBU4kr2MmgIwR2DAFbP0tbxs2HTxpPTatJej3ilhbBKcVIcDSnMLP+JqSpegPjcYuNf1pCJ3kd2+AScruDaf7vZP+lveLL78RDMiSA+gdvxZqHcDpBUx6gkFeOyPCUZ/C/Q3g3xpkmSDjfCz2Yrwvg5wrwL+BjwPrJQxuTZVMJksRg0F1+GfaGPsTQATQGjXHFXpCoZ8s3P4MIHWiekvwb4WvCsd++lXWxNMSAuhkcKBkasuTqcXXgF83ehz3eIqJNRDEagWyuDQwQTou5poiLj0bdx6FHPQRizGHaBp0dvzewp6Ci8JI3WBMPbu8nje6a10o0L2zOJAcJL/jzz+aXnZ+9aAZH8eUTaDo4fn4fqET5A9i8jte72ldOXq03l04QFyapCtAN+r4va40f7ZBv9PK8g9ffrR8aUw6tKto4of1YR87p3bPBfNM2WP+bC5+Jafiq5GTdLr8f2aeue0P9QfPWONubo88gw6UTly9qr1l8+NtVa+syR75lyDijTc27F9Ibr6VPvi3w9Tmf/CiIOcB8m/1uW64p/nA2it0GdNfyixbXxfy+1uEYFMIoXAOI89NZ+WyPzRWTCtRyXWjZYZVqTQnc4l8RRgKBXmMUrXT71h+Xf2+e7/JP2upHwiXW2iOE0iUYSBwIMTtfqrumxlku/okXY5hdWbJjrta945e1/k2uvh62pipw5TyDyha1PK8KNYGAy/Nbdpzd2QQCOs/zu4/yBu9hINwfgYtl5H4zK2A4g3e9mfHNx8kcSfBhpyRO+ogdd+C2vJN0b57LvOMacM49dNn1+wY+Yo+fU62OX9ZKoAKEVvyQhAGmjztt17WckgyDq3JHvF2UES7bmz84Zn4sdpcPPlAsHbvnPNC7qP4XPg7NntPMGZv5EQxjRhdjD7Xq8Oa9y8AJ4hH+KR47EsGkbkFz2DaD6i2RlfrZVfYjpCXmRMGhe1GKaIsqBUpYM4IyrBN5sSumjlmczq2V10cFjs3kWKPmSmMxDOkmgq0vCHgS1mUUrgDE0RhpEJCSASjcP82kjQhgIZjW18q+X2/peCC8dq0VX9rOzquXPAcuZJJG3G7JXsTEuBlT7T++OkNYujy+mCgeo4+/ZUMVq5+qKliYiojz//c11b+hKL0BQEh38L6vTMgxVgYhsR3pmRtAl9N8tZx8lmftNVt3OR2PIproc3kqNDt2oyVD5ROPfRuxdclnCzAyURQrA+SuFPA/Xz60Gum6pWr19ibr3rHav18TLY5c4HC/GVdyYyzco58MRbERbdVQXrWXp/r8J/slfewtKB9QKlXOvSZn6zLHSO/uHbXQ3iAh3oDne2MTgyBElP9ojiYnMyC1MjloQBY03JkopKChiu0GbnXmDI+vov3T3u+7djXuE9HYjrzggTAk2OwQENigRXWW4pHjEwr2vNFa/U9rwRaVpUBrfGOrOKdu+VnDR5Vs12Ky3Wk4Kwf2kUq9eXWimF7aaFlnjJn5lxz5rcvKLgrF9b9+L+gLzumBJ6VY+9og0gJBvJK+ovt9d+T62dS+j85EKgTgSCxZRGKZIJIFIaQyIaB6HLyvPHtzGGPXNO470EpDUJ+hK26nd0CPNgPIkUHUdPMwqMB979ea2/YSc73Asdmi4y6rUiuGNMMwL8+drd9RK7PEPkqAYnmH0KeA4AcGCwF8bKCaraFvPsTdZocUKJNCOzYEbIflC74cUcq2XEr6BTvdINB54PktTYRtGN2MBeUcZfqU1a/0nRkzBKn1E64v97Z8TqoSjs8aLz432n5lz/RUvNebP40okTsmdy1J+z4AbceXhJwo1dl6svMrJJEwn0I94WALdldLK+43eFowDIPpJAg8q2HIu0pD1RsGWswzDVD5r/w6dekxmISgiDBNBCEUj45qTlfrWo5uvA+WyWJDQ63AGeHl5bl32dIO0pe/R+aJszyUsyw8ZVbossHuNPhWHPMX1j3QGbhlvVFgQ83VHYPD9CNICjcYSLmtMcY8akpCuNDL4J66eXXaVr2tz/aSufpDd+9Ef8MXhhhaziMNntduY+Ys50vm3OXLWirbaaS7PcICcLdY1T6ox/lj9r8tcv+TLUf7by18eDLkdtEPpEqSkPIYK7SpY4IImzmBWkzdSmFDKKM5JqeYpSfOhrKse3Y4xMFIZOVay5KT1cyfj/HKxShC6FpQ2s4VP9lR4dzQmpqipQ36+NZfWgiDdKCUWIAMbNll5NadQnN3fsEAO917R8SPf14NHopPcVwizCrqgB9AOaaIRVFmy/UpRTwYVE/WKVL1YfpmXVhb0lfniev8llUljRTSDSU8+1vxdSbWm2vdOND4k6z4ZD7mkT/q10fBfDJjqrvbkrJDQxtsE3aALqHB+hOEIAnMVTMqyurnlpeNqKDXHtWmzbGBSnrtkDb91dQXDf1ibCJfE6hvqx+twvPwucu12b8iAnC5ENiQopYYquqrAWu9Nny7BWzdGn/HJOmk+/xpR98tmb7sHd7CfQVFpENS0plfzYVbsXLlrRW5skUOofom/yRy769kQ80nKdN+dsfZZolTXqRdfMhcMjn/PhZz9FBsfnoaFps9YtZUEDOmA47jrX+ipqlaSMmA9B1nG18qGaUTPNQefHEhV6BR1h+0QhQ9C2oOJwdSUKCH3TxeWCOJEZz94khJ5aHMh40F24LiCKtoxg1nvUuQS+zAkfvuinOGIWYkKJNCIPqjg5f11snZEIFQ5k2dbRXJmrbFm9bcLQmKwsEnN3yT6iHpjAMuwHYXYpQwH2jPi2vQGm463OP9R9amjIl01F4KLkeqdlVu+45BpXUp5mDr/cJoQOY/XUrY448PXeFzWa9tH73+VOrtytuqdtnwXwweG/umftBL33CUVQuBeCXE6q3pU6t2W4mR+7hTSwhBnI/m5HnrHdZF6oOfsG91bjLpOCDTo6Wf768uZl03vEJgAcDmli2AQ9GNCBXVBCTmni7snDQWld9t5d89DSTjtn9hwtr9016uPnIJfOaDo3Or/ja+Dmw+qKP0zDcxSYCwywPqE53vJ7hLJVB397xVdtSsZBpHlX1nRwP0NpFbE69lLgXiiDBwA0QdqRzCjBCm6WJeYL0M3rakEXe8AZ2IdwwU5lWGtum6N+ZaovmqUBrdZL8EyDi6V3ltK28Xp+5pFipG7/J3famAjKmXuor3d7gqB9i0aauFBB1Dr7kik/0WuHIitcyhyyIVpJEVHvM3jh3PCUfBECvBZAlLam/XE5TqI0PSnLOEpfLvtLekj9GoVr6TGYprgvgozGiw+Ew87ajcTPmboonUkpIjAYyiJ07oEePZvN13FWUQC+Oz58GFOcXxKPbQu7DX/g7vvvM03LgRNUAMDBcKwShaLBVqSyKEqYZKLapMxGZOV2d3TKaXebgg9L2APKVCMxRvMnaR9jPMYfDUR30tg5Squ6LKUe8ypydsSBr+L7/NmZm1fiD9w9VcTdNO7HfQUqzBLc1BYu5O922LYny7y5UiiyH/fvkOtwb8P3lN7qMthrk+G6PB9jOV6uVDBSlZ1gRyqR3WckztMjhCRAdJPrB9iONg7WKP+dQ6odp2Cl40hAZBYCk2fhW+7FLZ+rTPnkubbD2FXv9R+eo9blXWwo+etNt+5/YumBOoIdxtgWynkFIlb2QXTYbr8ckWj6JVcumIaH5usaK9zBHkjOAju7ZoB5z1nUUqwx3X6XP2HjI16o/5oOINlJAK6jwoDjQp+7WiTeZsr67lKYeva+9cZVZayj+g1f1bpuPWv8768GNoHPSHF8CsIilxg+mgCQ4FHTPu1iT/iXMZDo+66j74lJd1vRp2tRF653NZ5P7CiQwKZw8d2nOGbNEUUxh/ZRsPNA/X0v5XyD38TIIdSx7wfNZg3aHEWVhKKDqCAd3L26p2oQgRVmQKNlCVnhs4/9uzq/KYuXGpdaGv88y6gouUWetPxLyvPqEvbEBJ2m4xJiybmnJVP8yW9Xscp+zar4p56ZrDJl//J+mqkkxRNKzlsGyvhZMxOtIwlXuxvbrUtLeP2ynJZ04H+2vDgAF+fAHXuipWrxMSIYXllJZIfmcQ4SmyPhfVvPDI0dLp0wOQ0pahAUkfAJFSWUCd7Uc3PBoODB2is7y9gTV8MVY/QjxjpYF11srXgdd3sIWNjBA7LLRBau972GiOKOAVjyJNRiJ2PBocZmMHM/UivdCCKzD93dGkpOBpG9p+uH575VjL5kjH3zFbR1b3wyCMzb55aEgcAN6ftOPW494SwsmmAwf3pttuoeFyLeyo2nhw9bKV0GiN8IReB9rEckESOa2xoMbl5rFaSM0+hXD04c8GBQF51e+tql3tRz+hiT4QARf5UL6fAYqnhZoIBgMbHgnst98a9WBlUAqDL3EQjC/iNH8TUQiz0JK1SJyb+Nbm1RA3PSuGCLvddIvtR6tHkF7crM0+eueyyotDyIU3OJtnz+/+cArkXqjc6q2z342dcgtC4w5bwhGqLYJwapFDYeKljvrSVCUhHaIeMSyMgZ0JZhY62SsRZFQLIx5JorY5SjeUpnMUsbE5Rv/u7f3J9VJ8qLjyo9egyD5voxEdUxmYQV9uM6AnutP6tGTJTS2z3uqd1/2nPxaPiw3gF8I0uT8e05Z2Xxg0PWasI+AvZz351r8fdiP64nS9ef6yabrT1kn0w89pU/0uz/5ia9nD7n/TkP+gXTQ4e4pIZ2gEjArK0uB3cpypVIp0+l0jMfjia41hO2RdZmwPgGL4FS2Jr/karnasDHosseliYIiwT+PpKcr5BgqlYojB8k7JSWFwgJzVKhBV6tSUq8wZhdoFMBf4fMR4xQ7Goymw+awiqTPyMiA+C+HocjG5+0+KainpG7l5eXJcV7RzxVJhhr8LIPFTlKs1Bavzxde0rXdUUcQugb7OObo0koEhg/VBYMBkJitwrKyMo5hGFk0T5/PF4prd7R8cL0iK/MKTWZuXUDvtAN7NEpNvKIGSd1xf8tIfnF5ctG+jGlftJzj/Ur6g/QpzkLxx0Ag/DU4/lXD4+OQwyjGvXCsbs7rwBsGPRBTtxsPWwYXz9aZDsNI0E3yn4plO5631016qqWSmIMlS+LytLKZEzTmj5QUxeNimQ4xBL71eCbeY923A8TZ/x9LHXTNdI1ptYKikBhRacmLqc28f+u06p0Tyfneoim79DR1pgihJ4zC6nY/9eyEum/u/SB79G3DlOqXsN0A1YcDQQVF0yk0x6SxcvhMS9XEJfaqrQ+mFl/0e1P+R3+r/3HQE+6m4wLfh7mjNppo2TkmhpXMbWqKBj/4XW9eUrf7+kiHSW/HHCiZWK6E7Ejcex5ccbVVCH1+VuXW80CCr/R9mTu23sRyWdFX7pVYst0FPP91VWU5CVgmCWoX6nSGJ1NHHpUDrFlB6MPqmOoI8j81/cj234M4QfWOsjL170SLzS8IcppE3cVjyUIabPXY7r6p6eDzpA4kMNTjpdPClT7Xyt/U774pMm7oIUvhTOzv+QRrY7w0k4nOKiJmX8Dz+JUNe+6LDJ/0FZ53cka8U8gqJ55ZtTULJNAukuJeQ8HQfUWTUB7Ik6eDdGUWyFK8kDb4j82Dz0F/NHSuP+8Uj5xiGzQdPZ1eNjn63IqMYRe7Bs9AT2UO72aCfcBSeNeW/LMaCUcZBlJV5CgDFjUpg9zfkHvm229g/TlSUXBLVpaxefDZaElKmWSrKO2M5k59mjf2+yfTSl8k6SLXJMFva+7kqn/ljKxZkzdqa6RIKR/sOax6JWMIsSVQuBcUMxXGrKMlk71bsya/Ha1bZenUmn9mjdpehv0a5Hw8bu+X+aOPbS8Yvz02ryi2508IX6qxTCrDNJ2HBb1Hc8tGHiiYiJaZym4Enb0M60qnCqvSx7wcffY67Bjclzcu/H7R2Kfi85xbUKCrHDQNjVcoMklfkzx/Z8wb5y6bjq43pEifl3oio+TODXljm3cXjA3NxWkiAw1+Zy68srxwgsSZi7D/grjvH04vHry/7By01px7drSs8QpT5oGiycGKkinOa7VpM0EP6CZDkPgEJARmHjjGN4NmXwNoCC5sOfR4k8+zPYVLk/wYw5Fq7auOptsXNR/8NpIHdWPTvnUfuG3LRnNc/B4FqZMYbK3B7FrcB6xechwENs+xyDcwNJyyiAn7K0GEal9raLCv6Gg+Wy8GpeBYFZ1fxSVWWzHc+TIGilwTFqaW5htZWLCmbk/RDJVx/MUxnwIggYz5zvQiVswDG/z2xscdDQXFanD1HRaL+m5j3vmYReRd1bD7rIPgoDRrt4GGwFM1ztIMTj7uryml0Y+tnOgfCqAWXhAxqwwdw5zy/tqDe9b77Beel2ohhApWZJU9Vx8SK65v3rUg2jdvtbU1W511hcNYzaJI/brmSQ6OI33tx3mGnrMf21EbDjTYeYpwKXC+MuWRrR3VFx0O0Aem5OnvAZGlgPidWNhpJq8ElSSifvjPzUcPdfg9DQ0K3bnR7l9oLvjTVm/7uped9dfeZyl6OdnYJyYI6bNEXSAVuNxlffM8helM8huPotnqaiWhbWDkvmRH/8pvfcEIVHl47e6iXuFxcWG/RuYN+oyHbjJmPk2ORea8NWewyjHk/l+bj1x4kTn/wu8KJrg/yBu55g/mnIvubzm8+XdtVZtAjLpLognSXWcsGgFlj1ZB/5dkr8P+gPvoNNr8ADgeflAqPdpGiXVmttbYQoALbnYF06Yq9LM+8di+i7kvgQQJrwx6q7GR6EoQB0k4QcctjdIzH4GOXUaRVRCuYWJUv/nC2/xO5L4Q7ZsZHc11IT4YHoG0Y2Pz4yKR/v3BoMYMzJrF6enyRZbiy3JYZZaWEtfeq7UUWShW/7Czrfx7n3PxdIXhweN1gXzILYrqe0yF59yiz75kltI0ZmXm8HeGK3RZmxw1z0TGBwxVKOZ/Ew48/jUV+ErLybMfUKlSQZIApn3WMlrFQDhFKUUtkYJVbOb4bsHMvd6ATy+nQEqRs0u+xOOMnVLsHG3G0IvUaaXkuFqXWVgq00p2gw2eFpvhwGfyT922u5pC4ZzfmQo/PFA8KXiXuohs+E3m7JIaO1VjvPKz9tbF44xG7Tehjj9fpEq9C/SAJZLDFCEWICoAoBG76qLfo0Kxf7GJ2skDvkcVLRZCJPx2SORVNMW0JUoTRCCMDWddDG06jhNJxPvlWaNrNxYNct2qKfbebshc9Wjr0VlvO1urR+oz/77B275pWGqqagfTugkKUHmfqUCaSHSYDvpFQTZWqX7uOmP6Y89lDtmZTcsKZ/uOKj5wu6Wl5HFj5lkWhAQF6z+YolIJXm/7Hr2h+InYPoxFXzbTSqbbazTpYz7oaCD2eEFHsWgOa87fCxyxQcLRZTrzsOqQP7ShqqufHSJGj72LtedVb5+bIH/6DmPOzQftdW88bDu6Ep+vuAP/90HOyA9nmvXbn/eAwiT1Qn+yFEyqx3Q5W5e6ej6Tk2INB1sd2Ls8H6/ByzHbTSBKU1hGkCkglBewyLE/7Nl9nsp4T7QeIGJlJX/1UFamorgnQc+QihgO5aYgJluyjPAUVTkK0ym+vAycEOrgNJyvmqaVzUJ4b2wGtkCAzuNSmBsavk8NejwdTlBEVUY+Y0BkrhxaNj0MefebiuJmtyh46/zO0FClbgloBxfgqalPwb6T6cd2Sg6tFQUjzx2nNH45o67asBkA8qYcylenP/BN0Cdeq8yrUwJKtlf0+85TqEo/waLa5gQbk7vHKUIidmRAtPmEJCw+hoXJHLl2nksOiZQMDvjdL8/Umr6IDgzo5M5wpDblX9UB719AAvTwHrHw+9RBL8/PGrEIxLDtcIj5TCShHnvAdKV+eXXI8/S5NTvzhxz9Vn3usZ35h0O+1TdrLa9JGUPIYNmlNeYRcXFG7qstQqDpfY+ntRG6Xhyj1Gc8llZ8ITjROcKavJG3KWggu996mMST7lJx3DeUTwwf3yZIjhtV6f+7MWCT9hZsctnuPEuXOffB1Nx8cGL7nTg/b+S7HhFUr+w0G4OueeJEWFsjMkBlzDcthJS8izMZjptRW54+vHKLblL1tvRKV8fgiRrzTLLfw4+EII+O9xF9Y/WejU5328vnZ5UdJlnegQX3KUrdrHW2luKpVdvMYyq/017TsDtVR7P0KHPeZSCBptGNQ9AsC/0Cgu9kjfoau/Ep7KhQXqQwjKrwtr7++/r9xB7Pzqovv31vyZTRlcVThG1+19OsiGR7tcY7vKHA1zc37vsriFPXaEagkQhz/zdj1GcCBJLQh31+TKZM45xc8+1vvm45OHxGWum+tblnzqZF/hOKZqdOV+pmPG6r6fKxNzXNmVnIShtA5mvSB02QGQcvb9t3NjihRkG/3fGHITmlTbdotUYHCnnyKOWj/8wYNcfLBpWjZIbiNAh1jzRVkw+7U29arV4LOjxxsbnku3xO8w0I8p/qFNwVwxXaEasdDYNBAmCVFN6fUvIh9po2BhjATpRph2IpwHFD4zYigDIv2+sOXmU033uztqB6MGt4j+bRfrNSPm8ipzLf2bYvBcSpfIUqFaXhsVosCN3M1heoslZ+5rEvi5xK4ssdzrrq3aYsx7WC9qmNIPCuElJRcz3pb+qsxh9u+/GMGdetsJzxRjUNqtuh37raLzm7onmAt5yty243Fqx4uu3YO6A3glAhe/U+kV7gpgVLkGVgblsgdD2ovXatu/0wOKFD0yOOfDN2kSX3gjEy/aIQDUP7Wqpn3OCo3QQSOITcDrh2f0a7yMuAjuc7t4AhCtGpKOiRRrGjYf8lPDJfrjEu9kDx/CDiKx5oOmp4FltiYvPbF2q5vd3nldZnJQfgWmS9ec2JIJ4SFvhqm1OQ8VZXCOpa3aHrgobwuSyHlJYOLXzG0bw031n17rJI5+KDfbq1dqs9BA3na9R/dTHwIqcQ2vDYoerxmzs1oG5tqfR7L0VKgewzwOQswr+6G5estLd+HqkDGRT27Mrdz16nzfr4AoPpYZ8oTq8Ouf4+vXrHc+CE9fU4Qazbv9979mDujg6vtyO2nMXEKEW7H32v2fssOOFxlQTBT/1N47M55kyn11VeGRRiv1Ik5bvedbgkXaW9sigsb1hlbT03bohhO+180MrL24gq3iBtMkyOnsyhVC/nya715kihQNft8bF1ic0vlnj7ul09EeJN4lQfyu4tb5ggHeyl3Phn4+8le6Ga6aVeierI9CHfAQxgAAMYwAAGMICTxv8B3VTvDpX75eEAAAAASUVORK5CYII=" alt="Logo retangular MPPA">
+        </div>
+    </nav>
+
+    <!-- ========================================
+         HERO SECTION
+    ======================================== -->
+    <section class="hero" id="home">
+        <h1>Exercícios Extras</h1>
+        <div class="subtitle">Parte III: Treinamento Pós-Workshop</div>
+        <div class="description">
+            Exercícios práticos adicionais para aprofundar o conhecimento em Engenharia de Prompt no contexto do MPM.
+        </div>
+    </section>
+
+    <!-- ========================================
+         EXERCÍCIOS
+    ======================================== -->
+    <section id="exercicios-extras" class="container">
+        <h2 class="section-title">📝 Exercícios Práticos</h2>
+
+        <div class="prompt-grid">
+
+            <!-- EXERCÍCIO 1 -->
+            <div class="prompt-card">
+                <h4>Exercício 1 - Análise de Denúncia Militar</h4>
+                <h5 class="prompt-category">Nível: Básico | Tema: Crimes contra a honra militar</h5>
+                
+                <div class="prompt-details">
+                    <p><strong>Contexto:</strong> Você recebeu um caso de um soldado que ofendeu verbalmente seu superior hierárquico durante uma instrução militar, chamando-o de "incompetente" na frente de outros militares.</p>
+                    <p><strong>Tarefa:</strong> Crie um prompt usando a metodologia POEMA para analisar se há elementos para denúncia por desacato ou injúria militar.</p>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="example-box" style="margin-top: 0; margin-bottom: 1rem;">
+                        <strong>GABARITO - Exemplo de Prompt Estruturado:</strong>
+                    </div>
+                    <pre id="ex1-prompt">Persona: Você é um promotor de justiça militar especializado em crimes militares contra a honra e hierarquia.
+
+Objetivo: Analisar os elementos do tipo penal para possível denúncia por desacato (art. 298 do CPM) ou injúria contra superior (art. 214 c/c art. 221 do CPM).
+
+Exemplos:
+- Desacato militar: Art. 298 - Desacatar superior, em presença de outro militar ou em lugar sujeito à administração militar
+- Injúria: Art. 214 - Injuriar alguém, ofendendo-lhe a dignidade ou decoro
+
+Modificadores:
+- Considere o local (ambiente militar sob administração castrense)
+- Avalie a presença de outros militares
+- Analise a gravidade da expressão utilizada
+- Verifique se houve quebra da hierarquia e disciplina militar
+
+Ação: Com base nos elementos apresentados, elabore uma análise jurídica fundamentada indicando qual tipo penal se aplica ao caso, justificando os elementos do crime configurados.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('ex1-prompt', this)">Copiar Gabarito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCÍCIO 2 -->
+            <div class="prompt-card">
+                <h4>Exercício 2 - Redação de Ofício Militar</h4>
+                <h5 class="prompt-category">Nível: Básico | Tema: Requisição de documentos</h5>
+                
+                <div class="prompt-details">
+                    <p><strong>Contexto:</strong> Você precisa requisitar ao Comando do 3º Batalhão de Infantaria a documentação completa sobre um militar investigado por abandono de posto.</p>
+                    <p><strong>Tarefa:</strong> Crie um prompt para elaborar um ofício formal requisitando os documentos necessários.</p>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="example-box" style="margin-top: 0; margin-bottom: 1rem;">
+                        <strong>GABARITO - Exemplo de Prompt Estruturado:</strong>
+                    </div>
+                    <pre id="ex2-prompt">Persona: Você é um promotor de justiça militar experiente em requisições oficiais e procedimentos administrativos militares.
+
+Objetivo: Elaborar ofício formal requisitando documentação militar para subsidiar investigação de abandono de posto.
+
+Exemplos: O ofício deve seguir o padrão MPM, com protocolo, destinatário correto, fundamentação legal e prazo para cumprimento.
+
+Modificadores:
+- Use linguagem jurídica formal e respeitosa
+- Cite base legal (arts. 129, CF e 30, CPPM)
+- Estabeleça prazo razoável (15 dias úteis)
+- Especifique documentos: ficha disciplinar, escala de serviço, registro de faltas, atestados médicos
+- Mencione consequências do não atendimento
+
+Ação: Redija o ofício completo, incluindo cabeçalho, fundamentação legal, especificação dos documentos requisitados e prazo para cumprimento.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('ex2-prompt', this)">Copiar Gabarito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCÍCIO 3 -->
+            <div class="prompt-card">
+                <h4>Exercício 3 - Elaboração de Recurso Militar</h4>
+                <h5 class="prompt-category">Nível: Intermediário | Tema: Apelação criminal militar</h5>
+                
+                <div class="prompt-details">
+                    <p><strong>Contexto:</strong> O Conselho de Justiça absolveu um sargento acusado de apropriação indébita militar (art. 240 do CPM), alegando insuficiência de provas. Você discorda da decisão pois há evidências robustas: documentos falsificados, depoimentos de testemunhas e perícia contábil comprovando desvio de R$ 80.000,00 de recursos destinados ao rancho da unidade.</p>
+                    <p><strong>Tarefa:</strong> Crie um prompt para elaborar as razões de apelação criminal.</p>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="example-box" style="margin-top: 0; margin-bottom: 1rem;">
+                        <strong>GABARITO - Exemplo de Prompt Estruturado:</strong>
+                    </div>
+                    <pre id="ex3-prompt">Persona: Você é um experiente promotor de justiça militar, especialista em recursos criminais e com profundo conhecimento de jurisprudência do Superior Tribunal Militar.
+
+Objetivo: Elaborar razões de apelação criminal contestando sentença absolutória por apropriação indébita militar, demonstrando suficiência probatória para condenação.
+
+Exemplos:
+- Art. 240 CPM: "Apropriar-se de dinheiro ou qualquer utilidade que, no exercício de função ou em razão dela, recebeu para entregar a outrem"
+- Elementos: coisa móvel alheia, posse em razão da função, apropriação com animus definitivo
+
+Modificadores:
+- Estruture a peça com preliminares, mérito e pedidos
+- Demonstre erro na valoração da prova pelo juízo a quo
+- Cite jurisprudência do STM sobre apropriação indébita militar
+- Analise cada elemento probatório individualmente
+- Aplique teoria do conjunto probatório
+- Use linguagem técnica e respeitosa ao magistrado
+
+Ação: Redija as razões completas de apelação, incluindo: 1) Preliminares processuais; 2) Análise do conjunto probatório; 3) Demonstração dos elementos do tipo penal; 4) Contestação aos fundamentos da absolvição; 5) Pedido de reforma da sentença.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('ex3-prompt', this)">Copiar Gabarito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCÍCIO 4 -->
+            <div class="prompt-card">
+                <h4>Exercício 4 - Memorial Técnico Complexo</h4>
+                <h5 class="prompt-category">Nível: Avançado | Tema: Fraude em licitação militar</h5>
+                
+                <div class="prompt-details">
+                    <p><strong>Contexto:</strong> Investigação revelou esquema de fraude em licitações para aquisição de equipamentos militares no valor de R$ 5 milhões. Envolvidos: 1 coronel, 2 majores, 3 empresários civis. Condutas: direcionamento de editais, vazamento de informações sigilosas, simulação de propostas, superfaturamento. Há escutas telefônicas, documentos apreendidos, análise patrimonial desproporcional e delação premiada.</p>
+                    <p><strong>Tarefa:</strong> Crie um prompt para elaborar memorial técnico fundamentando a denúncia.</p>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="example-box" style="margin-top: 0; margin-bottom: 1rem;">
+                        <strong>GABARITO - Exemplo de Prompt Estruturado:</strong>
+                    </div>
+                    <pre id="ex4-prompt">Persona: Você é um renomado promotor de justiça militar, especialista em crimes contra a administração militar, organização criminosa e licitações públicas, com vasta experiência em casos complexos envolvendo militares e civis.
+
+Objetivo: Elaborar memorial técnico fundamentando denúncia por organização criminosa (art. 2º Lei 12.850/13), fraude em licitação (art. 90 Lei 8.666/93 c/c art. 9º CPM), corrupção ativa e passiva militar, demonstrando autoria, materialidade e conjunto probatório robusto.
+
+Exemplos:
+- Organização criminosa: Art. 2º Lei 12.850/13 - Estrutura criminosa de 4+ pessoas, divisão de tarefas, objetivo de crimes com pena máxima superior a 4 anos
+- Fraude licitatória: Art. 90 Lei 8.666/93 - Frustrar ou fraudar o caráter competitivo de licitação pública
+- Corrupção militar: Arts. 308 e 309 CPM
+
+Modificadores:
+- Organize o memorial em núcleos criminosos (militares/civis)
+- Demonstre estrutura organizada: liderança, divisão de tarefas, estabilidade temporal
+- Analise cronologicamente as condutas criminosas
+- Correlacione cada elemento probatório com os tipos penais
+- Calcule prejuízo ao erário e enriquecimento ilícito
+- Aplique jurisprudência do STM e STF sobre competência
+- Use linguagem técnica elevada
+
+Ação: Redija memorial técnico estruturado em: 1) Introdução explicando a complexidade do caso; 2) Descrição fática cronológica; 3) Análise jurídica por tipo penal; 4) Demonstração da organização criminosa; 5) Correlação entre provas e condutas; 6) Quantificação de danos; 7) Pedido de recebimento da denúncia com fundamentação específica para cada acusado.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('ex4-prompt', this)">Copiar Gabarito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCÍCIO 5 -->
+            <div class="prompt-card">
+                <h4>Exercício 5 - Análise Pericial</h4>
+                <h5 class="prompt-category">Nível: Avançado | Tema: Perícia contábil militar</h5>
+                
+                <div class="prompt-details">
+                    <p><strong>Contexto:</strong> Suspeita de desvio de recursos públicos em organização militar. Necessária perícia contábil para quantificar prejuízos e identificar responsáveis. Envolve análise de: livros contábeis, notas fiscais, extratos bancários, processos licitatórios, contratos administrativos.</p>
+                    <p><strong>Tarefa:</strong> Crie um prompt para elaborar quesitos periciais.</p>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="example-box" style="margin-top: 0; margin-bottom: 1rem;">
+                        <strong>GABARITO - Exemplo de Prompt Estruturado:</strong>
+                    </div>
+                    <pre id="ex5-prompt">Persona: Você é um promotor de justiça militar especializado em crimes contra a administração militar e perícias contábeis complexas, com conhecimento técnico em auditoria militar e controle financeiro de organizações militares.
+
+Objetivo: Elaborar quesitos periciais contábeis específicos para identificar, quantificar e comprovar desvios de recursos públicos militares, estabelecendo autoria, materialidade e extensão dos danos ao erário.
+
+Exemplos: Quesitos devem abranger: movimentação financeira irregular, compatibilidade entre documentação e realidade, identificação de responsáveis, quantificação de prejuízos, análise de conformidade com normas militares.
+
+Modificadores:
+- Quesitos objetivos e tecnicamente precisos
+- Sequência lógica de investigação contábil
+- Foque na identificação de irregularidades específicas
+- Considere peculiaridades da contabilidade militar
+- Inclua análise patrimonial dos investigados
+- Permita conclusões definitivas para embasar denúncia
+
+Ação: Redija 20 quesitos periciais organizados em grupos: 1) Análise da documentação contábil (5 quesitos); 2) Identificação de irregularidades financeiras (5 quesitos); 3) Quantificação de prejuízos (5 quesitos); 4) Análise patrimonial dos investigados (3 quesitos); 5) Conclusões sobre autoria e responsabilidade (2 quesitos).</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('ex5-prompt', this)">Copiar Gabarito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCÍCIO 6 -->
+            <div class="prompt-card">
+                <h4>Exercício 6 - Assédio Sexual Hierárquico</h4>
+                <h5 class="prompt-category">Nível: Avançado</h5>
+                
+                <div class="prompt-details">
+                    <p><strong>Contexto Fático:</strong> Um 2º Sargento do Exército, responsável por atividades administrativas no Hotel de Trânsito de Oficiais, praticou durante 6 anos (2017-2023) assédio sexual e importunação sexual contra múltiplos subordinados. As condutas incluíam: sexo oral forçado, toques inadequados, propostas de favorecimento, perseguição hierárquica e uso de viaturas oficiais.</p>
+                    <p><strong>Elementos Probatórios:</strong> Depoimentos uníssonos de 4 vítimas, conversas de WhatsApp, depoimento de testemunha, relatório de IPM e confissão parcial.</p>
+                    <p><strong>Tarefa:</strong> Desenvolva um prompt usando metodologia POEMA para elaborar a fundamentação jurídica da denúncia.</p>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="example-box" style="margin-top: 0; margin-bottom: 1rem;">
+                        <strong>GABARITO - Exemplo de Prompt Estruturado:</strong>
+                    </div>
+                    <pre id="ex6-prompt">Persona: Você é um promotor de justiça militar especialista em crimes sexuais no ambiente castrense, com profundo conhecimento sobre aplicação do Código Penal comum em crimes militares (art. 9º, III do CPM), jurisprudência sobre assédio hierárquico e impactos psicológicos em vítimas militares.
+
+Objetivo: Elaborar fundamentação jurídica robusta para denúncia por assédio sexual (art. 216-A CP c/c art. 9º III CPM) e importunação sexual (art. 215-A CP c/c art. 9º, III CPM) em continuidade delitiva, demonstrando autoria, materialidade e circunstâncias agravantes específicas do ambiente militar.
+
+Exemplos:
+- Assédio sexual militar: prevalência da condição hierárquica + constrangimento + vantagem sexual
+- Importunação sexual: ato libidinoso sem anuência + satisfação da lascívia
+- Continuidade delitiva: mesmo desígnio criminoso, condições semelhantes de tempo, lugar e modo
+
+Modificadores:
+- Analise cada vítima individualmente e o conjunto das condutas
+- Demonstre o abuso da hierarquia militar como elemento agravante
+- Examine a continuidade delitiva vs. concurso material de crimes
+- Correlacione cada prova com elementos específicos dos tipos penais
+- Considere o dano à disciplina e hierarquia militar
+- Avalie trauma psicológico das vítimas (pensamento suicida)
+- Aplique agravantes do ambiente militar (arts. 70-75 CPM)
+
+Ação: Elabore fundamentação estruturada em: 1) Tipificação jurídica precisa de cada conduta; 2) Demonstração da autoria através do conjunto probatório; 3) Análise da continuidade delitiva entre os crimes; 4) Identificação de circunstâncias agravantes militares; 5) Quantificação das penas considerando multiplicidade de vítimas e prolongamento temporal; 6) Estratégia para sustentação oral incluindo ordem das testemunhas e valoração das provas.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('ex6-prompt', this)">Copiar Gabarito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCÍCIO 7 -->
+            <div class="prompt-card">
+                <h4>Exercício 7 - Corrupção na Operação Carro Pipa</h4>
+                <h5 class="prompt-category">Nível: Expert</h5>
+                
+                <div class="prompt-details">
+                    <p><strong>Contexto Fático:</strong> Esquema de corrupção envolvendo militares (TC Flávio e 2º Sgt Mauro) e civis (empresário e pipeiros) na Operação Carro Pipa no Ceará, com movimentação superior a R$ 1 milhão. Condutas: propina, fiscalizações precárias, lavagem de dinheiro.</p>
+                    <p><strong>Tarefa:</strong> Crie um prompt para elaborar memorial de sustentação oral no STM.</p>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="example-box" style="margin-top: 0; margin-bottom: 1rem;">
+                        <strong>GABARITO - Exemplo de Prompt Estruturado:</strong>
+                    </div>
+                    <pre id="ex7-prompt">Persona: Você é um promotor de justiça militar de alta experiência em crimes complexos contra a administração militar, especialista em organização criminosa militar-civil, lavagem de dinheiro e sustentação oral em tribunais superiores, com profundo conhecimento da jurisprudência do STM sobre competência e tipificação.
+
+Objetivo: Elaborar memorial de sustentação oral para julgamento no STM demonstrando configuração de organização criminosa (Lei 12.850/13), corrupção ativa e passiva militar (arts. 308/309 CPM) e lavagem de dinheiro (Lei 12.683/12), com estratégia persuasiva para manutenção das condenações.
+
+Modificadores:
+- Organize argumentação por núcleos criminosos (militar/civil)
+- Demonstre estabilidade e permanência da organização criminosa
+- Correlacione movimentação bancária suspeita com período dos crimes
+- Refute argumentos defensivos sobre origem lícita dos recursos
+- Utilize jurisprudência do STM sobre competência para civis em crimes militares
+- Quantifique prejuízo ao erário e à credibilidade institucional
+- Aplique precedentes sobre inversão do ônus da prova em enriquecimento ilícito
+
+Ação: Redija memorial estruturado para sustentação de 20 minutos contendo: 1) Síntese fática enfatizando gravidade institucional; 2) Demonstração da organização criminosa com papéis específicos; 3) Prova da corrupção através de análise bancária; 4) Caracterização da lavagem de dinheiro nas três fases; 5) Refutação das teses defensivas principais; 6) Quantificação de danos morais e materiais; 7) Pedido de manutenção integral das condenações com fundamentação em precedentes do STM.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('ex7-prompt', this)">Copiar Gabarito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCÍCIO 8 -->
+            <div class="prompt-card">
+                <h4>Exercício 8 - Fraude em Operação Militar</h4>
+                <h5 class="prompt-category">Nível: Intermediário/Avançado</h5>
+                
+                <div class="prompt-details">
+                    <p><strong>Contexto Fático:</strong> Quatro civis fraudaram a Operação Carro Pipa manipulando equipamentos GPS (acoplando em motocicletas para simular rotas de caminhões). O STM manteve condenação por estelionato tentado.</p>
+                    <p><strong>Tarefa:</strong> Desenvolva um prompt para analisar os fundamentos da decisão do STM e preparar argumentação para casos similares.</p>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="example-box" style="margin-top: 0; margin-bottom: 1rem;">
+                        <strong>GABARITO - Exemplo de Prompt Estruturado:</strong>
+                    </div>
+                    <pre id="ex8-prompt">Persona: Você é um promotor de justiça militar especializado em crimes contra a administração militar envolvendo tecnologia e fraudes em operações governamentais, com conhecimento específico sobre jurisprudência do STM em crimes de estelionato militar e competência para julgar civis.
+
+Objetivo: Analisar juridicamente a decisão do STM no caso da fraude GPS na Operação Carro Pipa, identificando fundamentos aplicáveis a casos similares de fraude tecnológica em operações militares e elaborando estratégia argumentativa para casos futuros.
+
+Modificadores:
+- Analise elementos do estelionato: artifício fraudulento, erro da vítima, vantagem ilícita, prejuízo
+- Examine competência da Justiça Militar para civis em operações militares
+- Avalie configuração da tentativa vs. consumação
+- Considere aspecto tecnológico da fraude (GPS/monitoramento eletrônico)
+- Refute teses defensivas típicas: erro de fato, ausência de dolo, boa-fé
+- Aplique jurisprudência do STM sobre fraudes em operações governamentais
+- Quantifique prejuízo potencial ao erário e população beneficiária
+
+Ação: Elabore análise jurisprudencial estruturada contendo: 1) Síntese dos fundamentos da decisão do STM; 2) Identificação dos elementos configuradores do estelionato militar; 3) Análise da competência da Justiça Militar para civis; 4) Exame das teses defensivas rejeitadas; 5) Aplicação dos precedentes a casos similares de fraude tecnológica; 6) Estratégia argumentativa para denúncias futuras envolvendo fraudes em operações militares; 7) Modelo de quesitos periciais para casos de fraude eletrônica/GPS.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('ex8-prompt', this)">Copiar Gabarito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCÍCIO 9 -->
+            <div class="prompt-card">
+                <h4>Exercício 9 - Caso Complexo: Análise Multidisciplinar</h4>
+                <h5 class="prompt-category">Nível: Expert | Tema: Integração de múltiplos crimes militares</h5>
+                
+                <div class="prompt-details">
+                    <p><strong>Contexto Integrado:</strong> Oficial superior envolvido simultaneamente em: assédio sexual, corrupção em licitações, fraude em operações e organização criminosa mista.</p>
+                    <p><strong>Tarefa:</strong> Desenvolva um prompt para elaborar estratégia processual complexa considerando todos os aspectos jurídicos e práticos envolvidos (competência, conexão, desmembramento).</p>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="example-box" style="margin-top: 0; margin-bottom: 1rem;">
+                        <strong>GABARITO - Exemplo de Prompt Estruturado:</strong>
+                    </div>
+                    <pre id="ex9-prompt">Persona: Você é um procurador-geral de justiça militar com vasta experiência em casos de alta complexidade, especialista em gestão processual estratégica, competência jurisdicional militar e coordenação de investigações envolvendo múltiplos órgãos e esferas de poder.
+
+Objetivo: Elaborar estratégia processual integrada para caso complexo envolvendo oficial superior em múltiplos crimes (assédio sexual, corrupção, fraude, organização criminosa), definindo ordem de procedimentos, competências, conexões processuais e estratégia de investigação/processamento otimizada.
+
+Modificadores:
+- Analise competência para cada tipo de crime individualmente
+- Examine possibilidades de conexão e continência
+- Avalie necessidade de desmembramento estratégico
+- Considere ordem temporal ótima para investigação/processamento
+- Defina estratégia de colaboração premiada
+- Planeje medidas cautelares apropriadas para cada delito
+- Coordene com outros órgãos (MPF, MPE, Polícias)
+
+Ação: Elabore plano estratégico executivo contendo: 1) Mapeamento completo de competências por crime; 2) Análise de conexão e possibilidade de reunião processual; 3) Estratégia de investigação sequencial ou paralela; 4) Cronograma de medidas cautelares e probatórias; 5) Plano de colaboração com outros órgãos; 6) Definição de ordem de oferecimento das denúncias; 7) Estratégia de comunicação institucional; 8) Previsão de recursos e prazos para conclusão integral do caso.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('ex9-prompt', this)">Copiar Gabarito</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCÍCIO 10 -->
+            <div class="prompt-card">
+                <h4>Exercício 10 - Homicídio Qualificado em Operação Militar</h4>
+                <h5 class="prompt-category">Nível: Avançado | Área: Criminal Militar - Crimes contra a vida</h5>
+                
+                <div class="prompt-details">
+                    <p><strong>Cenário:</strong> Soldado do Exército, em patrulhamento de fronteira, disparou contra civil desarmado em fuga (tiro pelas costas). Divergência sobre ordem superior. Alegação de legítima defesa de terceiros e estrito cumprimento do dever legal.</p>
+                    <p><strong>Instrução:</strong> Construa prompt complexo com POEMA para análise jurídica aprofundada (competência, tipificação, qualificadoras, excludentes, estratégia de alegações finais).</p>
+                </div>
+
+                <div class="prompt-box">
+                    <div class="example-box" style="margin-top: 0; margin-bottom: 1rem;">
+                        <strong>GABARITO - Exemplo de Prompt Estruturado:</strong>
+                    </div>
+                    <pre id="ex10-prompt">P - PERSONA: Você é Subprocurador-Geral de Justiça Militar com mais de 20 anos de atuação em crimes dolosos contra a vida no âmbito militar, com profundo conhecimento de Direito Penal Militar, excludentes de ilicitude em contexto operacional, e jurisprudência consolidada do STM e do STF sobre competência da Justiça Militar.
+
+O - OBJETIVO: Elabore parecer jurídico analítico completo e fundamentado abordando todas as questões controvertidas do caso, com enfoque na atuação ministerial em sede de alegações finais perante Conselho Permanente de Justiça.
+
+E - ESTRUTURA:
+I. QUESTÃO PRELIMINAR: COMPETÊNCIA
+II. TIPIFICAÇÃO PENAL
+III. ANÁLISE DAS EXCLUDENTES DE ILICITUDE
+IV. ANÁLISE PROBATÓRIA
+V. ESTRATÉGIA DE ALEGAÇÕES FINAIS
+
+M - MÉTODO (Contexto detalhado):
+- AGENTE: Soldado do Exército Brasileiro em serviço ativo
+- VÍTIMA: Civil desarmado
+- LOCAL: Área de fronteira, durante operação de patrulhamento militar
+- CONDUTA: Disparos de fuzil (armamento de uso privativo das FA)
+- RESULTADO: Morte da vítima
+- CIRCUNSTÂNCIAS OBJETIVAS: Vítima fugia de abordagem; foi atingida pelas costas
+- QUESTÃO CONTROVERSA: Testemunhas divergem sobre existência de ordem
+- ALEGAÇÕES DEFENSIVAS: Legítima defesa de terceiros + Estrito cumprimento de dever legal
+- LEGISLAÇÃO: CPM (arts. 9º, 42, 45, 205, 206, 210); CPPM (arts. 295, 435); CF (art. 124)
+
+A - ADICIONAIS: Utilize linguagem técnico-jurídica de alto nível. Fundamente extensivamente com doutrina e jurisprudência atualizada. Considere as implicações da decisão na disciplina e hierarquia militares. Aborde aspectos de Direitos Humanos e uso proporcional da força.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('ex10-prompt', this)">Copiar Gabarito</button>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Fim da Grid -->
+
+        <!-- BOAS PRÁTICAS -->
+        <div class="divider"></div>
+        <h2 class="section-title">📚 Boas Práticas e Dicas Avançadas</h2>
+
+        <div class="prompt-grid" style="margin-top: 2rem;">
+            <div class="tip-card">
+                <h4>1. Especificidade é Fundamental</h4>
+                <p>Quanto mais específico e detalhado for seu prompt, melhores serão os resultados. Sempre forneça contexto completo sobre o caso concreto, incluindo dispositivos legais aplicáveis, circunstâncias fáticas relevantes e objetivo final do trabalho.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>2. Use Terminologia Militar Correta</h4>
+                <p>Empregue corretamente: posto (oficiais), graduação (praças), Organização Militar (OM), Inquérito Policial Militar (IPM), Conselho de Justiça, Auditoria Militar, Superior Tribunal Militar (STM). A precisão terminológica melhora significativamente a qualidade das respostas.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>3. Solicite Fundamentação Legal</h4>
+                <p>Sempre peça que a IA fundamente suas respostas com base no Código Penal Militar, Código de Processo Penal Militar, jurisprudência do STM, e doutrina especializada. Isso aumenta a confiabilidade e utilidade profissional do resultado.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>4. Revise e Valide as Respostas</h4>
+                <p>IAs generativas podem cometer erros ou "alucinar" informações. SEMPRE revise criticamente as respostas, confira citações legais, e valide jurisprudências mencionadas. O promotor continua sendo o responsável final pelo conteúdo produzido.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>5. Prompts Iterativos</h4>
+                <p>Não hesite em fazer perguntas de acompanhamento para aprofundar ou esclarecer pontos específicos. A IA mantém o contexto da conversa e pode desenvolver análises mais sofisticadas através de múltiplas interações.</p>
+            </div>
+
+            <div class="tip-card">
+                <h4>6. Proteja Dados Sensíveis</h4>
+                <p>Ao usar ferramentas de IA, anonimize dados pessoais sensíveis, especialmente em casos que envolvam segredo de justiça. Substitua nomes reais por identificadores genéricos (ex: "Soldado A", "Organização Militar X") quando apropriado.</p>
+            </div>
+        </div>
+
+        <!-- CONSIDERAÇÕES FINAIS -->
+        <div class="highlight-box" style="margin-top: 4rem;">
+            <h4>Considerações Finais</h4>
+            <p>A Inteligência Artificial generativa é uma ferramenta poderosa que, quando utilizada corretamente com a metodologia POEMA, pode aumentar significativamente a produtividade e qualidade do trabalho do Ministério Público Militar.</p>
+            <p style="margin-top: 1rem;">Os exercícios apresentados neste material representam apenas o início das possibilidades. Encoraja-se que cada promotor e servidor explore criativamente as aplicações da IA em suas rotinas específicas, sempre mantendo o senso crítico e a responsabilidade profissional.</p>
+            <p style="margin-top: 1rem; font-weight: bold;">Lembre-se: a IA é uma assistente, não uma substituta do raciocínio jurídico qualificado. O julgamento final, a análise crítica e a responsabilidade pelas peças processuais sempre pertencem ao profissional do Direito.</p>
+        </div>
+
+    </section>
+
+    <!-- NOVA SEÇÃO DOS AUTORES -->
+    <div class="container" style="padding-top: 0; padding-bottom: 2rem; text-align: center;">
+        <h4 style="color: var(--primary-blue); font-size: 1.3rem; margin-bottom: 1rem;">Material produzido, apoiado por ferramentas de IA, por:</h4>
+        <p style="color: var(--gray-700); font-size: 0.88rem; line-height: 1.8;">
+            Rodrigo Aquino Silva - rodrigosilva@mppa.mp.br<br>
+            <span style="font-size: 0.704rem;">Promotor de Justiça - Coordenador do Escritório de Inteligência Artificial</span><br>
+            Paulo Sergio Rodrigues Lima - paulolima@mppa.mp.br<br>
+            <span style="font-size: 0.704rem;">Assessor Especializado do Comitê de Inovação e Inteligência Artificial</span>
+        </p>
+    </div>
+
+    <!-- ========================================
+         FOOTER
+    ======================================== -->
+    <footer>
+        <div class="footer-top">
+            <div id="footer-logo-left" class="footer-logo-slot footer-logo-slot-left"></div>
+            <div class="footer-logo">CIIA - Escritório de Inteligência Artificial</div>
+            <div id="footer-logo-right" class="footer-logo-slot footer-logo-slot-right"></div>
+        </div>
+        <div class="footer-links">
+            <a href="https://ciia.mppa.mp.br/" target="_blank">Site CIIA</a>
+            <a href="#home">Voltar ao Topo</a>
+        </div>
+        
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2);">
+            <p>Ministério Público do Estado do Pará</p>
+            <p style="margin-top: 0.5rem;">Workshop: Inteligência Artificial Generativa - Aplicabilidade ao MPPA</p>
+        </div>
+    </footer>
+
+    <!-- ========================================
+         JAVASCRIPT para Botão de Cópia
+    ======================================== -->
+    <script>
+        (function() {
+            const headerLogoCircular = document.getElementById('header-logo-circular');
+            const headerLogoRectangular = document.getElementById('header-logo-rectangular');
+            const footerLogoLeft = document.getElementById('footer-logo-left');
+            const footerLogoRight = document.getElementById('footer-logo-right');
+
+            if (headerLogoCircular && footerLogoLeft) {
+                const circularClone = headerLogoCircular.cloneNode(true);
+                circularClone.id = 'footer-logo-circular';
+                footerLogoLeft.appendChild(circularClone);
+            }
+
+            if (headerLogoRectangular && footerLogoRight) {
+                const rectangularClone = headerLogoRectangular.cloneNode(true);
+                rectangularClone.id = 'footer-logo-rectangular';
+                footerLogoRight.appendChild(rectangularClone);
+            }
+        })();
+
+        function copyToClipboard(elementId, buttonElement) {
+            const tempInput = document.createElement('textarea');
+            const textToCopy = document.getElementById(elementId).innerText;
+            
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        updateCopyButtonState(buttonElement);
+                    }).catch(err => {
+                        document.execCommand('copy');
+                        updateCopyButtonState(buttonElement);
+                    });
+                } else {
+                    document.execCommand('copy');
+                    updateCopyButtonState(buttonElement);
+                }
+            } catch (err) {
+                console.error('Falha ao copiar texto: ', err);
+            }
+            
+            document.body.removeChild(tempInput);
+        }
+
+        function updateCopyButtonState(buttonElement) {
+            const originalText = buttonElement.innerText;
+            buttonElement.innerText = 'Copiado!';
+            buttonElement.classList.add('copied');
+            setTimeout(() => {
+                buttonElement.innerText = originalText;
+                buttonElement.classList.remove('copied');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

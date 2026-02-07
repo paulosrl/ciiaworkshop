@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop IA - MPM | Conteúdo Principal</title>
+    <!-- Estilo do exemplo.html -->
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --accent-blue: #60a5fa;
+            --dark-blue: #0f172a;
+            --light-blue: #dbeafe;
+            --gold: #fbbf24;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: var(--gray-900); background-color: var(--gray-100); }
+        nav { background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: var(--white); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .nav-center { display: flex; align-items: center; justify-content: space-between; flex: 1; gap: 1.5rem; min-width: 0; }
+        nav .logo { font-size: 0.9rem; font-weight: bold; display: flex; align-items: center; gap: 0.75rem; white-space: nowrap; }
+        nav ul { list-style: none; display: flex; gap: 1.8rem; flex-wrap: nowrap; justify-content: flex-end; }
+        .header-logo { display: block; object-fit: contain; flex-shrink: 0; }
+        .header-logo-circular { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.14); padding: 4px; }
+        .header-logo-rectangular { width: 132px; height: auto; max-height: 56px; }
+        nav a { color: var(--white); text-decoration: none; transition: color 0.3s; font-weight: 500; font-size: 0.9rem; }
+        nav a:hover { color: var(--gold); }
+        .hero { background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: var(--white); padding: 4rem 2rem; text-align: center; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; line-height: 1.2; }
+        .hero .subtitle { font-size: 1.3rem; margin-bottom: 2rem; color: var(--light-blue); }
+        .hero .description { max-width: 800px; margin: 0 auto 2rem; font-size: 1.1rem; line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+        .section { margin-bottom: 4rem; }
+        .section-title { font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1rem; text-align: center; position: relative; padding-bottom: 1rem; }
+        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: linear-gradient(90deg, var(--secondary-blue), var(--gold)); border-radius: 2px; }
+        .section-subtitle { text-align: center; font-size: 1.2rem; color: var(--gray-700); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .card { background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .card-icon { font-size: 3rem; margin-bottom: 1rem; text-align: center; }
+        .card h3 { color: var(--primary-blue); margin-bottom: 1rem; font-size: 1.5rem; text-align: center; }
+        .card p { color: var(--gray-700); line-height: 1.6; }
+        .highlight-box { background: linear-gradient(135deg, var(--light-blue), var(--white)); border-left: 4px solid var(--secondary-blue); padding: 2rem; margin: 2rem 0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .highlight-box h4 { color: var(--primary-blue); margin-bottom: 1rem; font-size: 1.3rem; }
+        .highlight-box ul { margin-left: 2rem; color: var(--gray-700); }
+        .highlight-box ul li { margin-bottom: 0.5rem; }
+        .warning-box { background: #fff3cd; border-left: 4px solid var(--warning); padding: 1.5rem; margin: 2rem 0; border-radius: 8px; }
+        .danger-box { background: #f8d7da; border-left: 4px solid var(--danger); padding: 1.5rem; margin: 2rem 0; border-radius: 8px; }
+        .success-box { background: #d1e7dd; border-left: 4px solid var(--success); padding: 1.5rem; margin: 2rem 0; border-radius: 8px; }
+        .protocol-steps { display: grid; gap: 1.5rem; margin: 2rem 0; }
+        .protocol-step { background: var(--white); border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; padding-left: 4rem; }
+        .protocol-step::before { content: attr(data-number); position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue)); color: var(--white); width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; }
+        .protocol-step h4 { color: var(--primary-blue); margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .protocol-step p { color: var(--gray-700); }
+        .quote-box { background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: var(--white); padding: 2rem; border-radius: 12px; margin: 2rem 0; font-size: 1.2rem; font-style: italic; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .quote-box::before { content: '"'; font-size: 4rem; line-height: 0; vertical-align: -0.4em; opacity: 0.5; }
+        .quote-box::after { content: '"'; font-size: 4rem; line-height: 0; vertical-align: -0.4em; opacity: 0.5; }
+        .quote-author { margin-top: 1rem; font-size: 1rem; font-style: normal; opacity: 0.9; }
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
+        .two-column .column { background: var(--white); padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .two-column .column h4 { color: var(--primary-blue); margin-bottom: 1rem; text-align: center; }      
+        .styled-list { list-style: none; margin: 1rem 0; }
+        .styled-list li { padding: 0.75rem 0 0.75rem 2rem; position: relative; color: var(--gray-700); }
+        .styled-list li::before { content: '✔'; position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2rem; }
+        .pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0; }
+        .pillar { background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue)); color: var(--white); padding: 2rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.3s; }
+        .pillar:hover { transform: scale(1.05); }
+        .pillar-number { font-size: 2rem; font-weight: bold; margin-bottom: 1rem; opacity: 0.8; }
+        .pillar h3 { font-size: 1.3rem; margin-bottom: 1rem; }
+        .pillar p { font-size: 0.95rem; opacity: 0.9; }
+        footer { background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue)); color: var(--white); padding: 3rem 2rem; text-align: center; }
+        .footer-top { max-width: 1200px; margin: 0 auto 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .footer-logo { font-size: 1.5rem; font-weight: bold; text-align: center; flex: 1; }
+        .footer-logo-slot { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .footer-logo-slot-left { min-width: 56px; }
+        .footer-logo-slot-right { min-width: 132px; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--white); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
+        .mt-2 { margin-top: 2rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .text-center { text-align: center; }
+        .divider { height: 2px; background: linear-gradient(90deg, transparent, var(--secondary-blue), transparent); margin: 3rem 0; }
+        .cta-button { display: inline-block; background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue)); color: var(--white); padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        
+        /* Ajuste específico para listas dentro das colunas (para Janela de Entrada/Saída) */
+        .two-column .column ul:not(.styled-list) {
+            list-style-type: disc; /* Garante bolinhas padrão apenas para listas comuns */
+            margin-left: 1.5rem;   /* Recuo esquerdo da lista */
+            padding-left: 1rem;    /* Espaço extra para os bullets */
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .two-column .column ul li {
+            margin-bottom: 0.5rem;
+            color: var(--gray-700);
+        }
+
+
+        /* Estilo para Thumbnail do Vídeo */
+        .video-thumbnail-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .video-thumbnail {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            max-width: 800px; /* Largura máxima */
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .video-thumbnail img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+        }
+        .video-thumbnail::after {
+            content: '▶'; /* Símbolo de Play */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 100px;
+            transition: background 0.3s, color 0.3s;
+        }
+        .video-thumbnail:hover::after {
+            background: rgba(0, 0, 0, 0.5);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .section-title { font-size: 2rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .two-column { grid-template-columns: 1fr; }
+            nav .container { flex-direction: column; gap: 1rem; }
+            .nav-center { width: 100%; flex-direction: column; gap: 1rem; }
+            .header-logo-rectangular { width: 120px; }
+            .footer-top { flex-direction: column; gap: 1rem; }
+            .footer-logo-slot-left, .footer-logo-slot-right { min-width: 0; }
+            nav ul { flex-direction: column; gap: 1rem; text-align: center; }
+            .pillar-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========================================
+         NAVEGAÇÃO (Modificada)
+    ======================================== -->
+    <nav>
+        <div class="container">
+            <img id="header-logo-circular" class="header-logo header-logo-circular" src="data:image/png;base64,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" alt="Logo circular Muiraquitã">
+            <div class="nav-center">
+                <div class="logo">
+                    CIIA - Escritório de Inteligência Artificial
+                </div>
+                <ul>
+                    <li><a href="#introducao">Introdução</a></li>
+                    <li><a href="#conceitos">Conceitos</a></li>
+                    <li><a href="#engenharia-prompts">Eng. de Prompts</a></li>
+                    <li><a href="prompts.html">Prompts</a></li>
+                    <li><a href="llm.html">Simulador LLM</a></li>
+                </ul>
+            </div>
+            <img id="header-logo-rectangular" class="header-logo header-logo-rectangular" src="data:image/png;base64,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" alt="Logo retangular MPPA">
+        </div>
+    </nav>
+
+    <!-- ========================================
+         HERO SECTION (do exemplo.html)
+    ======================================== -->
+    <section class="hero" id="home">
+        <h1>Workshop: Inteligência Artificial Generativa</h1>
+        <div class="subtitle">Aplicabilidade ao Ministério Público Militar</div>
+        <div class="description">
+            Capacitação completa sobre Inteligência Artificial Generativa e Engenharia de Prompts aplicada ao contexto jurídico do MPM
+        </div>
+    </section>
+
+    <!-- ========================================
+         SEÇÃO DO VÍDEO
+    ======================================== -->
+    <section id="video" class="container">
+        <h2 class="section-title">Eu sou IA (Nvidia)</h2>
+        <div class="video-thumbnail-container">
+            <a href="https://www.youtube.com/watch?v=kAyEQfmRQGo" target="_blank" class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/kAyEQfmRQGo/hqdefault.jpg" alt="Thumbnail do vídeo Eu sou IA da Nvidia">
+            </a>
+            <p style="text-align: center; margin-top: 1rem; color: var(--gray-700);">
+                Se o vídeo não carregar, <a href="https://www.youtube.com/watch?v=kAyEQfmRQGo" target="_blank">clique aqui para assistir no YouTube</a>.
+            </p>
+        </div>
+    </section>
+
+    <!-- ========================================
+         PARTE 1: INTRODUÇÃO (Conteúdo do 01.pdf)
+    ======================================== -->
+    <section id="introducao" class="container">
+        <h2 class="section-title">📚 Parte 1: Introdução à IA Generativa</h2>
+        
+        <!-- O QUE É IA -->
+        <div class="section">
+            <h3 class="section-subtitle">O que é Inteligência Artificial?</h3>
+            <div class="quote-box">
+                "A inteligência artificial hoje é, fundamentalmente, modelos estatísticos que, baseados em dados, calculam a probabilidade de eventos ocorrerem. Esse pequeno avanço tem sido responsável por transformações na economia, nas relações pessoais, na sociedade em geral."
+                <div class="quote-author">— Dora Kaufman</div>
+            </div>
+        </div>
+
+        <!-- IA NO CONTEXTO JURÍDICO -->
+        <div class="section">
+            <h3 class="section-subtitle">Inteligência Artificial no Contexto Jurídico</h3>
+            <p class="text-center" style="font-size: 1.2rem; margin-bottom: 2rem;">
+                <strong>Objetivo:</strong> fazer mais, em menos tempo e com mais qualidade
+            </p>
+            <div class="highlight-box">
+                <h4>💡 Visão para o MPM</h4>
+                <p style="font-size: 1.1rem; line-height: 1.8;">
+                    "IA não substituirá o Promotor de Justiça, o servidor, mas poderá elevá-los a um novo patamar de eficiência."
+                </p>
+                <p style="margin-top: 1rem;">
+                    A inteligência artificial surge como uma ferramenta poderosa para auxiliar os profissionais do direito, especialmente no Ministério Público, permitindo que foquem em atividades que requerem raciocínio jurídico complexo enquanto a tecnologia cuida de tarefas repetitivas.
+                </p>
+            </div>
+        </div>
+
+        <!-- RESISTÊNCIA A MUDANÇAS -->
+        <div class="section">
+            <h3 class="section-subtitle">Resistência a Mudanças</h3>
+            <p class="text-center" style="margin-bottom: 2rem; font-style: italic;">
+                O medo é, muitas vezes, filho da ignorância, do desconhecido
+            </p>
+            <div class="two-column">
+                <div class="column">
+                    <h4 style="font-size: 1.8rem;">📝 Evolução Tecnológica</h4>
+                    <ul class="styled-list">
+                        <li style="font-size: 1.2rem;">Máquina de escrever</li>
+                        <li style="font-size: 1.2rem;">Computador</li>
+                        <li style="font-size: 1.2rem;">Processo de papel</li>
+                        <li style="font-size: 1.2rem;">Processo eletrônico – PJE</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h4 style="font-size: 1.8rem;">⚖️ Exemplos Históricos</h4>
+                    <div class="warning-box">
+                        <p><strong>Exemplo 1 (1929):</strong> O Tribunal da Relação de Minas Gerais anulou uma sentença criminal porque não tinha sido escrita pelo juiz de próprio punho. A decisão havia sido datilografada!</p>
+                    </div>
+                    <div class="warning-box">
+                        <p><strong>Exemplo 2:</strong> Resistência à mudança para o PJe (cultura do papel impresso)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIPOS DE USUÁRIOS -->
+        <div class="section">
+            <h3 class="section-subtitle">Tipos de Usuários de Inteligência Artificial</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🚫</div>
+                    <h3>1. Resistente</h3>
+                    <p>Não quer saber de IA (medo, temor, desconfiança)</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📱</div>
+                    <h3>2. Básico</h3>
+                    <p>Conhecimento superficial de funcionamento (não aproveita ainda o poder da máquina)</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚙️</div>
+                    <h3>3. Intermediário</h3>
+                    <p>Domina alguns fundamentos e utiliza técnicas para melhoria (já é capaz de criar prompts estruturados)</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3>4. Avançado</h3>
+                    <p>Entende de engenharia de prompts, cria agentes robustos</p>
+                </div>
+            </div>
+            <div class="highlight-box text-center" style="margin-top: 3rem;">
+                <h4>🏎️ Potencial Inexplorado</h4>
+                <p style="font-size: 1.2rem; margin-top: 1rem;">
+                    É como se você tivesse uma <strong>Ferrari à disposição</strong> e não soubesse pilotá-la.
+                </p>
+            </div>
+        </div>
+
+        <!-- LITERACIA DIGITAL -->
+        <div class="section">
+            <h3 class="section-subtitle">Literacia Digital</h3>
+            <div class="two-column">
+                <div class="column">
+                    <h4 style="font-size: 1.8rem;">🎯 Objetivo</h4>
+                    <p>Buscar nivelamento para que os usuários tenham autonomia e habilidade de acessar, compreender, utilizar e criar informações de forma crítica e segura, por meio de tecnologias digitais (IA).</p>
+                </div>
+                <div class="column">
+                    <h4 style="font-size: 1.8rem;">📚 Modo</h4>
+                    <ul class="styled-list">
+                        <li style="font-size: 1.2rem;">Cursos</li>
+                        <li style="font-size: 1.2rem;">Capacitações</li>
+                        <li style="font-size: 1.2rem;">Workshops</li>
+                        <li style="font-size: 1.2rem;">Webinários</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         CONCEITOS FUNDAMENTAIS (Conteúdo do 01.pdf)
+    ======================================== -->
+    <section id="conceitos" class="container">
+        <h2 class="section-title">🧠 Conceitos Fundamentais de IA</h2>
+        
+        <!-- GRANDES MODELOS DE LINGUAGEM -->
+        <div class="section">
+            <h3 class="section-subtitle">Grandes Modelos de Linguagem (LLM)</h3>
+            <div class="highlight-box">
+                <h4>🌐 Imagine a tarefa de escanear cada palavra da Internet</h4>
+                <p style="margin-top: 1rem;">Esse recorte de dados representa mais de 1 trilhão de palavras da Internet. Para ler todas essas palavras um ser humano levaria mais de 2.600 anos de leitura ininterrupta.</p>
+            </div>
+            <div class="cards-grid" style="margin-top: 2rem;">
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Alimentação de Dados</h3>
+                    <p>Os dados escaneados alimentam os Grandes Modelos de Linguagem (Large Language Models - LLM)</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🤖</div>
+                    <h3>Compreensão</h3>
+                    <p>LLMs são modelos de IA que compreendem e produzem linguagem humana</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✏️</div>
+                    <h3>Capacidades</h3>
+                    <p>Esses modelos respondem, resumem, traduzem e criam conteúdo original</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📈</div>
+                    <h3>Funcionamento</h3>
+                    <p>Utilizam matemática e estatística para prever as palavras mais prováveis</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMO UMA MÁQUINA APRENDE -->
+        <div class="section">
+            <h3 class="section-subtitle">Como uma Máquina "Aprende"?</h3>
+            <div class="protocol-steps">
+                <div class="protocol-step" data-number="1">
+                    <h4>Treinamento Inicial</h4>
+                    <p>O aprendizado acontece na fase de treinamento, antes do uso público. Grandes volumes de textos são processados por algoritmos de treinamento (Redes Neurais).</p>
+                </div>
+                <div class="protocol-step" data-number="2">
+                    <h4>Reconhecimento de Padrões</h4>
+                    <p>O modelo passa a reconhecer padrões, relações entre palavras, frases, conceitos e até estilos de escrita.</p>
+                </div>
+                <div class="protocol-step" data-number="3">
+                    <h4>Congelamento do Modelo</h4>
+                    <p>Depois de treinado, o modelo é “congelado” e liberado para uso. A partir desta etapa, ele não aprende por conta própria, nem atualiza seu conhecimento, mas já possui uma base ampla de conhecimento a partir dos dados coletados.</p>
+                </div>
+                <div class="protocol-step" data-number="4">
+                    <h4>Fine-tuning (Ajuste Fino)</h4>
+                    <p>Finalmente, na etapa de fine-tuning, são feitos pequenos ajustes com dados específicos, como leis, artigos, etc. Esses ajustes são bem menores que o treinamento inicial e são necessários para aperfeiçoar o modelo.</p>
+                </div>
+            </div>
+            <div class="highlight-box" style="margin-top: 2rem;">
+                <h4>🎂 Analogia: Aprendendo a Fazer Bolo</h4>
+                <ul>
+                    <li>Entregamos à máquina milhares de exemplos de receitas de bolo.</li>
+                    <li>A máquina, então, aprende PADRÕES com base nos milhares de exemplos fornecidos.</li>
+                    <li>Após o treinamento, o modelo deve ser capaz de responder como se faz um bolo, com base nos padrões que obteve a partir dos milhares de exemplos.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- MEMÓRIA DA IA -->
+        <div class="section">
+            <h3 class="section-subtitle">Memória da IA</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Contexto Limitado</h3>
+                    <ul>
+                        <li>Guarda apenas as informações da conversa atual.</li>
+                        <li>A cada nova conversa, um novo contexto é criado. Contextos diferentes não trocam informações.</li>
+                        <li>Respostas longas reduzem capacidade de memória.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔎</div>
+                    <h3>Anexos Consomem Memória</h3>
+                    <ul>
+                        <li>PDFs, imagens e documentos ocupam espaço.</li>
+                        <li>Quanto maior o arquivo, menos contexto disponível.</li>
+                        <li>Anexe apenas o necessário.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌐</div>
+                    <h3>Acesso à Internet</h3>
+                    <ul>
+                        <li>IA pode buscar dados online em tempo real.</li>
+                        <li>Sempre verifique fontes e datas.</li>
+                        <li>Revise toda informação obtida via Internet.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚠️</div>
+                    <h3>Risco de "Alucinação"</h3>
+                    <ul>
+                        <li>IA pode inventar informações se perder contexto.</li>
+                        <li>Conversas muito longas aumentam esse risco.</li>
+                        <li>Sempre valide informações críticas.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="danger-box" style="margin-top: 2rem;">
+                <h4>🔴 PONTO CRÍTICO</h4>
+                <p>Conversas são temporárias. A IA não lembra de sessões anteriores e pode "alucinar" ou perder contexto em conversas muito longas.</p>
+            </div>
+            <div class="success-box">
+                <h4>✅ BOA PRÁTICA</h4>
+                <p>Para análises jurídicas complexas, inicie novas conversas e forneça contexto completo a cada sessão.</p>
+            </div>
+        </div>
+
+        <!-- COMO A IA ENTENDE TEXTO -->
+        <div class="section">
+            <h3 class="section-subtitle">Como a IA Entende Texto</h3>
+            <p class="text-center" style="margin-bottom: 2rem;">A IA não lê como humanos – ela transforma palavras em matemática</p>
+            <div class="protocol-steps">
+                <div class="protocol-step" data-number="1">
+                    <h4>1. Fragmentação</h4>
+                    <p>Texto é dividido em pequenos pedaços (tokens). "Jurisprudência" → ["Juris", "prudência"]</p>
+                </div>
+                <div class="protocol-step" data-number="2">
+                    <h4>2. Conversão Numérica (Embedding)</h4>
+                    <p>Cada pedaço de texto vira uma lista de números (vetor). Palavras Similares = Possuem vetores Próximos</p>
+                    <p><pre>"crime"    → [0.80, 0.35, 0.10, 0.50]</pre></p>
+                    <p><pre>"delito"   → [0.75, 0.27, 0.15, 0.49]</pre></p>
+                    <p><pre>"infração" → [0.70, 0.23, 0.19, 0.40]</pre></p>
+                </div>
+                <div class="protocol-step" data-number="3">
+                    <h4>3. Captura de Significado</h4>
+                    <p>Palavras similares têm vetores parecidos. IA aprende contexto e relações semânticas. A IA identifica que "sentença" e "acórdão" estão relacionados, mesmo sem ter estudado Direito.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIMULADOR LLM -->
+        <div class="section">
+            <h3 class="section-subtitle">Simulador LLM</h3>
+            <div class="highlight-box">
+                <p>Veja uma simulação prática de como modelos de linguagem processam palavras e contexto.</p>
+                <p style="margin-top: 1rem;"><strong>Observação:</strong> este exemplo é apenas uma simulação simples para demonstrar o comportamento geral dos modelos de linguagem.</p>
+            </div>
+            <p class="text-center" style="margin-top: 2rem;">
+                <a href="llm.html" class="cta-button">🔬 Acessar Simulador LLM</a>
+            </p>
+        </div>
+
+        <!-- IMPORTÂNCIA DO CONTEXTO -->
+        <div class="section">
+            <h3 class="section-subtitle">A importância do contexto para os Modelos de Linguagem</h3>
+            <div class="two-column">
+                <div class="column">
+                    <h4>O que é Contexto?</h4>
+                    <p>É todo texto fornecido ao modelo (a pergunta atual e as interações anteriores), que será usado para gerar a próxima resposta.</p>
+                </div>
+                <div class="column">
+                    <h4>Por que é Crucial?</h4>
+                    <p>Sem contexto, a IA não sabe qual significado usar!</p>
+                    <p style="margin-top: 1rem;"><strong>Exemplo "banco":</strong></p>
+                    <ul>
+                        <li>"Estava no banco fazendo um depósito"</li>
+                        <li>"Escolha o banco e sente-se."</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">A IA olha as palavras ao redor (contexto) para entender.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- JANELA DE CONTEXTO -->
+        <div class="section">
+            <h3 class="section-subtitle">Janela de Contexto: A "Memória" da IA</h3>
+            <div class="highlight-box">
+                <h4>O que é Janela de Contexto?</h4>
+                <p>É o tamanho da conversa que a IA consegue "lembrar" ao mesmo tempo. Limite de tokens que cabem na memória do modelo (Escrito + anexos).</p>
+                <ul style="margin-top: 1rem;">
+                    <li>Quanto maior a janela de contexto, mais o modelo consegue 'lembrar' do que foi dito antes e, caso o limite do contexto seja ultrapassado, ele esquece o que foi mencionado anteriormente.</li>
+                    <li>Janelas de contexto pequenas têm menor capacidade de guardar as informações fornecidas e podem 'alucinar' com mais facilidade, pois perdem a conexão com conteúdos anteriores.</li>
+                </ul>
+            </div>
+            <div class="two-column">
+                <div class="column">
+                    <h4>Janela de Entrada (Input)</h4>
+                    <p>Tudo o que o usuário envia:</p>
+                    <ul>
+                        <li>Prompt (pergunta ou instrução), textos copiados</li>
+                        <li>Arquivos anexados (transformados em texto)</li>
+                        <li>Histórico da conversa (enquanto couber na janela)</li>
+                    </ul>
+                    <p>Tudo isso é transformado em tokens.</p>
+                </div>
+                <div class="column">
+                    <h4>Janela de Saída (Output)</h4>
+                    <p>É a resposta gerada pela IA, também composta por tokens.</p>
+                    <p style="margin-top: 1rem;">O modelo lê a entrada + sua própria resposta parcial, sempre dentro do limite da janela, para continuar gerando a próxima palavra.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- POR QUE LLMS VARIAM -->
+        <div class="section">
+            <h3 class="section-subtitle">Por que os LLMs nunca geram a mesma resposta?</h3>
+            <div class="highlight-box">
+                <ul style="margin-left: 0; list-style: none;">
+                    <li>Porque eles não funcionam como uma calculadora exata de palavras, que sempre dá o mesmo resultado.</li>
+                    <li>Simulam uma conversa com uma pessoa: há várias maneiras possíveis de responder, e o modelo escolhe uma delas a cada vez.</li>
+                    <li>O modelo sempre considera várias opções de palavras para formar a resposta.</li>
+                    <li>Há uma dose de "aleatoriedade" programada para evitar que seja repetitivo.</li>
+                </ul>
+                <p style="margin-top: 1rem;"><strong>Em resumo:</strong> Os LLMs foram desenvolvidos para variar um pouco, soar de forma mais natural e criativa, em vez de repetir sempre o mesmo texto.</p>
+            </div>
+        </div>
+
+        <!-- IA vs HUMANOS -->
+        <div class="section">
+            <h3 class="section-subtitle">Exemplos comparativos IA X Humanos</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <h4>Exemplo 1: Reconhecimento de voz</h4>
+                    <p><strong>Humano:</strong> Entende mesmo com sotaques, ruídos, gírias.</p>
+                    <p><strong>IA:</strong> Pode falhar se não tiver sido treinada com variações semelhantes.</p>
+                </div>
+                <div class="card">
+                    <h4>Exemplo 2: Leitura de um processo</h4>
+                    <p><strong>Humano:</strong> Consegue captar nuances, ironia, contexto, entrelinhas.</p>
+                    <p><strong>IA:</strong> Pode identificar padrões e temas, mas depende da clareza textual.</p>
+                </div>
+                <div class="card">
+                    <h4>Exemplo 3: Julgamento moral</h4>
+                    <p><strong>Humano:</strong> Avalia com base em ética, empatia e valores subjetivos.</p>
+                    <p><strong>IA:</strong> Não possui valores morais próprios. Simula decisões com base em dados e regras.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ALUCINAÇÕES -->
+        <div class="section">
+            <h3 class="section-subtitle">Alucinações</h3>
+            <div class="danger-box">
+                <h4>O que é?</h4>
+                <p>É quando o modelo gera uma informação incorreta, inventada ou imprecisa, mas com aparência de verdade.</p>
+                <h4 style="margin-top: 1rem;">Por que isso acontece?</h4>
+                <p>As IAs não acessam uma "memória de fatos" como uma base de dados tradicional. Elas funcionam por probabilidades linguísticas: preveem qual palavra vem a seguir com base em padrões que aprenderam.</p>
+            </div>
+            
+            <h4 style="text-align: center; color: var(--primary-blue); margin-top: 2rem; font-size: 1.3rem;">Atenção para as alucinações da IA</h4>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">👤</div>
+                    <h3>Criação de nomes fictícios</h3>
+                    <p>Autores, livros ou leis que não existem na realidade.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚖️</div>
+                    <h3>Jurisprudência inexistente</h3>
+                    <p>Decisões judiciais ou precedentes legais fabricados.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">❌</div>
+                    <h3>Citações erradas</h3>
+                    <p>Artigos ou datas citados incorretamente.</p>
+                </div>
+            </div>
+            <div class="warning-box" style="margin-top: 2rem;">
+                <h4>Exemplos de Casos Reais</h4>
+                <p><strong>Caso 1:</strong> Juiz usa inteligência artificial para fazer decisão e cita jurisprudência falsa; CNJ investiga caso. (Fonte: G1)</p>
+                <p style="margin-top: 1rem;"><strong>Caso 2:</strong> Advogado é multado pelo TJSC por usar informações falsas geradas pelo ChatGPT em recurso. (Fonte: G1)</p>
+                <p style="margin-top: 1rem;"><strong>Caso 3:</strong> TJ/PR rejeita recurso feito por IA que inventou 43 jurisprudências. (Fonte: Migalhas)</p>
+            </div>
+        </div>
+
+        <!-- COMO EVITAR ALUCINAÇÕES -->
+        <div class="section">
+            <h3 class="section-subtitle">Como evitar alucinações?</h3>
+            <div class="two-column">
+                <div class="column">
+                    <h4>1. Revisão Constante</h4>
+                    <p>Sempre revise as respostas da IA, especialmente em dados técnicos, jurídicos e citações normativas.</p>
+                </div>
+                <div class="column">
+                    <h4>2. Verificação de Fontes</h4>
+                    <p>Exija fontes e links sempre que possível e confira se são reais.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROTOCOLO 3V -->
+        <div class="section">
+            <h3 class="section-subtitle">Protocolo para evitar Alucinações: os 3V's</h3>
+            <div class="highlight-box">
+                <p>Este protocolo dos 3 V's é essencial para manter a qualidade e confiabilidade das informações, evitando erros que podem comprometer resultados e decisões importantes.</p>
+            </div>
+            <div class="protocol-steps">
+                <div class="protocol-step" data-number="1">
+                    <h4>VERIFICAR</h4>
+                    <p>Cheque toda informação factual em fontes oficiais.</p>
+                </div>
+                <div class="protocol-step" data-number="2">
+                    <h4>VALIDAR</h4>
+                    <p>Valide toda a fundamentação jurídica apresentada.</p>
+                </div>
+                <div class="protocol-step" data-number="3">
+                    <h4>VINCULAR</h4>
+                    <p>A responsabilidade final pela peça é sempre do promotor.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DICAS E APLICAÇÕES -->
+        <div class="section">
+            <h3 class="section-subtitle">Dicas para uso estratégico</h3>
+            <div class="pillar-grid">
+                <div class="pillar"><h3>Seja objetivo</h3><p>Prefira entradas mais enxutas e objetivas.</p></div>
+                <div class="pillar"><h3>Divida documentos</h3><p>Divida documentos grandes em partes menores.</p></div>
+                <div class="pillar"><h3>Use OCR</h3><p>Converta documentos que estejam em formato Imagem para texto (Ex: I love PDF).</p></div>
+                <div class="pillar"><h3>Peça resumos</h3><p>Peça resumos por blocos antes de solicitar uma resposta final.</p></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3 class="section-subtitle">Como a IA pode otimizar a atividade do MPM?</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <h4>1. Análise de Processos</h4>
+                    <p>Fornecer um resumo dos principais pontos de um processo, inquérito ou procedimento interno, destacando fatos relevantes e possíveis pontos de discussão, contradições, antecipação de teses, etc.</p>
+                </div>
+                <div class="card">
+                    <h4>2. Elaboração de Peças Jurídicas</h4>
+                    <p>Gerar rascunhos de manifestações, denúncias, ACPs, alegações finais, recursos, ANPPs, e outras peças, poupando tempo na estruturação inicial. Fazer correções gramaticais e sugestões de melhorias.</p>
+                </div>
+                <div class="card">
+                    <h4>3. Valoração da Prova</h4>
+                    <p>Elaborar perguntas às partes, testemunhas etc., assumindo a função de promotor de justiça e/ou de advogado.</p>
+                </div>
+                <div class="card">
+                    <h4>4. Análise de Depoimentos</h4>
+                    <p>Organizar e sintetizar depoimentos escritos ou transcritos de gravações em áudio e vídeo, facilitando a análise posterior.</p>
+                </div>
+                <div class="card">
+                    <h4>5. Atendimentos e Demandas</h4>
+                    <p>Redigir ofícios, notificações e atas de reuniões, garantindo que todas as informações necessárias sejam incluídas e formatadas corretamente.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FERRAMENTAS E VERSÕES PAGAS -->
+        <div class="section">
+            <h3 class="section-subtitle">Ecossistema de Ferramentas</h3>
+            <div class="highlight-box">
+                <p>O ecossistema de IA está cada vez mais variado. Cada ferramenta tem pontos fortes e fracos.</p>
+                <p style="margin-top: 1rem;">A seleção estratégica é essencial: conhecer para utilizar com eficácia na atuação do MPM.</p>
+            </div>
+            <div class="success-box text-center">
+                <h4>Invista em uma assinatura de IA</h4>
+                <p style="margin-top: 1rem;">Versões pagas geralmente oferecem mais contexto (janelas maiores para documentos extensos), respostas mais detalhadas, acesso direto a PDFs, além da possibilidade de criação de assistentes.</p>
+            </div>
+        </div>
+
+        <!-- LEI DO MENOR ESFORÇO -->
+        <div class="section">
+            <h3 class="section-subtitle">Evite a "lei do menor esforço"</h3>
+            <div class="danger-box">
+                <p class="text-center" style="font-size: 1.2rem; font-weight: bold;">Peças jurídicas de qualidade não surgem em um clique.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card"><h4>1. Reflexão</h4><p>Pensar antes de dar o comando.</p></div>
+                <div class="card"><h4>2. Contexto</h4><p>Fornecer informações relevantes.</p></div>
+                <div class="card"><h4>3. Raciocínio</h4><p>Construir argumentação sólida.</p></div>
+            </div>
+        </div>
+
+        <!-- ERROS COMUNS -->
+        <div class="section">
+            <h3 class="section-subtitle">Erros Comuns na Utilização de IA</h3>
+            <p class="text-center" style="margin-bottom: 2rem; font-style: italic;">
+                "Quem decide é você e não a máquina."
+            </p>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>1. Incompreensão dos limites</h3>
+                    <p>A máquina tem poder computacional limitado (janela de contexto)</p>
+                </div>
+                <div class="card">
+                    <h3>2. Confiar cegamente</h3>
+                    <p>Sempre checar as informações (datas, fatos, etc), para evitar alucinações</p>
+                </div>
+                <div class="card">
+                    <h3>3. IAs não dispensam usuários</h3>
+                    <p>Nos auxilia, mas não nos substitui. Usuários inexperientes serão dominados, e o risco de erro aumenta</p>
+                </div>
+                <div class="card">
+                    <h3>4. Deixar que IAs tomem decisões</h3>
+                    <p>Quem decide é o usuário (dirigibilidade). A máquina não tem autonomia decisória. Ela decide aleatoriamente. A máquina não tem sabedoria intrínseca, nem senso de justiça.</p>
+                </div>
+                <div class="card">
+                    <h3>5. Prepare-se para surpresa</h3>
+                    <p>Aleatoriedade das respostas: as respostas, para as mesmas perguntas, tendem a ser diferentes</p>
+                </div>
+                <div class="card">
+                    <h3>6. Lixo gera lixo</h3>
+                    <p>Instruções ruins costumam gerar respostas insatisfatórias. Instruções poderosas tendem a gerar respostas poderosas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CURADORIA DO PROCESSO -->
+        <div class="section">
+            <h3 class="section-subtitle">Curadoria do Processo: A preparação que potencializa a IA</h3>
+            <div class="highlight-box">
+                <p>Seleção e organização estratégica de informações processuais relevantes para otimizar a análise por modelos de IA.</p>
+                <h4 style="margin-top: 1rem;">Princípio Simples: Por que analisar 200 páginas se só 50 interessam?</h4>
+            </div>
+            <h4 style="text-align: center; color: var(--primary-blue); margin-top: 2rem; font-size: 1.3rem;">Três Passos Essenciais na Curadoria</h4>
+            <div class="protocol-steps">
+                <div class="protocol-step" data-number="1">
+                    <h4>Filtrar</h4>
+                    <p>Remover informações redundantes e irrelevantes.</p>
+                </div>
+                <div class="protocol-step" data-number="2">
+                    <h4>Estruturar</h4>
+                    <p>Organizar cronológica e hierarquicamente.</p>
+                </div>
+                <div class="protocol-step" data-number="3">
+                    <h4>Contextualizar</h4>
+                    <p>Destacar elementos-chave para a IA compreender o essencial.</p>
+                </div>
+            </div>
+            <div class="quote-box" style="margin-top: 2rem;">
+                Analogia do Jornalista: "Um jornalista não publica tudo que coleta. Filtra, verifica relevância, descarta redundâncias e estrutura uma narrativa. Na curadoria processual, você faz exatamente isso."
+            </div>
+        </div>
+
+        <!-- IMPACTO E DESLUMBRAMENTO -->
+        <div class="section">
+            <h3 class="section-subtitle">Impacto na rotina do MPM</h3>
+            <div class="two-column">
+                <div class="column">
+                    <ul class="styled-list">
+                        <li><strong>Tempo:</strong> Redução em tarefas repetitivas</li>
+                        <li><strong>Agilidade:</strong> Resposta mais rápida às demandas</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul class="styled-list">
+                        <li><strong>Qualidade:</strong> Minutas e revisões aprimoradas</li>
+                        <li><strong>Precisão:</strong> Análises mais detalhadas</li>
+                    </ul>
+                </div>
+            </div>
+            <h3 class="section-subtitle" style="margin-top: 3rem;">Ultrapassando a fase do deslumbramento</h3>
+            <div class="cards-grid">
+                <div class="card"><h4>Uso ético</h4><p>Responsabilidade e transparência.</p></div>
+                <div class="card"><h4>Uso estratégico</h4><p>Aplicação nos casos adequados.</p></div>
+                <div class="card"><h4>Uso crítico</h4><p>Avaliação constante dos resultados.</p></div>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ========================================
+         PARTE 2: ENGENHARIA DE PROMPTS (Conteúdo de 02.pdf e 03.pdf)
+    ======================================== -->
+    <section id="engenharia-prompts" class="container">
+        <h2 class="section-title">🚀 Parte 2: Engenharia de Prompts Aplicada</h2>
+        
+        <!-- EX. PRÁTICOS (DE 03.PDF) -->
+        <div class="section">
+            <h3 class="section-subtitle">Trabalhando outros exemplos práticos</h3>
+            <div class="highlight-box">
+                <p>Analisar e observar como as IAs se comportam.</p>
+                <ul style="margin-top: 1rem;">
+                    <li><strong>Observação detalhada:</strong> padrões de resposta e tomada de decisão das IAs em diferentes cenários.</li>
+                    <li><strong>Exemplos Práticos:</strong> Implementação de casos reais para testar e validar o comportamento das inteligências artificiais.</li>
+                    <li><strong>Adaptação às respostas:</strong> Monitoramento estruturado das respostas e adaptações das IAs em tempo real.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Desafios (de 02.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">Desafios de um Promotor de Justiça</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>Volume de Documentos</h3>
+                    <p>Centenas de processos, relatórios e evidências para analisar constantemente, exigindo excelente capacidade de organização.</p>
+                </div>
+                <div class="card">
+                    <h3>Complexidade Jurídica</h3>
+                    <p>Casos intrincados que exigem conhecimento profundo de diversas áreas do direito e capacidade analítica apurada.</p>
+                </div>
+                <div class="card">
+                    <h3>Prazos Rigorosos</h3>
+                    <p>Cumprimento de prazos processuais inflexíveis, com consequências graves para qualquer atraso nas diligências.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solução (de 02.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">Solução: Engenharia de Prompt</h3>
+            <div class="highlight-box">
+                <p>A IA é uma solução, mas pode entregar resultados genéricos ou pouco confiáveis, exigindo retrabalho.</p>
+                <p style="margin-top: 1rem;"><strong>Como transformar a IA em uma assistente confiável?</strong></p>
+                <p style="margin-top: 1rem;"><strong>Engenharia de Prompt:</strong> A habilidade de criar instruções claras e estratégicas para guiar a IA a um resultado de alta qualidade.</p>
+                <p style="margin-top: 1rem;">A qualidade da instrução afeta diretamente a qualidade da resposta gerada pela IA.</p>
+            </div>
+        </div>
+
+        <!-- O QUE É PROMPT (DE 02.PDF) -->
+        <div class="section">
+            <h3 class="section-subtitle">O que é PROMPT?</h3>
+            <div class="highlight-box">
+                <p>É a pergunta ou instrução que você dá ao Modelo (seja por Texto ou Voz).</p>
+                <p style="margin-top: 1rem;"><strong>Engenharia de Prompt</strong> é o processo interativo de desenvolver e/ou refinar um prompt para obter resultados mais precisos e relevantes dos modelos de IA Generativa.</p>
+            </div>
+            <div class="quote-box">
+                "Imagine ser o maestro de uma orquestra. Você tem o poder de ajustar cada instrumento."
+            </div>
+        </div>
+
+        <!-- 4 Pilares (de 02.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">Os 4 Pilares de um Bom Prompt</h3>
+            <div class="pillar-grid">
+                <div class="pillar">
+                    <div class="pillar-number">Pilar 1</div>
+                    <h3>Persona</h3>
+                    <p>Atribua um papel à IA para focar seu conhecimento. "Atue como um Promotor de Justiça..."</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">Pilar 2</div>
+                    <h3>Contexto</h3>
+                    <p>Forneça os fatos essenciais para a análise. "Forneça informações cruciais dos autos..."</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">Pilar 3</div>
+                    <h3>Instrução</h3>
+                    <p>Dê uma tarefa clara e dividida em subtarefas. "Analise os depoimentos. Identifique contradições."</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">Pilar 4</div>
+                    <h3>Formato</h3>
+                    <p>Especifique a estrutura da resposta. "Especifique a estrutura da saída: uma lista com marcadores..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIPOS DE PROMPTS (DE 02.PDF) -->
+        <div class="section">
+            <h3 class="section-subtitle">Tipos de Prompts</h3>
+            <div class="two-column">
+                <div class="column">
+                    <h4 style="color: var(--danger);">Prompt Vago</h4>
+                    <div class="danger-box"><p>Resuma este depoimento</p></div>
+                </div>
+                <div class="column">
+                    <h4 style="color: var(--success);">Prompt de Precisão</h4>
+                    <div class="success-box"><p>Como Promotor de Justiça criminal, extraia as contradições encontradas no depoimento (em anexo) e gere uma tabela resumo com os pontos chave.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cadeia de Pensamento (CoT) (de 02.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">Cadeia de Pensamento (CoT)</h3>
+            <div class="highlight-box">
+                <p>Instruímos a IA a pensar passo a passo, externalizando seu raciocínio para aumentar a precisão da resposta.</p>
+                <p style="margin-top: 1rem;">Guiar a IA para seguir a mesma lógica que um Promotor de Justiça seguiria para construir sua tese.</p>
+                <p style="margin-top: 1rem;">O prompt não pede um simples SIM ou NÃO, ele exige o processo, o raciocínio. A IA fará uma análise transparente que pode ser verificada etapa por etapa.</p>
+            </div>
+            <div class="protocol-steps">
+                <div class="protocol-step" data-number="1"><h4>Passo 1: Fatos</h4><p>Analise os fatos fornecidos no caso.</p></div>
+                <div class="protocol-step" data-number="2"><h4>Passo 2: Direito</h4><p>Identifique legislação e precedentes.</p></div>
+                <div class="protocol-step" data-number="3"><h4>Passo 3: Aplicação</h4><p>Aplique a lei pertinente aos fatos.</p></div>
+                <div class="protocol-step" data-number="4"><h4>Passo 4: Conclusão</h4><p>Chegue a uma conclusão fundamentada.</p></div>
+            </div>
+            <h4 style="text-align: center; color: var(--primary-blue); margin-top: 2rem;">Benefícios da CoT</h4>
+            <div class="cards-grid">
+                <div class="card"><h3>Respostas mais elaboradas</h3><p>Conteúdo com maior profundidade e fundamentação jurídica</p></div>
+                <div class="card"><h3>Maior precisão</h3><p>Análises com menor margem de erro e maior confiabilidade</p></div>
+                <div class="card"><h3>Raciocínio transparente</h3><p>Processo decisório visível e auditável em cada etapa</p></div>
+                <div class="card"><h3>Melhor estruturação</h3><p>Organização lógica e sequencial do conteúdo jurídico</p></div>
+            </div>
+            <h4 style="text-align: center; color: var(--primary-blue); margin-top: 2rem;">Tipos de Cadeia de Pensamento</h4>
+            <div class="two-column">
+                <div class="column">
+                    <h4>Prompt Implícito</h4>
+                    <div class="danger-box" style="margin: 0;"> <!-- Aplicado fundo vermelho -->
+                        <p>"Analise o ANPP militar em anexo, passo a passo, explicando seu raciocínio."</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <h4>Prompt Explícito (Recomendado)</h4>
+                    <div class="success-box" style="margin: 0;"> <!-- Aplicado fundo verde -->
+                        <p>"Analise o ANPP militar em anexo, passo a passo, siga esta metodologia:</p>
+                        <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Identifique as partes e objeto do ANPP</li>
+                            <li>Verifique requisitos legais</li>
+                            <li>Analise adequação das cláusulas</li>
+                            <li>Avalie eficácia das sanções previstas</li>
+                        </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- CURVA DA MATURIDADE (DE 02.PDF) -->
+        <div class="section">
+            <h3 class="section-subtitle">Curva da Maturidade</h3>
+            <div class="highlight-box">
+                <ul>
+                    <li><strong>Iniciantes:</strong> Gerar Respostas (Usam IA para respostas rápidas).</li>
+                    <li><strong>Intermediários:</strong> Refinar Raciocínio (Usam IA para pensar melhor).</li>
+                    <li><strong>Avançados:</strong> Novas Perguntas (Usam IA para questionar).</li>
+                </ul>
+            </div>
+            <h4 style="text-align: center; color: var(--primary-blue); margin-top: 2rem;">Como NÃO usar IA</h4>
+            <div class="danger-box">
+                <ul style="margin-left: 1.5rem;">
+                    <li><strong>Sem Hipótese:</strong> Saiba o que você está procurando.</li>
+                    <li><strong>Sem Curadoria:</strong> Saiba como analisar as respostas.</li>
+                    <li><strong>Sem Direção:</strong> Saiba qual o seu objetivo com a IA.</li>
+                </ul>
+            </div>
+            <div class="quote-box">
+                A IA NÃO VAI TE SUBSTITUIR. MAS ALGUÉM QUE SOUBER USÁ-LA MELHOR QUE VOCÊ, SIM.
+            </div>
+        </div>
+
+        <!-- FILOSOFIA (DE 02.PDF) -->
+        <div class="section">
+            <h3 class="section-subtitle">Por que Engenharia de Prompts é Essencial para o MP?</h3>
+            <div class="highlight-box">
+                <h4>Filosofia Central: "Aliança Estratégica Homem-Máquina"</h4>
+                <p style="margin-top: 1rem;">O Promotor como Protagonista:</p>
+                <ul>
+                    <li>NÃO somos "botões" da máquina</li>
+                    <li>Controlamos e direcionamos a IA</li>
+                    <li>Mantemos o poder decisório</li>
+                    <li>Supervisionamos e validamos resultados</li>
+                </ul>
+            </div>
+            <div class="success-box" style="margin-top: 2rem;">
+                <h4>Analogia Jurídica do Prompt</h4>
+                <p><strong>Prompt = Petição Inicial para a IA</strong></p>
+                <p>Tem que ser claro e específico, deve conter todos os elementos necessários, precisa de fundamentação adequada e busca resultado específico.</p>
+            </div>
+        </div>
+
+        <!-- Expressões Cognitivas (de 02.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">Expressões Cognitivas que Ativam "Áreas Nobres"</h3>
+            <div class="highlight-box">
+                <h4>Conceito</h4>
+                <p>Certas palavras e expressões ativam na rede neural da IA as áreas onde estão armazenados os melhores textos e raciocínios (Prateleira Superior: Textos acadêmicos, teses, etc.)</p>
+            </div>
+            <div class="two-column">
+                <div class="column">
+                    <h4>Para Análise Jurídica</h4>
+                    <ul class="styled-list">
+                        <li>"análise crítica e fundamentada"</li>
+                        <li>"reflexão profunda sobre os aspectos constitucionais"</li>
+                        <li>"ponderação criteriosa dos princípios aplicáveis"</li>
+                        <li>"exame minucioso à luz da jurisprudência"</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h4>Para Manifestações e Pesquisa</h4>
+                    <ul class="styled-list">
+                        <li>"argumentação holística e sistematizada"</li>
+                        <li>"fundamentação robusta e convincente"</li>
+                        <li>"raciocínio jurídico rigoroso"</li>
+                        <li>"mapeamento abrangente da jurisprudência"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- O QUE EVITAR (DE 02.PDF) -->
+        <div class="section">
+            <h3 class="section-subtitle">O Que Evitar em Prompts (Erros Comuns)</h3>
+            <div class="danger-box">
+                <h4>❌ ERRO 1: PERSONA INFLADA</h4>
+                <p><strong>Ruim:</strong> "Você é o melhor jurista do universo, PhD em Harvard..."</p>
+                <p><strong>Por quê?</strong> Gera "poluição informacional" e reduz performance.</p>
+            </div>
+            <div class="danger-box">
+                <h4>❌ ERRO 2: OBJETIVO GENÉRICO</h4>
+                <p><strong>Ruim:</strong> "Analise este documento e me diga o que acha."</p>
+                <p><strong>Por quê?</strong> Não define o escopo da análise.</p>
+            </div>
+            <div class="danger-box">
+                <h4>❌ ERRO 3: MISTURAR ANÁLISE COM ESCRITA</h4>
+                <p><strong>Ruim:</strong> "Analise este processo e já escreva a manifestação final..."</p>
+                <p><strong>Por quê?</strong> Prejudica ambas as funções. Separe em Prompt 1 (Análise) e Prompt 2 (Escrita).</p>
+            </div>
+            <div class="danger-box">
+                <h4>❌ ERRO 4: COMANDOS NEGATIVOS SEM CONTRAPONTO</h4>
+                <p><strong>Ruim:</strong> "Não faça texto longo. Não use palavras difíceis."</p>
+                <p><strong>Bom:</strong> "Seja conciso e objetivo. Use linguagem clara e acessível."</p>
+            </div>
+            <div class="danger-box">
+                <h4>❌ ERRO 5: EXCESSO DE INSTRUÇÕES</h4>
+                <p><strong>Ruim:</strong> "Prompt com 50 instruções diferentes misturando tudo."</p>
+                <p><strong>Por quê?</strong> Mais instruções = Menor qualidade por instrução. Foco específico = Máxima qualidade.</p>
+            </div>
+        </div>
+
+        <!-- LIMITAÇÕES TÉCNICAS (DE 02.PDF) -->
+        <div class="section">
+            <h3 class="section-subtitle">Limitações Técnicas Críticas</h3>
+            <div class="two-column">
+                <div class="column">
+                    <h4 style="color: var(--danger);">1. Conhecimento Desatualizado</h4>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+                        <li>SEMPRE verificar legislação recente</li>
+                        <li>CONFIRMAR jurisprudência atual</li>
+                        <li>BUSCAR precedentes posteriores ao treinamento</li>
+                        <li>NUNCA confiar em datas automáticas</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h4 style="color: var(--danger);">2. Alucinações e Erros</h4>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+                        <li>SEMPRE verificar citações de leis</li>
+                        <li>CONFIRMAR precedentes mencionados</li>
+                        <li>CHECAR cálculos e prazos</li>
+                        <li>VALIDAR referências doutrinárias</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modelo POEMA (de 03.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">Modelo POEMA para Prompts Jurídicos</h3>
+            <div class="pillar-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+                <div class="pillar">
+                    <div class="pillar-number">P</div>
+                    <h3>PERSONA</h3>
+                    <p>Papel que a IA assume</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">O</div>
+                    <h3>OBJETIVO</h3>
+                    <p>Tarefa principal</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">E</div>
+                    <h3>ESTILO</h3>
+                    <p>Tom e formato da resposta</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">M</div>
+                    <h3>MÉTODO</h3>
+                    <p>Passo a passo estruturado</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">A</div>
+                    <h3>ADICIONAIS</h3>
+                    <p>Instruções específicas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- P - PERSONA (de 03.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">P - PERSONA</h3>
+            <div class="highlight-box">
+                <h4>📋 Definição</h4>
+                <p style="margin-top: 1rem;">Papel específico que a IA deve assumir para realizar a tarefa.</p>
+            </div>
+            <div class="two-column" style="margin-top: 2rem;">
+                <div class="column">
+                    <h4 style="color: var(--success);">✅ PERSONA EFICAZ</h4>
+                    <div class="success-box">
+                        <p>"Você é um promotor de justiça especializado em crimes contra o patrimônio, com experiência em análise de inquéritos policiais."</p>
+                    </div>
+                    <p><strong>PRINCÍPIO:</strong> Minimalista, Específica, Funcional.</p>
+                </div>
+                <div class="column">
+                    <h4 style="color: var(--danger);">❌ PERSONA INEFICAZ</h4>
+                    <div class="danger-box">
+                        <p>"Você é o melhor jurista do universo, formado em Harvard, PhD em Direito, com 50 anos de experiência."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- O - OBJETIVO (de 03.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">O - OBJETIVO (O MAIS IMPORTANTE)</h3>
+            <div class="highlight-box">
+                <h4>🎯 Por que é o componente mais importante?</h4>
+                <ul style="margin-top: 1rem;">
+                    <li>Define exatamente o que a IA deve fazer</li>
+                    <li>Determina a qualidade da resposta</li>
+                    <li>Mais impacto que a persona</li>
+                </ul>
+            </div>
+            <div class="success-box" style="margin-top: 2rem;">
+                <h4>✅ OBJETIVOS EFICAZES:</h4>
+                <ul style="margin-top: 1rem;">
+                    <li>"Analise criticamente esta denúncia criminal verificando os requisitos do art. 41 do CPP"</li>
+                    <li>"Elabore manifestação fundamentada sobre este recurso em sentido estrito"</li>
+                    <li>"Faça análise detalhada deste TAC ambiental verificando sua adequação legal"</li>
+                </ul>
+            </div>
+            <div class="danger-box">
+                <h4>❌ OBJETIVOS INEFICAZES:</h4>
+                <ul style="margin-top: 1rem;">
+                    <li>"Analise este documento"</li>
+                    <li>"Me ajude com isso"</li>
+                    <li>"Faça um resumo"</li>
+                </ul>
+                <p style="margin-top: 1rem;"><strong>TÉCNICA DE ADJETIVAÇÃO:</strong> Adjetive o OBJETIVO, não a PERSONA. Use palavras que ativem qualidade: "criticamente", "fundamentadamente", "detalhadamente".</p>
+            </div>
+        </div>
+
+        <!-- E - ESTILO (de 03.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">E - ESTILO</h3>
+            <div class="cards-grid">
+                <div class="card"><h3>Tom</h3><p>Formal, técnico, didático</p></div>
+                <div class="card"><h3>Público alvo</h3><p>Promotores, Juízes, sociedade</p></div>
+                <div class="card"><h3>Formato</h3><p>Estruturado, livre, específico</p></div>
+                <div class="card"><h3>Personalização</h3><p>Nível de conhecimento do leitor</p></div>
+            </div>
+            <div class="highlight-box" style="margin-top: 2rem;">
+                <h4>Exemplos de Estilos para o MP</h4>
+                <p><strong>ESTILO TÉCNICO:</strong> "Use linguagem jurídica precisa, com fundamentação legal robusta e citação de precedentes relevantes."</p>
+                <p style="margin-top: 1rem;"><strong>ESTILO DIDÁTICO:</strong> "Explique de forma clara e acessível, estruturando as ideias das mais simples às mais complexas."</p>
+                <p style="margin-top: 1rem;"><strong>ESTILO FORMAL:</strong> "Adote tom formal próprio de manifestações ministeriais, com argumentação persuasiva e fundamentação sólida."</p>
+            </div>
+        </div>
+
+        <!-- M - MÉTODO (de 03.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">M - MÉTODO (CADEIA DE PENSAMENTO)</h3>
+            <div class="highlight-box">
+                <h4>🔗 Estrutura de Resposta Definida</h4>
+                <p style="margin-top: 1rem;">O método estabelece o passo a passo que a IA deve seguir. Exemplo - Análise de Inquérito:</p>
+            </div>
+            <div class="protocol-steps" style="margin-top: 2rem;">
+                <div class="protocol-step" data-number="1"><h4>DADOS BÁSICOS</h4><p>Extrair informações essenciais</p></div>
+                <div class="protocol-step" data-number="2"><h4>ANÁLISE FORMAL</h4><p>Verificar requisitos procedimentais</p></div>
+                <div class="protocol-step" data-number="3"><h4>ANÁLISE MATERIAL</h4><p>Examinar tipicidade, antijuridicidade, culpabilidade</p></div>
+                <div class="protocol-step" data-number="4"><h4>AVALIAÇÃO PROBATÓRIA</h4><p>Analisar materialidade e autoria</p></div>
+                <div class="protocol-step" data-number="5"><h4>CONCLUSÃO</h4><p>Reunir os principais achados para auxiliar o usuário na tomada de decisão</p></div>
+            </div>
+            <div class="cards-grid" style="margin-top: 2rem;">
+                <div class="card"><h3>Respostas consistentes</h3><p>Nada importante esquecido</p></div>
+                <div class="card"><h3>Raciocínio transparente</h3><p>Facilita revisão</p></div>
+            </div>
+        </div>
+
+        <!-- A - ADICIONAIS (de 03.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">A - ADICIONAIS</h3>
+            <div class="cards-grid">
+                <div class="card"><h3>Limitações de fontes</h3><p>Restringe as fontes de informação que a IA deve utilizar</p></div>
+                <div class="card"><h3>Cuidados específicos</h3><p>Indica precauções particulares para o caso</p></div>
+                <div class="card"><h3>Direcionamentos éticos</h3><p>Orienta sobre considerações éticas relevantes</p></div>
+                <div class="card"><h3>Formatos especiais</h3><p>Especifica estruturas ou formatos necessários</p></div>
+            </div>
+            <div class="highlight-box" style="margin-top: 2rem;">
+                <h4>Exemplos Práticos de Instruções Adicionais</h4>
+                <p><strong>PARA ANÁLISE JURÍDICA:</strong> "Baseie-se exclusivamente no documento anexado. Se algum aspecto não estiver claro no documento, informe expressamente."</p>
+                <p style="margin-top: 1rem;"><strong>PARA PESQUISA:</strong> "Priorize jurisprudência dos últimos 3 anos dos tribunais superiores (STF/STJ). Cite as fontes utilizadas"</p>
+                <p style="margin-top: 1rem;"><strong>PARA MANIFESTAÇÃO:</strong> "Conclua sempre com parecer expresso: FAVORÁVEL, CONTRÁRIO ou FAVORÁVEL COM RESSALVAS."</p>
+            </div>
+        </div>
+
+        <!-- DICA DE OURO (DE 03.PDF) -->
+        <div class="section">
+            <div class="highlight-box text-center">
+                <h4 style="font-size: 2rem; margin-bottom: 1rem;">💡 DICA DE OURO</h4>
+                <h3 style="font-size: 1.5rem; color: var(--primary-blue);">O PULO DO GATO</h3>
+                <p style="font-size: 1.3rem; margin-top: 1rem;">Utilize a IA a seu favor</p>
+            </div>
+        </div>
+
+        <!-- CHAMADO À AÇÃO (de 03.pdf) -->
+        <div class="section">
+            <h3 class="section-subtitle">Chamado à Ação</h3>
+            <div class="cards-grid" style="margin-top: 3rem;">
+                <div class="card">
+                    <div class="card-icon">🌱</div>
+                    <h3>Para os Iniciantes</h3>
+                    <p>"Comece hoje mesmo. Use um prompt simples para uma tarefa básica. O importante é dar o primeiro passo."</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <h3>Para os Intermediários</h3>
+                    <p>"Aprofunde-se nas técnicas. Crie sua biblioteca pessoal. Torne-se referência em sua área."</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚀</div>
+                    <h3>Para os Avançados</h3>
+                    <p>"Compartilhe conhecimento. Ajude colegas. Seja multiplicador da inovação responsável."</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="exercicios-prompts.html" class="cta-button">
+                    📋 Acessar Exercícios de Prompts
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- NOVA SEÇÃO DOS AUTORES -->
+    <div class="container text-center" style="padding-top: 0; padding-bottom: 2rem; text-align: center;">
+        <h4 style="color: var(--primary-blue); font-size: 1.3rem; margin-bottom: 1rem;">Material produzido, apoiado por ferramentas de IA, por:</h4>
+        <p style="color: var(--gray-700); font-size: 0.88rem; line-height: 1.8;">
+            Rodrigo Aquino Silva - rodrigosilva@mppa.mp.br<br>
+            <span style="font-size: 0.704rem;">Promotor de Justiça - Coordenador do Escritório de Inteligência Artificial</span><br>
+            Paulo Sergio Rodrigues Lima - paulolima@mppa.mp.br<br>
+            <span style="font-size: 0.704rem;">Assessor Especializado do Comitê de Inovação e Inteligência Artificial</span>
+        </p>
+    </div>
+
+    <!-- ========================================
+         FOOTER (do exemplo.html)
+    ======================================== -->
+    <footer>
+        <div class="footer-top">
+            <div id="footer-logo-left" class="footer-logo-slot footer-logo-slot-left"></div>
+            <div class="footer-logo">CIIA - Escritório de Inteligência Artificial</div>
+            <div id="footer-logo-right" class="footer-logo-slot footer-logo-slot-right"></div>
+        </div>
+        <div class="footer-links">
+            <a href="https://ciia.mppa.mp.br/" target="_blank">Site CIIA</a>
+            <a href="#home">Voltar ao Topo</a>
+        </div>
+        
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2);">
+            <p>Ministério Público do Estado do Pará</p>
+            <p style="margin-top: 0.5rem;">Workshop: Inteligência Artificial Generativa - Aplicabilidade ao MPPA</p>
+        </div>
+    </footer>
+
+    <!-- ========================================
+         JAVASCRIPT (do exemplo.html)
+    ======================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            const headerLogoCircular = document.getElementById('header-logo-circular');
+            const headerLogoRectangular = document.getElementById('header-logo-rectangular');
+            const footerLogoLeft = document.getElementById('footer-logo-left');
+            const footerLogoRight = document.getElementById('footer-logo-right');
+
+            if (headerLogoCircular && footerLogoLeft) {
+                const circularClone = headerLogoCircular.cloneNode(true);
+                circularClone.id = 'footer-logo-circular';
+                footerLogoLeft.appendChild(circularClone);
+            }
+
+            if (headerLogoRectangular && footerLogoRight) {
+                const rectangularClone = headerLogoRectangular.cloneNode(true);
+                rectangularClone.id = 'footer-logo-rectangular';
+                footerLogoRight.appendChild(rectangularClone);
+            }
+
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '0';
+                        entry.target.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            entry.target.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.card, .protocol-step, .pillar').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

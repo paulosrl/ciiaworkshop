@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop IA - MPM | Prompts Práticos</title>
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --accent-blue: #60a5fa;
+            --dark-blue: #0f172a;
+            --light-blue: #dbeafe;
+            --gold: #fbbf24;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: var(--gray-900); background-color: var(--gray-100); }
+        
+        /* Navegação */
+        nav { background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: var(--white); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .nav-center { display: flex; align-items: center; justify-content: space-between; flex: 1; gap: 1.5rem; min-width: 0; }
+        nav .logo { font-size: 1.5rem; font-weight: bold; display: flex; align-items: center; gap: 0.75rem; white-space: nowrap; }
+        nav ul { list-style: none; display: flex; gap: 2rem; flex-wrap: wrap; justify-content: flex-end; }
+        .header-logo { display: block; object-fit: contain; flex-shrink: 0; }
+        .header-logo-circular { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.14); padding: 4px; }
+        .header-logo-rectangular { width: 132px; height: auto; max-height: 56px; }
+        nav a { color: var(--white); text-decoration: none; transition: color 0.3s; font-weight: 500; }
+        nav a:hover { color: var(--gold); }
+        
+        /* Hero */
+        .hero { background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: var(--white); padding: 4rem 2rem; text-align: center; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; line-height: 1.2; }
+        .hero .subtitle { font-size: 1.3rem; margin-bottom: 2rem; color: var(--light-blue); }
+        
+        /* Container e Seções */
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+        .section-title { font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1rem; text-align: center; position: relative; padding-bottom: 1rem; }
+        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: linear-gradient(90deg, var(--secondary-blue), var(--gold)); border-radius: 2px; }
+        .section-subtitle { text-align: center; font-size: 1.2rem; color: var(--gray-700); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+        
+        /* Estilos dos Prompts */
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        
+        .prompt-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .prompt-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+            text-align: left;
+            border-bottom: 2px solid var(--gray-200);
+            padding-bottom: 0.75rem;
+        }
+
+        .prompt-category {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-top: -1rem; /* Puxa para perto do h4 */
+            margin-bottom: 1.5rem; /* Dá espaço antes do prompt-box */
+        }
+        
+        /* Estilo da caixa de prompt */
+        .prompt-box {
+            margin-bottom: 1rem;
+        }
+        
+        .prompt-box pre, .prompt-box p {
+            background: var(--gray-100);
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--gray-900);
+            white-space: pre-wrap; /* Garante a quebra de linha */
+            word-wrap: break-word; /* Garante a quebra de palavra */
+            margin: 0;
+        }
+        
+        /* Ajuste para parágrafos dentro da prompt-box que não são código */
+        .prompt-box p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--white);
+            border: none;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilo da caixa de exemplo/aviso (amarela) */
+        .example-box, .warning-box {
+            background: #fffbe6;
+            border: 1px solid #ffe58f;
+            border-left: 4px solid var(--warning);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte de leitura */
+            font-size: 1rem;
+            line-height: 1.7; /* Melhor legibilidade */
+            color: var(--gray-700); /* Cor de texto mais escura */
+        }
+
+        .example-box pre {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-family: inherit; /* Herda a fonte do .example-box */
+            font-size: inherit;
+            line-height: inherit;
+            color: inherit;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .highlight-box { background: linear-gradient(135deg, var(--light-blue), var(--white)); border-left: 4px solid var(--secondary-blue); padding: 2rem; margin: 2rem 0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .highlight-box h4 { color: var(--primary-blue); margin-bottom: 1rem; font-size: 1.3rem; }
+
+        /* Tabela POEMA */
+        .poema-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .poema-table th, .poema-table td {
+            padding: 1rem;
+            border: 1px solid var(--gray-300);
+            text-align: left;
+            vertical-align: top;
+        }
+        .poema-table th {
+            background: var(--primary-blue);
+            color: var(--white);
+            font-weight: bold;
+        }
+        .poema-table tr:nth-child(even) {
+            background-color: var(--gray-100);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        /* Botão de Copiar */
+        .copy-btn {
+            display: inline-block;
+            background: var(--secondary-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+        }
+
+        /* --- NOVOS ESTILOS PARA LINKS DE IA --- */
+        .ai-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            padding-top: 0.5rem;
+            border-top: 1px dashed var(--gray-300);
+        }
+
+        .ai-btn {
+            display: inline-block;
+            background: var(--dark-blue); /* Tom de azul diferente (mais escuro) */
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .ai-btn:hover {
+            background: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+        /* -------------------------------------- */
+
+        /* Footer */
+        footer { background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue)); color: var(--white); padding: 3rem 2rem; text-align: center; margin-top: 4rem; }
+        .footer-top { max-width: 1200px; margin: 0 auto 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .footer-logo { font-size: 1.5rem; font-weight: bold; text-align: center; flex: 1; }
+        .footer-logo-slot { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .footer-logo-slot-left { min-width: 56px; }
+        .footer-logo-slot-right { min-width: 132px; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--white); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
+        
+        .divider { height: 2px; background: linear-gradient(90deg, transparent, var(--secondary-blue), transparent); margin: 4rem 0; }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .section-title { font-size: 2rem; }
+            nav .container { flex-direction: column; gap: 1rem; }
+            .nav-center { width: 100%; flex-direction: column; gap: 1rem; }
+            .header-logo-rectangular { width: 120px; }
+            .footer-top { flex-direction: column; gap: 1rem; }
+            .footer-logo-slot-left, .footer-logo-slot-right { min-width: 0; }
+            nav ul { flex-direction: column; gap: 1rem; text-align: center; }
+            .poema-table th, .poema-table td { padding: 0.5rem; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <img id="header-logo-circular" class="header-logo header-logo-circular" src="data:image/png;base64,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" alt="Logo circular Muiraquitã">
+            <div class="nav-center">
+                <div class="logo">
+                    CIIA - Escritório de Inteligência Artificial
+                </div>
+                <ul>
+                    <li><a href="index.html">Voltar ao Conteúdo</a></li>
+                </ul>
+            </div>
+            <img id="header-logo-rectangular" class="header-logo header-logo-rectangular" src="data:image/png;base64,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" alt="Logo retangular MPPA">
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <h1>Prompts Práticos</h1>
+        <div class="subtitle">Exercícios de Engenharia de Prompt para o MPM</div>
+    </section>
+
+    <section id="exercicios" class="container">
+        <h2 class="section-title">🚀 Mãos à obra!</h2>
+
+        <div class="prompt-grid">
+
+            <div class="prompt-card">
+                <h4>Prompt 1: Previsão de Palavras (LLM)</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-1">Vamos simular como funcionam as LLMs. Para cada frase que eu escrever, você deve listar apenas as 5 palavras mais prováveis para completá-la, junto com suas probabilidades em percentual (%) Não inclua explicações extras, apenas as palavras e as porcentagens.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-1', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 2: Previsão de Palavras (Continuação)</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-2">Eu gosto muito de inteligência artificial e quero trabalhar</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-2', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 3: Previsão de Palavras (Continuação)</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-3">Eu gosto muito de inteligência artificial e quero trabalhar com</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-3', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 4: Probabilidade de Condenação</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-4">Qual a PROBABILIDADE de CONDENAÇÃO no caso concreto em anexo? Dê um PERCENTUAL e sua JUSTIFICATIVA.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-4', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 5: Prompt Básico (Minuta)</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-5">Redija uma minuta de denúncia para um crime de furto qualificado no âmbito militar.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-5', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 6: Exemplo Único (One-shot)</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-6">Exemplo: Argumento usado em audiência de custódia risco de fuga. 
+Agora elabore outro argumento para justificar a manutenção da prisão preventiva.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-6', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 7: Poucos Exemplos (Few-shot)</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-7">Exemplo 1: Justificativa de denúncia em crime de tráfico - laudo pericial.
+Exemplo 2: Justificativa de denúncia em crime de corrupção - provas documentais. 
+Agora, crie uma justificativa para denúncia em crime militar de concussão.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-7', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 8: Contexto, Instrução e Persona</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-8">Atue como um Promotor de Justiça Militar em audiência. Elabore perguntas estratégicas para testemunhas em um caso de violência contra militar em serviço (art. 158 do CPM), visando esclarecer a dinâmica dos fatos, avaliar a consistência das declarações e obter elementos que permitam demonstrar a autoria e o dolo do agente.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-8', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 9: Cadeia de Pensamento (CoT)</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-9">Elabore PASSO A PASSO uma estratégia de atuação para elaborar uma minuta de alegações finais em crime de peculato contra militar. Inclua coleta de provas, fundamentação legal e pedidos principais.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-9', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 10: Resumo de Depoimento em Crime Militar</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-10">"Resuma o seguinte depoimento prestado em Inquérito Policial Militar sobre crime de deserção, destacando em lista de marcadores: (a) data e local da ausência; (b) unidade militar de origem; (c) circunstâncias da saída; (d) período de ausência; (e) eventual apresentação voluntária. [Cole aqui o depoimento completo]"</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-10', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+                <div class="example-box">
+                    <pre id="example-10">📄 <strong>Depoimento Soldado</strong><br>"Declarou que é Soldado do Exército Brasileiro, lotado no 23º Batalhão de Infantaria, sediado em Marabá/PA; que no dia 15 de março de 2024, por volta das 21h, ausentou-se da unidade militar sem qualquer autorização de seu comandante; que permaneceu ausente por um período de 42 dias; que durante sua ausência, permaneceu na cidade de Belém/PA, na residência de familiares; que não comunicou sua ausência à Organização Militar; que se apresentou voluntariamente no dia 26 de abril de 2024, por volta das 08h30, na Seção de Justiça do Batalhão; que o motivo da ausência foram problemas familiares; que tem ciência de que sua conduta pode configurar o crime de deserção previsto no Código Penal Militar. Nada mais disse nem lhe foi perguntado."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('example-10', this)">Copiar Exemplo</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 11: Análise de Tipicidade em Crime Militar</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-11">"Atuando como Promotor de Justiça Militar especializado em Direito Penal Militar, analise se a conduta de um militar que, em serviço de guarda, agrediu fisicamente um superior hierárquico que lhe deu ordem legal, subsume-se aos crimes de violência contra superior (art. 157 do CPM) e/ou desacato a superior (art. 298 do CPM). Liste os elementos do tipo de cada crime e fundamente juridicamente a conclusão."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-11', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 12: Tese Jurídica para Alegações Finais</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-12">"Atuando como Promotor de Justiça Militar da União, elabore 5 argumentos jurídicos fundamentados para sustentar a qualificadora de uso de arma (art. 157, §2º do CPM) em crime de violência contra superior, considerando que o réu militar utilizou uma faca durante a agressão ao seu comandante de pelotão. Fundamente com jurisprudência do STM quando aplicável, referenciando a fonte de onde extraiu a jurisprudência para checagem e conferência da veracidade."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-12', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 13: Análise de Assédio Sexual em Ambiente Militar</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-13">"Considerando o cenário abaixo, elabore parecer técnico, como Promotor de Justiça Militar, avaliando a existência de indícios suficientes de autoria e materialidade do crime de assédio sexual (art. 216-A do Código Penal, aplicado subsidiariamente por força do art. 9º do CPM), praticado por militar das Forças Armadas contra subordinada. Estruture o parecer em: (a) síntese dos fatos; (b) análise jurídica da tipicidade; (c) elementos probatórios mínimos; (d) consequências disciplinares e penais possíveis; (e) diligências complementares a serem requisitadas. Fundamente com legislação aplicável e, se houver, cite precedentes do STM ou da Justiça Federal/Estadual sobre assédio sexual, indicando referência pública."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-13', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+                <div class="example-box">
+                    <pre id="example-13"><strong>📋 Cenário para Análise:</strong>
+"Apura-se, no âmbito do Inquérito Policial Militar instaurado pelo Comando da 12ª Região Militar, que a Soldado A.F.S., lotada na Companhia de Suprimentos, relatou ter sido alvo de reiteradas investidas de caráter sexual feitas pelo Sargento R.M.F., seu superior hierárquico direto. Consta que, entre os dias 3 e 17 de setembro de 2024, durante o expediente, o Sargento teria enviado mensagens pelo aplicativo de comunicação interno da unidade, insinuando que a militar teria 'vantagens no serviço' caso 'fosse mais próxima' dele.
+A Soldado afirmou que, em duas oportunidades, o superior aproximou-se fisicamente, tocando-lhe o ombro e a cintura sem consentimento. Também relatou que passou a receber escalas de serviço mais desfavoráveis após recusar as investidas.
+Testemunhas do pelotão afirmaram ter percebido constrangimento evidente da Soldado e alteração injustificada em sua rotina de escalas. O investigado nega todas as condutas, alegando que as mensagens foram 'mal interpretadas' e que as mudanças de escala seguiram critérios administrativos."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('example-13', this)">Copiar Exemplo</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 14: Requisição de Documentos em IPM-V1</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-14">"Redija minuta de ofício para o Comando do 8º Distrito Naval, no âmbito de Inquérito Policial Militar que apura crime de peculato-furto (art. 303 do CPM), requisitando: (a) relação de militares com acesso ao almoxarifado no período de janeiro a março de 2024; (b) sistema de controle de entrada e saída de materiais; (c) cópias das fichas de movimentação de armamento; (d) eventual registro de auditoria interna. Utilize linguagem formal e técnica adequada ao MPM."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-14', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 15: Requisição de Documentos em IPM - V2</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-15">"Mimetize o [TIPO_DE_DOCUMENTO] anexado, copiando apenas os padrões estruturais e estilísticos de escrita, ignorando completamente o conteúdo específico.
+Foque em: ESTRUTURA: Organização de parágrafos e seções Uso de títulos, subtítulos e hierarquia - Formatação (negrito, itálico, listas, etc.) - Transições entre ideias
+ESTILO DE ESCRITA: - Tom e registro (formal, informal, técnico, etc.) - Extensão típica de frases e parágrafos - Padrões de vocabulário (complexidade, especificidade) - Uso de exemplos, analogias ou recursos explicativos - Estrutura argumentativa ou narrativa
+Aplique esses padrões estruturais e estilísticos ao conteúdo que eu fornecer, mantendo essa "voz" de escrita, mas adaptando ao novo conteúdo."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-15', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 16: Identificação de Elementos em Crime de Peculato</h4>
+                <h5 class="prompt-category">Crimes Contra a Administração Militar</h5>
+                <div class="prompt-box">
+                    <pre id="prompt-16">"Analise o seguinte cenário: Sargento responsável pelo almoxarifado de uma Organização Militar subtraiu para si 20 fuzis FAL e os vendeu a terceiros civis. Liste: (a) tipificação penal completa segundo o CPM; (b) elementos objetivos e subjetivos do tipo; (c) diferença entre peculato-apropriação, peculato-furto e peculato-desvio no contexto militar; (d) eventual concurso de crimes; (e) competência para processar e julgar. Fundamente com base no Código Penal Militar, com as alterações da Lei 14.688/23."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-16', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 17: Estrutura de Denúncia em Crime Militar</h4>
+                <div class="prompt-box">
+                    <pre id="prompt-17">"Crie um esqueleto estruturado para Denúncia em crime de deserção especial (art. 190 do CPM) cometido por Cabo da Aeronáutica que não se apresentou no momento da decolagem da aeronave de que era tripulante, permanecendo ausente por 15 dias. A estrutura deve conter: qualificação completa; exposição dos fatos (narrativa cronológica); tipificação penal fundamentada; capitulação legal; requerimentos probatórios; pedidos. Utilize linguagem técnico-jurídica adequada à Justiça Militar."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-17', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 18: Análise de Homicídio em Contexto Militar</h4>
+                <h5 class="prompt-category">Crimes Militares Contra a Pessoa</h5>
+                <div class="prompt-box">
+                    <pre id="prompt-18">"Um militar do Exército, durante discussão em serviço de guarda, efetuou disparos de fuzil contra outro militar, causando-lhe a morte. Analise juridicamente: (a) se o crime é da competência da Justiça Comum ou da Justiça Militar da União (art. 9º do CPM); (b) tipificação adequada considerando o local e circunstâncias do fato; (c) eventual qualificadora aplicável; (d) se há causa de aumento de pena pela ocorrência em serviço. Fundamente com base no CPM e na jurisprudência do STM e do STJ sobre competência, referenciando a fonte extraída para checagem da veracidade da informação."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-18', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 19: Estrutura de Recomendação Administrativa</h4>
+                <h5 class="prompt-category">Atuação Extrajudicial do MPM</h5>
+                <div class="prompt-box">
+                    <pre id="prompt-19">"Elabore a estrutura de uma Recomendação do Ministério Público Militar ao Comando do II Exército, tratando da necessidade de implementar protocolo de atendimento psicológico a militares com suspeita de transtornos mentais, visando prevenir casos de suicídio. A estrutura deve incluir: (a) considerandos legais (CF/88, Lei 13.675/2018, etc.); (b) considerandos fáticos; (c) objeto da recomendação; (d) medidas específicas recomendadas; (e) prazo para manifestação; (f) consequências do não atendimento."</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-19', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Prompt 20: Prompt para Identificação de "Red Flags" em Licitação</h4>
+                <h5 class="prompt-category">Área de Improbidade Administrativa</h5>
+                <div class="prompt-box">
+                    <pre id="prompt-20">"Analise este resumo de um edital de licitação do Exército Brasileiro. Liste possíveis "bandeiras vermelhas" (red flags) que possam indicar direcionamento, restrição indevida à competitividade ou indícios de sobrepreço, considerando a Lei nº 14.133/2021, a Lei nº 8.666/1993 (quando aplicável) e normas específicas do Ministério da Defesa e do Exército.
+O resumo do edital a ser analisado está descrito a seguir:"</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('prompt-20', this)">Copiar Prompt</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+                <div class="example-box">
+                    <pre id="example-20"><strong>📋 Resumo do Edital para Análise:</strong>
+EXTRATO DE EDITAL PREGÃO ELETRÔNICO Nº 012/2025 8ª RM (Exército Brasileiro)
+
+<strong>Órgão:</strong> Comando da 8ª Região Militar Exército Brasileiro
+<strong>Objeto:</strong> Contratação de empresa especializada para o fornecimento de equipamentos e materiais logísticos destinados ao apoio das atividades operacionais da 8ª RM, para o exercício de 2025.
+<strong>Modalidade:</strong> Pregão Eletrônico
+<strong>Critério de Julgamento:</strong> Menor preço global por lote único
+<strong>Data da Abertura:</strong> 15 de setembro de 2025, às 10h (horário de Brasília)
+<strong>Disponibilidade do Edital:</strong> Apenas mediante retirada presencial na Seção de Licitações da 8ª RM, condicionada ao pagamento de taxa de R$ 250,00.
+
+<strong>LOTE ÚNICO - Itens a serem fornecidos:</strong>
+• Mochila tática modular de 45L, exclusivamente da marca "Força Alpha Tactical", com sistema MOLLE reforçado.
+• Bota militar de couro hidrofugado, com certificação exclusiva "Combat-Pro Shield©", emitida por laboratório privado.
+• Kit de primeiros socorros individual, contendo curativos, torniquete e bandagem hemostática modelo "RedSeal Military", vedado o fornecimento de itens "similares".
+• Lanternas táticas LED de 1200 lúmens, obrigatoriamente compatíveis com o padrão de fixação "AlphaRail 2024".
+
+<strong>Condições de Habilitação (Resumo):</strong>
+• Atestado de capacidade técnica que comprove fornecimento, em um único contrato, de material logístico para organização militar das Forças Armadas, com quantitativo mínimo de 20.000 unidades.
+• A empresa deverá possuir filial instalada na região Norte há pelo menos 4 anos.
+• Certificação específica "Fornecedor Padrão Militar Categoria Ouro", emitida por associação privada composta por ex-militares.</pre>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copyToClipboard('example-20', this)">Copiar Exemplo</button>
+                    </div>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+        </div> <div class="divider"></div>
+        <h2 class="section-title" style="margin-top: 4rem;">🚀 Parte II: Exercícios Práticos Supervisionados</h2>
+        <p class="section-subtitle" style="max-width: 800px; margin: 0 auto 3rem auto; text-align: center;">Nesta fase, os participantes criarão seus próprios prompts com base em cenários práticos do Ministério Público Militar, utilizando a metodologia POEMA.</p>
+
+        <div class="highlight-box">
+            <h4>Metodologia POEMA</h4>
+            <p>Antes de iniciar os exercícios, compreenda os 5 componentes essenciais da técnica POEMA:</p>
+            
+            <table class="poema-table">
+                <thead>
+                    <tr>
+                        <th>Elemento</th>
+                        <th>Descrição e Exemplos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>P - Persona</strong></td>
+                        <td>
+                            <p>Quem a IA deve ser?</p>
+                            <p><em>Exemplos:</em> "Aja como Promotor de Justiça Militar especialista em crimes militares", "Você é perito criminal da Polícia Judiciária Militar", "Atue como jurista especializado em Direito Militar".</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>O - Objetivo</strong></td>
+                        <td>
+                            <p>O que você quer que a IA faça? Qual a tarefa principal?</p>
+                            <p><em>Exemplos:</em> "Analise este Inquérito Policial Militar e identifique crimes", "Elabore denúncia fundamentada", "Liste argumentos de defesa da hierarquia militar", "Resuma laudo pericial em linguagem técnica".</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>E - Estrutura</strong></td>
+                        <td>
+                            <p>Como a resposta deve ser formatada?</p>
+                            <p><em>Exemplos:</em> "Em tabela com 3 colunas: Crime, Artigo CPM, Fundamentação", "Em lista numerada e cronológica", "Como texto dissertativo dividido em seções", "Em formato de denúncia criminal".</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>M - Método</strong></td>
+                        <td>
+                            <p>Quais informações, leis, fatos e detalhes a IA precisa conhecer?</p>
+                            <p><em>Exemplos:</em> "Considere o Código Penal Militar", "O fato ocorreu em Organização Militar em Brasília/DF", "O acusado é militar da ativa", "Laudo pericial comprovou uso de armamento da Força", "Jurisprudência consolidada do STM".</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>A - Adicionais</strong></td>
+                        <td>
+                            <p>Para quem se destina a resposta? Requisitos adicionais?</p>
+                            <p><em>Exemplos:</em> "Linguagem técnica adequada para Conselho Permanente de Justiça", "Tom formal e respeitoso à hierarquia militar", "Destina-se a Superior Tribunal Militar em recurso", "Utilize termos militares corretos".</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="prompt-grid">
+            
+            <div class="prompt-card">
+                <h4>Exercício 1 (Nível Básico) - Deserção Simples</h4>
+                <h5 class="prompt-category">Área de Atuação: Criminal Militar</h5>
+                <div class="warning-box">
+                    <p><strong>Cenário:</strong> Um Promotor de Justiça Militar recebeu Inquérito Policial Militar sobre crime de deserção simples (art. 187 do CPM). Soldado do Exército ausentou-se de sua Organização Militar sem autorização por período de 25 dias. Há prova testemunhal de dois oficiais e registro de ponto que comprova a ausência. O militar apresentou-se voluntariamente.</p>
+                </div>
+                <div class="prompt-box" style="margin-top: 1rem;">
+                    <p><strong>Instrução:</strong> Elabore um prompt utilizando o acrônimo POEMA para que a IA liste os elementos do crime de deserção, identifique eventual atenuante pela apresentação voluntária, e sugira os pontos principais que devem constar na denúncia.</p>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Exercício 2 (Nível Básico) - Requisição de Documentos</h4>
+                <h5 class="prompt-category">Área de Atuação: Extrajudicial / Criminal Militar</h5>
+                <div class="warning-box">
+                    <p><strong>Cenário:</strong> Promotoria de Justiça Militar precisa oficiar ao Comando da 1ª Brigada de Infantaria de Selva, em Boa Vista/RR, requisitando informações sobre procedimento de controle de armamento e munição, no âmbito de investigação sobre possível extravio de fuzis FAL do arsenal da unidade.</p>
+                </div>
+                <div class="prompt-box" style="margin-top: 1rem;">
+                    <p><strong>Instrução:</strong> Crie um prompt usando POEMA para gerar minuta de ofício formal, observando protocolo militar e linguagem técnica adequada.</p>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Exercício 3 (Nível Intermediário) - Crime de Motim</h4>
+                <h5 class="prompt-category">Área de Atuação: Criminal Militar</h5>
+                <div class="warning-box">
+                    <p><strong>Cenário:</strong> Grupo de 12 militares, em aquartelamento no Rio de Janeiro, reuniu-se armado e recusou cumprir ordem de deslocamento para operação de Garantia da Lei e da Ordem (GLO) emitida por seu comandante. Houve ameaças verbais ao oficial, mas sem violência física. O grupo se desfez após chegada do Comandante da Brigada. Há vídeos das câmeras de segurança e depoimentos de testemunhas militares.</p>
+                </div>
+                <div class="prompt-box" style="margin-top: 1rem;">
+                    <p><strong>Instrução:</strong> Construa prompt com POEMA para que a IA analise a tipificação penal, diferencie motim e revolta, identifique eventuais cabeças do movimento, e sugira diligências investigativas complementares.</p>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Exercício 4 (Nível Intermediário) - Peculato em Licitação Militar</h4>
+                <h5 class="prompt-category">Área de Atuação: Crimes Militares contra a Administração</h5>
+                <div class="warning-box">
+                    <p><strong>Cenário:</strong> Major do Exército, ordenador de despesas de Organização Militar, realizou licitação direcionada para aquisição de equipamentos de informática, superfaturando valores em 45% e favorecendo empresa de familiares. Recebeu propina de R$ 150.000,00. Há provas documentais (contratos, notas fiscais, extratos bancários) e interceptação telefônica autorizada judicialmente.</p>
+                </div>
+                <div class="prompt-box" style="margin-top: 1rem;">
+                    <p><strong>Instrução:</strong> Elabore prompt com POEMA para que a IA identifique todos os crimes militares praticados (peculato, corrupção passiva, etc.), analise eventual concurso de crimes, e sugira estrutura de denúncia complexa.</p>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Exercício 5 (Nível Intermediário) - Análise de Crime Militar Específico</h4>
+                <h5 class="prompt-category">Tema: Corrupção militar (exemplo de Carro Pipa)</h5>
+                <div class="warning-box">
+                    <p><strong>Contexto:</strong> Um tenente-coronel do Exército responsável pela Operação Carro Pipa foi flagrado recebendo R$ 50.000,00 de um empresário fornecedor em troca de facilitar contratos fraudulentos. As provas incluem gravações telefônicas e extratos bancários.</p>
+                </div>
+                <div class="prompt-box" style="margin-top: 1rem;">
+                    <p><strong>Tarefa:</strong> Desenvolva um prompt para analisar os elementos dos crimes de corrupção passiva e lavagem de dinheiro.</p>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Exercício 6 (Nível Intermediário) - Análise Complexa de Crime Sexual Militar</h4>
+                <h5 class="prompt-category">Tema: Assédio sexual hierárquico</h5>
+                <div class="warning-box">
+                    <p><strong>Contexto:</strong> Um sargento do Exército praticou assédio sexual contra quatro soldados subordinados durante dois anos (2021-2023), utilizando-se de sua posição hierárquica. As condutas incluem: convites impróprios, toques inadequados, propostas de favorecimento em troca de favores sexuais. Há depoimentos das vítimas, mensagens de WhatsApp e testemunhas presenciais.</p>
+                </div>
+                <div class="prompt-box" style="margin-top: 1rem;">
+                    <p><strong>Tarefa:</strong> Desenvolva um prompt para análise jurídica completa dos crimes configurados.</p>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Exercício 7 (Nível Intermediário) - Simulação de Audiência</h4>
+                <h5 class="prompt-category">Tema: Perguntas para oitiva de testemunha militar</h5>
+                <div class="warning-box">
+                    <p><strong>Contexto:</strong> Você vai ouvir o comandante de uma unidade militar em processo sobre deserção. O comandante foi quem identificou a ausência do soldado e tomou as primeiras providências administrativas.</p>
+                </div>
+                <div class="prompt-box" style="margin-top: 1rem;">
+                    <p><strong>Tarefa:</strong> Desenvolva um prompt para criar roteiro de perguntas.</p>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h4>Exercício 8 - Simulação de Sustentação Oral</h4>
+                <h5 class="prompt-category">Tema: Preparação para julgamento no STM</h5>
+                <div class="warning-box">
+                    <p><strong>Contexto:</strong> Você irá sustentar oralmente no STM um recurso em caso de corrupção militar envolvendo desvio de R$ 2 milhões em obras de engenharia militar. A defesa alega: 1. Incompetência da Justiça Militar (obra executada por civis); 2. Insuficiência probatória (apenas indícios); 3. Prescrição da pretensão punitiva; 4. Nulidade por violação de interceptação telefônica. TEMPO DISPONÍVEL: 15 minutos. COMPOSIÇÃO: 15 Ministros do STM. PRECEDENTES: Jurisprudência oscilante sobre competência.</p>
+                </div>
+                <div class="prompt-box" style="margin-top: 1rem;">
+                    <p><strong>Tarefa:</strong> Crie um prompt para estruturar sustentação oral estratégica e persuasiva.</p>
+                    <div class="ai-links">
+                        <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
+                        <a href="https://claude.ai/new" target="_blank" class="ai-btn">Claude</a>
+                        <a href="https://gemini.google.com/?hl=pt-BR" target="_blank" class="ai-btn">Gemini</a>
+                        <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn">Copilot</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="container text-center" style="padding-top: 0; padding-bottom: 2rem; text-align: center;">
+        <h4 style="color: var(--primary-blue); font-size: 1.3rem; margin-bottom: 1rem;">Material produzido, apoiado por ferramentas de IA, por:</h4>
+        <p style="color: var(--gray-700); font-size: 0.88rem; line-height: 1.8;">
+            Rodrigo Aquino Silva - rodrigosilva@mppa.mp.br<br>
+            <span style="font-size: 0.704rem;">Promotor de Justiça - Coordenador do Escritório de Inteligência Artificial</span><br>
+            Paulo Sergio Rodrigues Lima - paulolima@mppa.mp.br<br>
+            <span style="font-size: 0.704rem;">Assessor Especializado do Comitê de Inovação e Inteligência Artificial</span>
+        </p>
+    </div>
+
+    <footer>
+        <div class="footer-top">
+            <div id="footer-logo-left" class="footer-logo-slot footer-logo-slot-left"></div>
+            <div class="footer-logo">CIIA - Escritório de Inteligência Artificial</div>
+            <div id="footer-logo-right" class="footer-logo-slot footer-logo-slot-right"></div>
+        </div>
+        <div class="footer-links">
+            <a href="https://ciia.mppa.mp.br/" target="_blank">Site CIIA</a>
+            <a href="#home">Voltar ao Topo</a>
+        </div>
+        
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2);">
+            <p>Ministério Público do Estado do Pará</p>
+            <p style="margin-top: 0.5rem;">Workshop: Inteligência Artificial Generativa - Aplicabilidade ao MPPA</p>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            const headerLogoCircular = document.getElementById('header-logo-circular');
+            const headerLogoRectangular = document.getElementById('header-logo-rectangular');
+            const footerLogoLeft = document.getElementById('footer-logo-left');
+            const footerLogoRight = document.getElementById('footer-logo-right');
+
+            if (headerLogoCircular && footerLogoLeft) {
+                const circularClone = headerLogoCircular.cloneNode(true);
+                circularClone.id = 'footer-logo-circular';
+                footerLogoLeft.appendChild(circularClone);
+            }
+
+            if (headerLogoRectangular && footerLogoRight) {
+                const rectangularClone = headerLogoRectangular.cloneNode(true);
+                rectangularClone.id = 'footer-logo-rectangular';
+                footerLogoRight.appendChild(rectangularClone);
+            }
+        })();
+
+        function copyToClipboard(elementId, buttonElement) {
+            const tempInput = document.createElement('textarea');
+            // Pega o texto de dentro do elemento <pre>
+            const textToCopy = document.getElementById(elementId).innerText;
+            
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            // Tenta usar a API de Clipboard primeiro
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // Sucesso
+                }).catch(err => {
+                    // Fallback para document.execCommand
+                    document.execCommand('copy');
+                });
+            } else {
+                // Fallback para navegadores mais antigos
+                document.execCommand('copy');
+            }
+            document.body.removeChild(tempInput);
+
+            // Feedback visual no botão
+            buttonElement.innerText = 'Copiado!';
+            buttonElement.classList.add('copied');
+            setTimeout(() => {
+                // Determina o texto original do botão
+                if (elementId.startsWith('prompt-')) {
+                    buttonElement.innerText = 'Copiar Prompt';
+                } else {
+                    buttonElement.innerText = 'Copiar Exemplo';
+                }
+                buttonElement.classList.remove('copied');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
