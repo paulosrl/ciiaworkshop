@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIIA - Documentos do Workshop</title>
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --accent-blue: #60a5fa;
+            --dark-blue: #0f172a;
+            --light-blue: #dbeafe;
+            --gold: #fbbf24;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --white: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background-color: var(--gray-100);
+        }
+        nav {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .nav-center {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1;
+            gap: 1.5rem;
+            min-width: 0;
+        }
+        nav .logo {
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            white-space: nowrap;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        nav a:hover { color: var(--gold); }
+        .active-link { color: var(--gold); }
+        .header-logo {
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .header-logo-circular {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.14);
+            padding: 4px;
+        }
+        .header-logo-rectangular {
+            width: 132px;
+            height: auto;
+            max-height: 56px;
+        }
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--light-blue);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-blue), var(--gold));
+            border-radius: 2px;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--gray-700);
+            margin-bottom: 2rem;
+            max-width: 820px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .document-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .document-card-link {
+            display: block;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--gray-300);
+            text-decoration: none;
+            background: var(--white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            height: 100%;
+        }
+        .document-card-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+        }
+        .document-card-link img {
+            display: block;
+            width: 92%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            margin: 0.85rem auto 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--gray-300);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.14);
+        }
+        .document-card-content {
+            padding: 0.9rem 1rem 1.1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+        .document-card-title {
+            color: var(--primary-blue);
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0 0 0.35rem 0;
+            line-height: 1.35;
+        }
+        .document-card-meta {
+            color: var(--gray-700);
+            font-size: 0.88rem;
+            margin: 0 0 0.55rem 0;
+        }
+        .document-card-summary {
+            color: var(--gray-700);
+            font-size: 0.95rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .folder-note {
+            margin-top: 1.6rem;
+            text-align: center;
+            color: var(--gray-700);
+            font-size: 0.95rem;
+        }
+        .author-box {
+            text-align: center;
+            padding-top: 0;
+            padding-bottom: 2rem;
+        }
+        .author-box h4 {
+            color: var(--primary-blue);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .author-box p {
+            color: var(--gray-700);
+            font-size: 0.88rem;
+            line-height: 1.8;
+        }
+        footer {
+            background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue));
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .footer-top {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .footer-logo { font-size: 1.5rem; font-weight: bold; text-align: center; flex: 1; }
+        .footer-logo-slot { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .footer-logo-circular {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.14);
+            padding: 4px;
+        }
+        .footer-logo-rectangular { width: 132px; height: auto; max-height: 56px; }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover { color: var(--gold); }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .section-title { font-size: 2rem; }
+            .container { padding: 2.5rem 1rem; }
+            nav .container { flex-direction: column; gap: 1rem; }
+            .nav-center { width: 100%; flex-direction: column; gap: 1rem; }
+            nav .logo { white-space: normal; text-align: center; justify-content: center; }
+            .header-logo-rectangular { width: 120px; }
+            nav ul { flex-direction: column; gap: 1rem; text-align: center; }
+            .documents-grid { grid-template-columns: 1fr; }
+            .footer-top { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <img class="header-logo header-logo-circular" src="img/logo-muiraquita.png" alt="Logo circular Muiraquitã">
+            <div class="nav-center">
+                <div class="logo">CIIA - Escritório de Inteligência Artificial</div>
+                                <ul>
+                                    <li><a href="index.html">Início</a></li>
+                                    <li><a href="prompts.html">Prompts</a></li>
+                                    <li><a href="llm.html">Simulador LLM</a></li>
+                                    <li><a href="videos.html">Vídeos</a></li>
+                                    <li><a class="active-link" href="documentos.html">Documentos</a></li>
+                                </ul>
+            </div>
+            <img class="header-logo header-logo-rectangular" src="img/logo-mppa.png" alt="Logo retangular MPPA">
+        </div>
+    </nav>
+    <section class="hero" id="home">
+        <h1>Documentos do Workshop</h1>
+        <div class="subtitle">Materiais da pasta <strong>docsworkshop</strong> com acesso direto aos PDFs</div>
+    </section>
+    <section id="documentos" class="container">
+        <h2 class="section-title">📄 Biblioteca de Documentos</h2>
+        <p class="section-subtitle">
+            Clique em qualquer card para abrir o PDF em uma nova aba. Cada item traz miniatura e um resumo rápido do conteúdo.
+        </p>
+        <div class="documents-grid">
+            <article class="document-card">
+                <a href="docsworkshop/01%20-%20GUIA%20PR%C3%81TICO%20DE%20ENGENHARIA%20DE%20PROMPTS%20PARA%20O%20MPPA.pdf" target="_blank" rel="noopener noreferrer" class="document-card-link" aria-label="Abrir PDF Guia Prático de Engenharia de Prompts para o MPPA">
+                    <img src="img/doc-thumb-prompts-mppa.svg" alt="Thumbnail do documento Guia Prático de Engenharia de Prompts para o MPPA">
+                    <div class="document-card-content">
+                        <h5 class="document-card-title">01 - Guia Prático de Engenharia de Prompts para o MPPA</h5>
+                        <p class="document-card-meta">PDF • 680 KB • Atualizado em 08/02/2026 às 18:23</p>
+                        <p class="document-card-summary">Manual introdutório sobre construção de prompts, com orientações práticas e exemplos aplicados ao contexto institucional do MPPA.</p>
+                    </div>
+                </a>
+            </article>
+            <article class="document-card">
+                <a href="docsworkshop/02%20-%20Guia%20de%20utiliza%C3%A7%C3%A3o%20do%20NotebookLM.pdf" target="_blank" rel="noopener noreferrer" class="document-card-link" aria-label="Abrir PDF Guia de utilização do NotebookLM">
+                    <img src="img/doc-thumb-notebooklm.svg" alt="Thumbnail do documento Guia de utilização do NotebookLM">
+                    <div class="document-card-content">
+                        <h5 class="document-card-title">02 - Guia de utilização do NotebookLM</h5>
+                        <p class="document-card-meta">PDF • 716 KB • Atualizado em 08/02/2026 às 18:23</p>
+                        <p class="document-card-summary">Passo a passo para uso do NotebookLM, incluindo organização de fontes, perguntas orientadas e geração de sínteses para apoio a atividades.</p>
+                    </div>
+                </a>
+            </article>
+            <article class="document-card">
+                <a href="docsworkshop/03%20-%20Configuracao-Privacidade-IAs-GPT-Gemini-Claude.pdf" target="_blank" rel="noopener noreferrer" class="document-card-link" aria-label="Abrir PDF Configuração de Privacidade de IAs">
+                    <img src="img/doc-thumb-privacidade-ias.svg" alt="Thumbnail do documento Configuração de Privacidade de IAs">
+                    <div class="document-card-content">
+                        <h5 class="document-card-title">03 - Configuração de Privacidade: GPT, Gemini e Claude</h5>
+                        <p class="document-card-meta">PDF • 440 KB • Atualizado em 08/02/2026 às 18:23</p>
+                        <p class="document-card-summary">Guia de ajustes recomendados de privacidade e segurança para uso responsável de IAs generativas em ambiente institucional.</p>
+                    </div>
+                </a>
+            </article>
+            <article class="document-card">
+                <a href="docsworkshop/IA_Generativa_Guia_Pr%C3%A1tico_MPPA.pdf" target="_blank" rel="noopener noreferrer" class="document-card-link" aria-label="Abrir PDF IA Generativa Guia Prático MPPA">
+                    <img src="img/doc-thumb-ia-generativa-guia.svg" alt="Thumbnail do documento IA Generativa Guia Prático MPPA">
+                    <div class="document-card-content">
+                        <h5 class="document-card-title">IA Generativa: Guia Prático MPPA</h5>
+                        <p class="document-card-meta">PDF • 16,6 MB • Atualizado em 08/02/2026 às 18:23</p>
+                        <p class="document-card-summary">Material de visão geral sobre IA generativa, aplicações no dia a dia, fundamentos e orientações para adoção prática no MPPA.</p>
+                    </div>
+                </a>
+            </article>
+            <article class="document-card">
+                <a href="docsworkshop/IA_Generativa_Prompt.pdf" target="_blank" rel="noopener noreferrer" class="document-card-link" aria-label="Abrir PDF IA Generativa Prompt">
+                    <img src="img/doc-thumb-ia-generativa-prompt.svg" alt="Thumbnail do documento IA Generativa Prompt">
+                    <div class="document-card-content">
+                        <h5 class="document-card-title">IA Generativa: Prompt</h5>
+                        <p class="document-card-meta">PDF • 12,2 MB • Atualizado em 08/02/2026 às 18:23</p>
+                        <p class="document-card-summary">Conteúdo voltado à elaboração de prompts mais eficazes, com foco em clareza de instrução, contexto e melhoria de resultados das respostas.</p>
+                    </div>
+                </a>
+            </article>
+        </div>
+        <p class="folder-note">Total atual: 5 documentos em <code>docsworkshop</code>.</p>
+    </section>
+    <div class="container author-box">
+        <h4>Material produzido, apoiado por ferramentas de IA, por:</h4>
+        <p>
+            Rodrigo Aquino Silva - rodrigosilva@mppa.mp.br<br>
+            <span style="font-size: 0.704rem;">Promotor de Justiça - Coordenador do Escritório de Inteligência Artificial</span><br>
+            Paulo Sergio Rodrigues Lima - paulolima@mppa.mp.br<br>
+            <span style="font-size: 0.704rem;">Assessor Especializado do Comitê de Inovação e Inteligência Artificial</span>
+        </p>
+    </div>
+    <footer>
+        <div class="footer-top">
+            <div class="footer-logo-slot">
+                <img class="footer-logo-circular" src="img/logo-muiraquita.png" alt="Logo circular Muiraquitã">
+            </div>
+            <div class="footer-logo">CIIA - Escritório de Inteligência Artificial</div>
+            <div class="footer-logo-slot">
+                <img class="footer-logo-rectangular" src="img/logo-mppa.png" alt="Logo retangular MPPA">
+            </div>
+        </div>
+                <div class="footer-links">
+                    <a href="index.html">Início</a>
+                    <a href="prompts.html">Prompts</a>
+                    <a href="llm.html">Simulador LLM</a>
+                    <a href="videos.html">Vídeos</a>
+                    <a class="active-link" href="documentos.html">Documentos</a>
+                </div>
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2);">
+            <p>Ministério Público do Estado do Pará</p>
+            <p style="margin-top: 0.5rem;">Workshop: Inteligência Artificial Generativa - Aplicabilidade ao MPPA</p>
+        </div>
+    </footer>
+</body>
+</html>

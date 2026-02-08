@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Miniatura IA Generativa Prompt">
+  <defs>
+    <linearGradient id="g5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#581c87"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" rx="28" fill="url(#g5)"/>
+  <rect x="70" y="70" width="1060" height="535" rx="18" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.35)"/>
+  <text x="110" y="185" fill="#f3e8ff" font-size="36" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Documento 05</text>
+  <text x="110" y="270" fill="#ffffff" font-size="58" font-family="Segoe UI, Arial, sans-serif" font-weight="800">IA Generativa</text>
+  <text x="110" y="345" fill="#ffffff" font-size="58" font-family="Segoe UI, Arial, sans-serif" font-weight="800">Prompt</text>
+  <text x="110" y="440" fill="#f3e8ff" font-size="30" font-family="Segoe UI, Arial, sans-serif">Foco em tecnicas de prompt para respostas de maior qualidade.</text>
+  <rect x="920" y="460" width="150" height="96" rx="14" fill="#fbbf24"/>
+  <text x="962" y="522" fill="#6b21a8" font-size="38" font-family="Segoe UI, Arial, sans-serif" font-weight="800">PDF</text>
+</svg>
