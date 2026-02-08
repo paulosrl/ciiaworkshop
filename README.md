@@ -20,8 +20,8 @@ O conteúdo principal inclui:
 - `index.html`: página principal (hub do conteúdo).
 - `prompts.html`: biblioteca de prompts com botões de cópia.
 - `llm.html`: simulador didático de funcionamento de LLM.
-- `videos.html`: playlists oficiais com cards e thumbnails locais.
-- `documentos.html`: cards de documentos com thumbnail e link direto para PDF.
+- `videos.html`: playlists do YouTube com cards estáticos (3 mais recentes por playlist), thumbnails locais em `img/thumb-*.svg` e links diretos.
+- `documentos.html`: cards de documentos com thumbnail em `img/doc-thumb-*.svg`, resumo curto e link direto para PDF.
 - `exercicios-prompts.html`: página de apoio/exemplo (não está no menu principal).
 - `docsworkshop/`: PDFs exibidos em `documentos.html`.
 - `docs/`: arquivos-fonte em Word.
@@ -78,10 +78,10 @@ Acesse:
        -> simulador local sem backend
 
   -> [videos.html]
-       -> playlists do YouTube com thumbnails locais
+       -> playlists do YouTube com cards estáticos (links diretos + thumbnails locais)
 
   -> [documentos.html]
-       -> lista de PDFs de docsworkshop
+       -> lista de PDFs de docsworkshop (cards com thumbnail e resumo)
 
 [docsworkshop/*.pdf]
   -> acervo documental exibido no site
@@ -92,4 +92,7 @@ Acesse:
 
 ## 9. Manutenção
 - Manter este README sincronizado sempre que houver mudança em páginas, navegação ou estrutura de pastas.
-- Se novos PDFs forem adicionados em `docsworkshop`, atualizar também os cards em `documentos.html`.
+- Se novos PDFs forem adicionados em `docsworkshop`, atualizar os cards e o contador em `documentos.html`.
+- Ao atualizar `videos.html`, manter 3 vídeos mais recentes por playlist, ordenados por publicação (mais recente primeiro).
+- Os cards de vídeo devem conter thumbnail, título, data/hora de publicação e duração.
+- Usar links diretos (sem embed) quando houver risco de erro 153.

@@ -8,6 +8,7 @@ Manter continuidade de trabalho nas sessões do Codex neste repositório.
 - Páginas principais em navegação (topo e rodapé): `index.html`, `prompts.html`, `llm.html`, `videos.html` e `documentos.html`.
 - A página `exercicios-prompts.html` existe apenas como material de apoio/exemplo e **não deve entrar no menu principal**.
 - A página `videos.html` deve listar vídeos da playlist do CIIA com **thumbnail separado por vídeo**.
+- Thumbnails dos vídeos ficam em `img/thumb-*.svg` e devem corresponder ao ID do vídeo.
 - Playlists consideradas em `videos.html`:
   - `https://www.youtube.com/playlist?list=PLRB6VgPZeUc0wMwoz_45LAbFLrSaV1dLN`
   - `https://www.youtube.com/playlist?list=PLRB6VgPZeUc01I4CHrdrQ9FII43W43Ucv`
@@ -16,8 +17,10 @@ Manter continuidade de trabalho nas sessões do Codex neste repositório.
 - A ordem exibida em `videos.html` deve ser por **publicação (mais recente primeiro)**.
 - Os cards de vídeo devem conter: thumbnail, título, data/hora de publicação e duração.
 - Em caso de falha de embed do YouTube (ex.: erro 153), priorizar links diretos com preview em thumbnail.
+- Atualizar os contadores de playlist (ex.: "3 de 6 vídeos") quando o acervo mudar.
 - A página `documentos.html` deve listar os PDFs da pasta `docsworkshop/` em cards com thumbnail, título e resumo curto, abrindo o PDF ao clicar.
 - O acervo atual de documentos fica em `docsworkshop/` (5 PDFs no estado atual).
+- Os thumbnails dos documentos ficam em `img/doc-thumb-*.svg`.
 
 ## Preferências de Edição
 - Preservar a identidade visual já existente nas páginas.
