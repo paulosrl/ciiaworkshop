@@ -30,12 +30,12 @@
         nav { background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: var(--white); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         nav .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
         .nav-center { display: flex; align-items: center; justify-content: space-between; flex: 1; gap: 1.5rem; min-width: 0; }
-        nav .logo { font-size: 1.5rem; font-weight: bold; display: flex; align-items: center; gap: 0.75rem; white-space: nowrap; }
-        nav ul { list-style: none; display: flex; gap: 2rem; flex-wrap: wrap; justify-content: flex-end; }
+        nav .logo { font-size: 0.9rem; font-weight: bold; display: flex; align-items: center; gap: 0.75rem; white-space: nowrap; }
+        nav ul { list-style: none; display: flex; gap: 1.8rem; flex-wrap: nowrap; justify-content: flex-end; }
         .header-logo { display: block; object-fit: contain; flex-shrink: 0; }
         .header-logo-circular { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.14); padding: 4px; }
         .header-logo-rectangular { width: 132px; height: auto; max-height: 56px; }
-        nav a { color: var(--white); text-decoration: none; transition: color 0.3s; font-weight: 500; }
+        nav a { color: var(--white); text-decoration: none; transition: color 0.3s; font-weight: 500; font-size: 0.9rem; }
         nav a:hover { color: var(--gold); }
         
         /* Hero */
@@ -249,6 +249,7 @@
             .section-title { font-size: 2rem; }
             nav .container { flex-direction: column; gap: 1rem; }
             .nav-center { width: 100%; flex-direction: column; gap: 1rem; }
+            nav .logo { white-space: normal; text-align: center; justify-content: center; }
             .header-logo-rectangular { width: 120px; }
             .footer-top { flex-direction: column; gap: 1rem; }
             .footer-logo-slot-left, .footer-logo-slot-right { min-width: 0; }

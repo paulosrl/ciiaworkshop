@@ -12,7 +12,7 @@
             background-color: #1a2b3c;
             color: #f0f0f0;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
         nav {
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
@@ -41,7 +41,7 @@
             min-width: 0;
         }
         nav .logo {
-            font-size: 1.5rem;
+            font-size: 0.9rem;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -51,8 +51,8 @@
         nav ul {
             list-style: none;
             display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
+            gap: 1.8rem;
+            flex-wrap: nowrap;
             justify-content: flex-end;
             margin: 0;
             padding: 0;
@@ -62,6 +62,7 @@
             text-decoration: none;
             transition: color 0.3s;
             font-weight: 500;
+            font-size: 0.9rem;
         }
         nav a:hover { color: #fbbf24; }
         .header-logo { display: block; object-fit: contain; flex-shrink: 0; }
@@ -118,7 +119,9 @@
         h1 {
             text-align: center;
             color: #ffffff;
+            margin-top: 20px;
             margin-bottom: 20px;
+            padding: 0 20px;
         }
 
         /* --- Layout Principal --- */
@@ -128,6 +131,8 @@
             gap: 20px;
             max-width: 1400px;
             margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
         .panel-left, .panel-right {
@@ -317,6 +322,7 @@
         @media (max-width: 768px) {
             nav .container { flex-direction: column; gap: 1rem; }
             .nav-center { width: 100%; flex-direction: column; gap: 1rem; }
+            nav .logo { white-space: normal; text-align: center; justify-content: center; }
             .header-logo-rectangular { width: 120px; }
             .footer-top { flex-direction: column; gap: 1rem; }
             .footer-logo-slot-left, .footer-logo-slot-right { min-width: 0; }
