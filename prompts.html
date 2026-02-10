@@ -191,6 +191,15 @@
         .copy-btn.copied {
             background: var(--success);
         }
+        .attach-btn {
+            background: #a16207;
+            color: var(--white);
+            text-decoration: none;
+        }
+        .attach-btn:hover {
+            background: #854d0e;
+            transform: translateY(-2px);
+        }
         /* --- NOVOS ESTILOS PARA LINKS DE IA --- */
         .ai-links {
             display: flex;
@@ -334,11 +343,12 @@
                 </div>
             </div>
             <div class="prompt-card">
-                <h4>Prompt 5: Prompt Básico (Minuta)</h4>
+                <h4>Prompt 5: (Criminal)</h4>
                 <div class="prompt-box">
-                    <pre id="prompt-5">Redija uma minuta de denúncia para um crime de furto qualificado no âmbito militar.</pre>
+                    <pre id="prompt-5">Analise este inquérito policial e identifique os elementos jurídicos que fundamentam uma possível denúncia criminal.</pre>
                     <div class="button-group">
                         <button class="copy-btn" onclick="copyToClipboard('prompt-5', this)">Copiar Prompt</button>
+                        <a class="copy-btn attach-btn" href="anexos-prompts/Prompt5-Anexo-Criminal.txt" download>Anexar arquivo de exemplo</a>
                     </div>
                     <div class="ai-links">
                         <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
@@ -349,12 +359,12 @@
                 </div>
             </div>
             <div class="prompt-card">
-                <h4>Prompt 6: Exemplo Único (One-shot)</h4>
+                <h4>Prompt 6: (Cível/Saúde)</h4>
                 <div class="prompt-box">
-                    <pre id="prompt-6">Exemplo: Argumento usado em audiência de custódia risco de fuga. 
-Agora elabore outro argumento para justificar a manutenção da prisão preventiva.</pre>
+                    <pre id="prompt-6">Avalie o relatório técnico e identifique possíveis violações aos direitos fundamentais à saúde.</pre>
                     <div class="button-group">
                         <button class="copy-btn" onclick="copyToClipboard('prompt-6', this)">Copiar Prompt</button>
+                        <a class="copy-btn attach-btn" href="anexos-prompts/Prompt6-Anexo-Civel.txt" download>Anexar arquivo de exemplo</a>
                     </div>
                     <div class="ai-links">
                         <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
@@ -365,13 +375,17 @@ Agora elabore outro argumento para justificar a manutenção da prisão preventi
                 </div>
             </div>
             <div class="prompt-card">
-                <h4>Prompt 7: Poucos Exemplos (Few-shot)</h4>
+                <h4>Prompt 7: (Criminal / Com Contexto)</h4>
                 <div class="prompt-box">
-                    <pre id="prompt-7">Exemplo 1: Justificativa de denúncia em crime de tráfico - laudo pericial.
-Exemplo 2: Justificativa de denúncia em crime de corrupção - provas documentais. 
-Agora, crie uma justificativa para denúncia em crime militar de concussão.</pre>
+                    <pre id="prompt-7">Você é um Promotor de Justiça especializado em crimes contra o patrimônio público. Analise detalhadamente o inquérito a seguir, considerando:
+
+1. Tipificação penal precisa
+2. Nexo causal entre as evidências
+3. Potencial de configuração de improbidade administrativa
+4. Necessidade de diligências complementares</pre>
                     <div class="button-group">
                         <button class="copy-btn" onclick="copyToClipboard('prompt-7', this)">Copiar Prompt</button>
+                        <a class="copy-btn attach-btn" href="anexos-prompts/Prompt7-Anexo-IPC.txt" download>Anexar arquivo de exemplo</a>
                     </div>
                     <div class="ai-links">
                         <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
@@ -384,7 +398,17 @@ Agora, crie uma justificativa para denúncia em crime militar de concussão.</pr
             <div class="prompt-card">
                 <h4>Prompt 8: Contexto, Instrução e Persona</h4>
                 <div class="prompt-box">
-                    <pre id="prompt-8">Atue como um Promotor de Justiça Militar em audiência. Elabore perguntas estratégicas para testemunhas em um caso de violência contra militar em serviço (art. 158 do CPM), visando esclarecer a dinâmica dos fatos, avaliar a consistência das declarações e obter elementos que permitam demonstrar a autoria e o dolo do agente.</pre>
+                    <pre id="prompt-8">Você é Promotor de Justiça da Infância e da Juventude entrevistando um adolescente sobre uma infração.
+Com base no fato abaixo, GERE 10 PERGUNTAS para entender:
+- O que aconteceu (circunstâncias)- Por que fez (motivação)
+- O que pensa (responsabilização)
+- Como se sente (emoção)
+FATO:
+João, 16 anos, furtou um smartphone da mochila da colega Maria na escola durante intervalo. Maria, deixou a mochila embaixo da carteira durante a aula de Educação Física. Quando voltou, o celular havia desaparecido. Uma câmera de segurança registrou onde João furta o celular. Ao ser questionado, João nega, depois de algum tempo admite e afirma que precisava de dinheiro para pagar por droga.
+SAÍDA:
+1. [pergunta]
+2. [pergunta]
+... até 10</pre>
                     <div class="button-group">
                         <button class="copy-btn" onclick="copyToClipboard('prompt-8', this)">Copiar Prompt</button>
                     </div>
@@ -399,9 +423,18 @@ Agora, crie uma justificativa para denúncia em crime militar de concussão.</pr
             <div class="prompt-card">
                 <h4>Prompt 9: Cadeia de Pensamento (CoT)</h4>
                 <div class="prompt-box">
-                    <pre id="prompt-9">Elabore PASSO A PASSO uma estratégia de atuação para elaborar uma minuta de alegações finais em crime de peculato contra militar. Inclua coleta de provas, fundamentação legal e pedidos principais.</pre>
+                    <pre id="prompt-9">Você é Promotor de Justiça especializado em improbidade administrativa. 
+Resuma o contrato em anexo em 6 pontos básicos:
+Analise o contrato da Prefeitura de Lugar Nenhum e elabore parecer jurídico observando:
+1. Legalidade do procedimento
+2. Objeto e preço 
+3. Cláusulas essenciais 
+4. Riscos de improbidade 
+5. Execução do contrato 
+Apresente conclusão fundamentada com indicação dos trechos relevantes do contrato.</pre>                        
                     <div class="button-group">
                         <button class="copy-btn" onclick="copyToClipboard('prompt-9', this)">Copiar Prompt</button>
+                        <a class="copy-btn attach-btn" href="anexos-prompts/Prompt9-Anexo-Civel.txt" download>Anexar arquivo de exemplo</a>
                     </div>
                     <div class="ai-links">
                         <a href="https://chat.openai.com/chat" target="_blank" class="ai-btn">ChatGPT</a>
