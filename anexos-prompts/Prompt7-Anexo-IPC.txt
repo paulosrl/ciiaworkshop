@@ -1,63 +1,46 @@
-INQUÉRITO POLICIAL Nº 2024.0045.MPPA
-Delegacia de Polícia Civil - Belém/PA
 
-DADOS DO INVESTIGADO:
-- Nome: João Silva Santos
-- RG: 4567890
-- CPF: 234.567.890-12
-- Profissão: Servidor Público Municipal
-- Lotação: Secretaria de Obras de Belém
+Destaques da pasta
+Investigações em andamento envolvem peculato em Belém (R$ 475.3k desviados), ilegalidade em contrato (dispensa de licitação) e condições prisionais críticas (superlotação e violações de DH).
 
-SÍNTESE DOS FATOS:
-Em 15 de janeiro de 2026, apurou-se possível prática de crime de peculato mediante desvio de recursos públicos na Secretaria Municipal de Obras de Belém.
+ESTADO DO PARÁ
+POLÍCIA CIVIL DO ESTADO DO PARÁ
+DIRETORIA DE POLÍCIA JUDICIÁRIA METROPOLITANA
+DIVISÃO DE REPRESSÃO A FURTOS E ROUBOS (DRFR) - "DPC EVANDRO MARTINS"
 
-ELEMENTOS DE INVESTIGAÇÃO:
+REFERÊNCIA: INQUÉRITO POLICIAL (IP) Nº 00088/2024 - PCPA
+INDICIADO: CLAUDIOVANE DE SOUZA LIMA, VULGO "NEGO"
+VÍTIMA: ESTABELECIMENTO COMERCIAL "MAGAZINE NORTE"
+INCIDÊNCIA PENAL: ART. 155, § 4º, I e IV DO CÓDIGO PENAL BRASILEIRO
 
-1. MATERIALIDADE DO CRIME:
-- Relatório de auditoria interna (Documento nº 2024.REL.001)
-- Planilhas de pagamentos de fornecedores
-- Notas fiscais com indícios de irregularidade
-- Extratos bancários da conta da Secretaria
+--- RELATÓRIO FINAL DE INVESTIGAÇÃO ---
 
-2. INDÍCIOS DE AUTORIA:
-- O investigado João Silva Santos ocupava cargo de coordenador de licitações
-- Identificadas 17 notas fiscais de empresa fantasma
-- Transferências bancárias suspeitas para conta pessoal
-- Incompatibilidade entre serviços declarados e obras realizadas
+Excelentíssimo Senhor Promotor de Justiça,
 
-3. VALORES ENVOLVIDOS:
-- Montante total desviado: R$ 475.300,00
-- Período: Janeiro/2025 a dezembro/2025
-- Método: Simulação de contratação de serviços não prestados
+Trata-se de Inquérito Policial instaurado mediante Auto de Prisão em Flagrante para apurar a prática de crime contra o patrimônio ocorrido no bairro do Comércio, nesta capital, em 12 de fevereiro de 2024.
 
-4. TIPIFICAÇÃO PRELIMINAR:
-- Art. 312 do Código Penal (Peculato)
-- Possível configuração de organização criminosa
-- Indícios de lavagem de dinheiro
+1. DA DINÂMICA DOS FATOS:
+Conforme o apurado, o indiciado, em comunhão de desígnios com um segundo indivíduo não identificado, teria adentrado o estabelecimento comercial através do rompimento de uma grade metálica nos fundos. Foram subtraídos 05 (cinco) notebooks de última geração e a quantia de R$ 450,00 do fundo de caixa. A prisão ocorreu após o monitoramento de segurança acionar a guarnição da PC que passava nas proximidades.
 
-5. PROVAS DOCUMENTAIS:
-- Relatório de auditoria da CGM
-- Extratos bancários
-- Documentos de licitação
-- Registros de sistema de contabilidade municipal
+2. DOS DEPOIMENTOS (SÍNTESE):
 
-6. TESTEMUNHAS:
-- Maria Oliveira (Auditora Municipal)
-- Carlos Pereira (Ex-subordinado)
-- Ana Souza (Fiscal de contrato)
+- CONDUTOR (INVESTIGADOR PCPA): Afirma que avistou "Nego" saltando o muro com uma mochila volumosa. Que na abordagem, o indiciado confessou informalmente o crime, mas alegou que a "ferramenta" (pé de cabra) ficou com seu comparsa que fugiu pelo telhado.
+- TESTEMUNHA (REPRESENTANTE DA LOJA): Relatou que o alarme não disparou. Ao chegar na seccional, reconheceu os notebooks, porém afirmou que faltavam 02 (dois) aparelhos em relação ao estoque, sugerindo que parte da res furtiva foi levada pelo coautor foragido.
+- INTERROGATÓRIO DO INDICIADO: Em sede policial, o nacional CLAUDIOVANE optou pelo direito constitucional de permanecer em silêncio, declarando apenas que "só falará em juízo". Nota-se, contudo, que possui diversas passagens por crimes da mesma natureza na Seccional da Sacramenta.
 
-MEDIDAS CAUTELARES SUGERIDAS:
-- Afastamento do cargo público
-- Indisponibilidade de bens
-- Quebra de sigilo bancário e fiscal
+3. DOS ELEMENTOS DE CONVICÇÃO:
+- Auto de Exibição e Apreensão (03 notebooks recuperados e uma mochila preta).
+- Auto de Entrega dos bens à vítima.
+- Termo de Reconhecimento de Objeto.
 
-STATUS DA INVESTIGAÇÃO:
-- Fase: Conclusão de inquérito
-- Necessidade de complementação de provas
-- Recomendação de denúncia ao Ministério Público
+4. DAS CONTRADIÇÕES E PONTOS OMISSOS:
+Durante a lavratura, observou-se que o Investigador descreve o uso de um "pé de cabra" para romper a grade, porém tal objeto não foi apreendido nem consta no Auto de Exibição. Ademais, o laudo pericial de constatação de dano (rompimento de obstáculo) foi requisitado ao Centro de Perícias Científicas Renato Chaves (CPCRC), mas o protocolo ainda pende de resposta.
 
-OBSERVAÇÕES ADICIONAIS:
-Investigação conduzida com rigor técnico, preservando princípios constitucionais e garantias individuais.
+5. CONCLUSÃO DO DELEGADO:
+Ante o exposto, esta Autoridade Policial entende haver indícios suficientes de autoria e prova da materialidade, motivo pelo qual procedo ao INDICIAMENTO de CLAUDIOVANE DE SOUZA LIMA pelo crime de FURTO QUALIFICADO (Art. 155, § 4º, I e IV do CP). 
 
-DATA DO RELATÓRIO: 10/02/2026
-DELEGADO RESPONSÁVEL: Dr. Ricardo Mendes
+Encaminho os autos ao Ministério Público para as providências de estilo, ressaltando que as diligências para identificação do coautor e o laudo de danos serão remetidos via relatório complementar assim que finalizados.
+
+Belém/PA, 14 de Fevereiro de 2024.
+
+[ASSINATURA DIGITAL]
+Delegado de Polícia Civil - PCPA
