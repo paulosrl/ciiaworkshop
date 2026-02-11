@@ -53,7 +53,8 @@
             display: flex;
             gap: 1.8rem;
             flex-wrap: wrap;
-            justify-content: flex-end;
+            flex: 1;
+            justify-content: center;
             margin: 0;
             padding: 0;
         }
@@ -68,7 +69,7 @@
         .active-link { color: var(--gold); }
         .header-logo { display: block; object-fit: contain; flex-shrink: 0; }
         .header-logo-circular { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.14); padding: 4px; }
-        .header-logo-rectangular { width: 132px; height: auto; max-height: 56px; }
+        .header-logo-rectangular { width: 132px; height: auto; max-height: 56px; background: #ffffff; border-radius: 6px; padding: 4px; box-sizing: border-box; }
         footer {
             background: linear-gradient(135deg, #0f172a, #1e3a8a);
             color: #ffffff;
