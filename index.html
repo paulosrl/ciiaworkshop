@@ -59,6 +59,8 @@
         .warning-box { background: #fff3cd; border-left: 4px solid var(--warning); padding: 1.5rem; margin: 2rem 0; border-radius: 8px; }
         .danger-box { background: #f8d7da; border-left: 4px solid var(--danger); padding: 1.5rem; margin: 2rem 0; border-radius: 8px; }
         .success-box { background: #d1e7dd; border-left: 4px solid var(--success); padding: 1.5rem; margin: 2rem 0; border-radius: 8px; }
+        .suggested-box { background: #d1e7dd; border-left: 4px solid var(--success); padding: 1rem 1.5rem; margin: -1rem 0 2rem; border-radius: 8px; }
+        .suggested-box p { margin: 0; }
         .protocol-steps { display: grid; gap: 1.5rem; margin: 2rem 0; }
         .protocol-step { background: var(--white); border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; padding-left: 4rem; }
         .protocol-step::before { content: attr(data-number); position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue)); color: var(--white); width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; }
@@ -984,25 +986,40 @@
                 <p><strong>Ruim:</strong> "Você é o melhor jurista do universo, PhD em Harvard..."</p>
                 <p><strong>Por quê?</strong> Gera "poluição informacional" e reduz performance.</p>
             </div>
+            <div class="suggested-box">
+                <p><strong>✅ Versão sugerida:</strong> "Atue como promotor de justiça e analise o caso com base na legislação vigente."</p>
+            </div>
             <div class="danger-box">
                 <h4>❌ ERRO 2: OBJETIVO GENÉRICO</h4>
                 <p><strong>Ruim:</strong> "Analise este documento e me diga o que acha."</p>
                 <p><strong>Por quê?</strong> Não define o escopo da análise.</p>
+            </div>
+            <div class="suggested-box">
+                <p><strong>✅ Versão sugerida:</strong> "Analise o documento e identifique: fatos, risco jurídico e providências recomendadas."</p>
             </div>
             <div class="danger-box">
                 <h4>❌ ERRO 3: MISTURAR ANÁLISE COM ESCRITA</h4>
                 <p><strong>Ruim:</strong> "Analise este processo e já escreva a manifestação final..."</p>
                 <p><strong>Por quê?</strong> Prejudica ambas as funções. Separe em Prompt 1 (Análise) e Prompt 2 (Escrita).</p>
             </div>
+            <div class="suggested-box">
+                <p><strong>✅ Versão sugerida:</strong> "1) Analise o processo e liste fundamentos. 2) Em seguida, redija a manifestação com base nessa análise."</p>
+            </div>
             <div class="danger-box">
                 <h4>❌ ERRO 4: COMANDOS NEGATIVOS SEM CONTRAPONTO</h4>
                 <p><strong>Ruim:</strong> "Não faça texto longo. Não use palavras difíceis."</p>
-                <p><strong>Bom:</strong> "Seja conciso e objetivo. Use linguagem clara e acessível."</p>
+                <p><strong>Por quê?</strong> Dizer só o que evitar deixa margem ambígua sobre o formato esperado.</p>
+            </div>
+            <div class="suggested-box">
+                <p><strong>✅ Versão sugerida:</strong> "Escreva em até 8 linhas, com linguagem clara, objetiva e termos jurídicos explicados."</p>
             </div>
             <div class="danger-box">
                 <h4>❌ ERRO 5: EXCESSO DE INSTRUÇÕES</h4>
                 <p><strong>Ruim:</strong> "Prompt com 50 instruções diferentes misturando tudo."</p>
                 <p><strong>Por quê?</strong> Mais instruções = Menor qualidade por instrução. Foco específico = Máxima qualidade.</p>
+            </div>
+            <div class="suggested-box">
+                <p><strong>✅ Versão sugerida:</strong> "Foque em 1 objetivo: analisar o risco contratual e apontar 3 recomendações práticas."</p>
             </div>
         </div>
         <!-- LIMITAÇÕES TÉCNICAS (DE 02.PDF) -->
