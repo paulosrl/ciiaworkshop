@@ -1,8 +1,7 @@
 # CIIA Workshops - Site Estático
 
 ## 1. Objetivo
-Este repositório contém o site estático de apoio aos workshops do CIIA/MPPA sobre IA generativa.
-
+Este repositório contém o site estático de apoio aos workshops do CIIA/MPPA sobre IA generativa. Foi construído integralmente com o Codex/ChatGPT-5.3.
 O conteúdo principal inclui:
 - trilha introdutória e conceitual;
 - biblioteca de prompts;
