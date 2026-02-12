@@ -243,6 +243,8 @@
         .footer-links a:hover { color: var(--gold); }
         
         .divider { height: 2px; background: linear-gradient(90deg, transparent, var(--secondary-blue), transparent); margin: 4rem 0; }
+        .cta-button { display: inline-block; background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue)); color: var(--white); padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
         /* Responsividade */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
@@ -286,7 +288,7 @@
         <h2 class="section-title">🚀 Mãos à obra!</h2>
         <div class="prompt-grid">
             <div class="prompt-card">
-                <h4>Prompt 1: Previsão de Palavras (LLM)</h4>
+                <h4>Prompt 1: Previsão de Palavras pelas LLMs - Apresentação do palestrante</h4>
                 <div class="prompt-box">
                     <pre id="prompt-1">Vamos simular como funcionam as LLMs. Para cada frase que eu escrever, você deve listar apenas as 5 palavras mais prováveis para completá-la, junto com suas probabilidades em percentual (%) Não inclua explicações extras, apenas as palavras e as porcentagens.</pre>
                     <div class="button-group">
@@ -301,7 +303,7 @@
                 </div>
             </div>
             <div class="prompt-card">
-                <h4>Prompt 2: Previsão de Palavras (Continuação)</h4>
+                <h4>Prompt 2: Previsão de Palavras pelas LLMs - Apresentação do palestrante</h4>
                 <div class="prompt-box">
                     <pre id="prompt-2">Eu gosto muito de inteligência artificial e quero trabalhar</pre>
                     <div class="button-group">
@@ -316,7 +318,7 @@
                 </div>
             </div>
             <div class="prompt-card">
-                <h4>Prompt 3: Previsão de Palavras (Continuação)</h4>
+                <h4>Prompt 3: Previsão de Palavras pelas LLMs - Apresentação do palestrante</h4>
                 <div class="prompt-box">
                     <pre id="prompt-3">Eu gosto muito de inteligência artificial e quero trabalhar com</pre>
                     <div class="button-group">
@@ -719,13 +721,18 @@ Obs: ideal testar com um processo real</pre>
                 </div>
             </div>
         </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="exercicios-prompts.html" class="cta-button">
+                📋 Acessar exercícios complementares
+            </a>
+        </div>
     </section>
     <div class="container text-center" style="padding-top: 0; padding-bottom: 2rem; text-align: center;">
         <h4 style="color: var(--primary-blue); font-size: 1.3rem; margin-bottom: 1rem;">Material produzido, apoiado por ferramentas de IA, por:</h4>
         <p style="color: var(--gray-700); font-size: 0.88rem; line-height: 1.8;">
-            Rodrigo Aquino Silva - rodrigosilva@mppa.mp.br<br>
+            <strong>Rodrigo Aquino Silva - rodrigosilva@mppa.mp.br</strong><br>
             <span style="font-size: 0.704rem;">Promotor de Justiça - Coordenador do Escritório de Inteligência Artificial</span><br>
-            Paulo Sergio Rodrigues Lima - paulolima@mppa.mp.br<br>
+            <strong>Paulo Sergio Rodrigues Lima - paulolima@mppa.mp.br</strong><br>
             <span style="font-size: 0.704rem;">Assessor Especializado do Comitê de Inovação e Inteligência Artificial</span>
         </p>
     </div>
