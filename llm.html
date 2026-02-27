@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CIIA - Escritórios de Inovação e Inteligência Artificial</title>
     <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --dark-blue: #0f172a;
+            --gold: #fbbf24;
+            --white: #ffffff;
+        }
         /* --- Configuração Geral --- */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -15,8 +22,8 @@
             padding: 0;
         }
         nav {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: #ffffff;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
             padding: 1rem 0;
             position: sticky;
             top: 0;
@@ -59,20 +66,20 @@
             padding: 0;
         }
         nav a {
-            color: #ffffff;
+            color: var(--white);
             text-decoration: none;
             transition: color 0.3s;
             font-weight: 600;
             font-size: 0.9rem;
         }
-        nav a:hover { color: #fbbf24; }
+        nav a:hover { color: var(--gold); }
         .active-link { color: var(--gold); }
         .header-logo { display: block; object-fit: contain; flex-shrink: 0; }
         .header-logo-circular { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.14); padding: 4px; }
         .header-logo-rectangular { width: 132px; height: auto; max-height: 56px; background: #ffffff; border-radius: 6px; padding: 4px; box-sizing: border-box; }
         footer {
-            background: linear-gradient(135deg, #0f172a, #1e3a8a);
-            color: #ffffff;
+            background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue));
+            color: var(--white);
             padding: 3rem 2rem;
             text-align: center;
             margin-top: 2rem;
@@ -101,8 +108,8 @@
             margin-bottom: 2rem;
             flex-wrap: wrap;
         }
-        .footer-links a { color: #ffffff; text-decoration: none; transition: color 0.3s; }
-        .footer-links a:hover { color: #fbbf24; }
+        .footer-links a { color: var(--white); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
         .authors {
             max-width: 1200px;
             margin: 0 auto;
