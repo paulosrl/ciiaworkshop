@@ -22,6 +22,7 @@ O conteúdo principal inclui:
 - `videos.html`: playlists do YouTube com cards estáticos (3 mais recentes por playlist), thumbnails locais em `img/thumb-*.svg` e links diretos.
 - `documentos.html`: cards de documentos com thumbnail em `img/doc-thumb-*.svg`, resumo curto e link direto para PDF.
 - `exercicios-prompts.html`: página de apoio/exemplo (não está no menu principal).
+- `anexos-prompts/`: anexos utilizados pelos prompts práticos em `prompts.html`.
 - `docsworkshop/`: PDFs exibidos em `documentos.html`.
 - `docs/`: arquivos-fonte em Word.
 - `img/`: logos e thumbnails (`thumb-*.svg` e `doc-thumb-*.svg`).
@@ -35,13 +36,15 @@ Menu padronizado (topo e rodapé) nas páginas principais:
 - `videos.html`
 - `documentos.html`
 
+No cabeçalho das páginas principais há também o link externo `Site - CIIA` para `https://ciia.mppa.mp.br`.
+
 Observação: `exercicios-prompts.html` permanece no projeto como material de referência, mas não faz parte da navegação principal.
 
 ## 5. Execução Local
 Sem build. Basta servir arquivos estáticos:
 
 ```bash
-cd /home/paulosrl/projetos/ciiaworkshops
+cd /home/pl/projetos/ciiaworkshop
 python3 -m http.server 8000
 ```
 
